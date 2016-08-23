@@ -41,7 +41,11 @@
                         // login successful if there's a token in the response
                         if (response.token) {
                             // store username and token in local storage to keep user logged in between page refreshes
-                            $localStorage.currentUser = {username: username, token: response.token};
+                            $localStorage.currentUser = {
+                                username: username, 
+                                token: response.token,
+                                roles:response.roles
+                            };
 
                             setupHttpHeader();
                             // execute callback with true to indicate successful login

@@ -12,7 +12,7 @@
 
     function run($rootScope, $http, $location, $localStorage, $log, $state, AuthenticationService) {
 
-//        $rootScope.$state = $state;
+        //$rootScope.$state = $state;
 
         $rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState, fromParams) {
 
@@ -60,7 +60,7 @@
         $stateProvider
                 .state('login', {
                     url: '/login?msg',
-                    data: {pageTitle: 'Login', roles: ['public']},
+                    data: {pageTitle: 'Login'},
                     templateUrl: 'app/login/login-two-columns.html',
                     controller: 'LoginCtrl',
                     resolve: {
@@ -87,7 +87,7 @@
                 })
                 .state('index.minor', {
                     url: "/minor",
-                    data: {pageTitle: 'Minor', roles: ['public']},
+                    data: {pageTitle: 'Minor'},
                     templateUrl: "app/minor/minor.html",
                     controller: "MinorCtrl",
                     resolve: {
@@ -96,7 +96,17 @@
                         }
                     }
                 })
-
+                .state('index.investor', {
+                    url: "/investor",
+                    data: {pageTitle: 'Investor'},
+                    templateUrl: "app/investor/investor.html",
+                    controller: "InvestorCtrl",
+                    resolve: {
+                        load: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('app/investor/investor-ctrl.js');
+                        }
+                    }
+                })
                 ;
     }
 })();
