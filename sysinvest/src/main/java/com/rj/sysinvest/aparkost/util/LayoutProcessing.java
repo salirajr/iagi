@@ -14,6 +14,8 @@ public interface LayoutProcessing {
     /**
      * siteName + towerName => template Layout Image => know n of Rooms, put
      * layout title, draw room label, colored selected room
+     * 
+     * sample: http://stackoverflow.com/questions/2318020/merging-two-images
      */
     public byte[] generateAparkostLayout(String siteName, String towerName, int level, int[] selectedRoom);
 
