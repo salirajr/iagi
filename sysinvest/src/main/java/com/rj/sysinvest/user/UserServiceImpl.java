@@ -18,14 +18,14 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl() {
 
         Map userData = new HashMap();
-        userData.put("password", "tom");
+        userData.put("password", "12345");
         userData.put("roles", Arrays.asList("user"));
-        userDb.put("tom", userData);
+        userDb.put("rais@iagi.com", userData);
 
         userData = new HashMap();
-        userData.put("password", "sally");
+        userData.put("password", "12345");
         userData.put("roles", Arrays.asList("user", "admin"));
-        userDb.put("sally", userData);
+        userDb.put("jovi@iagi.com", userData);
 
     }
 

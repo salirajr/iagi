@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  *
- * @author is
+ * @author rais
  */
 public class LoginClaims extends LinkedHashMap<String, Object> {
 

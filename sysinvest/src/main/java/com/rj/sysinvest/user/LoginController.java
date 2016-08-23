@@ -1,5 +1,6 @@
 package com.rj.sysinvest.user;
 
+import ch.qos.logback.core.CoreConstants;
 import com.rj.sysinvest.jwt.JwtService;
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class LoginController {
     public LoginResponse post(@RequestBody UserLogin userLogin)
             throws ServletException {
         LoginResponse loginResponse = new LoginResponse();
+        
+        System.out.println("Service called by "+userLogin.username);
 
         if (userLogin.getUsername() == null || userLogin.getPassword() == null
                 || !userService.isValidUsername(userLogin.getUsername())
@@ -61,5 +64,6 @@ public class LoginController {
 
         private String username;
         private String password;
+        
     }
 }
