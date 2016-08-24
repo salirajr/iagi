@@ -12,9 +12,9 @@
 
     function run($rootScope, $http, $location, $localStorage, $log, $state, AuthenticationService) {
 
-        //$rootScope.$state = $state;
+        $rootScope.$state = $state;
 
-        $rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState, fromParams) {
+        /*$rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState, fromParams) {
 
             var stateRoles = toState.data.roles;
             var isPublicState = !stateRoles || stateRoles.indexOf('public') >= 0;
@@ -46,7 +46,7 @@
                     $state.go('login', params);
                 }
             }
-        });
+        });*/
     }
 
     function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
