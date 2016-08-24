@@ -4,6 +4,7 @@
     angular.getApplicationModule()
             .controller('InvestorCtrl', InvestorCtrl);
 
+
     /*
      * InvestorCtrl - controller
      */
