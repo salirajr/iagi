@@ -1,4 +1,4 @@
-package com.rj.sysinvest.user;
+package com.rj.sysinvest.rest.user;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author is
+ * @author Rais <rais.gowa@gmail.com>
  */
 @Service
 public class UserServiceImpl implements UserService {

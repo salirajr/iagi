@@ -1,10 +1,10 @@
-package com.rj.sysinvest.jwt;
+package com.rj.util.jwt;
 
 import java.util.Map;
 
 /**
  *
- * @author is
+ * @author Rais <rais.gowa@gmail.com>
  */
 public interface JwtService {
 

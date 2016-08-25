@@ -1,4 +1,4 @@
-package com.rj.sysinvest.api;
+package com.rj.sysinvest.rest.api;
 
 import java.util.List;
 import java.util.Map;

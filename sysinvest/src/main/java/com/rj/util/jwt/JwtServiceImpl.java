@@ -1,4 +1,4 @@
-package com.rj.sysinvest.jwt;
+package com.rj.util.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author is
+ * @author Rais <rais.gowa@gmail.com>
  */
 @Service
 @Data
