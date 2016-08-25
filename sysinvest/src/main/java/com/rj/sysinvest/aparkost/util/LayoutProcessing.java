@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rj.sysinvest.aparkost.util;
+
+import java.awt.Image;
 
 /**
  *
@@ -12,11 +9,17 @@ package com.rj.sysinvest.aparkost.util;
 public interface LayoutProcessing {
 
     /**
-     * siteName + towerName => template Layout Image => know n of Rooms, put
+     * siteName + towerName => template Layout Image => know n of Rooms => put
      * layout title, draw room label, colored selected room
-     * 
+     *
      * sample: http://stackoverflow.com/questions/2318020/merging-two-images
+     *
+     * @param siteName
+     * @param towerName
+     * @param level
+     * @param selectedRoomNumbers
+     * @return
      */
-    public byte[] generateAparkostLayout(String siteName, String towerName, int level, int[] selectedRoom);
+    public Image generateAparkostLayout(String siteName, String towerName, String level, String[] selectedRoomNumbers);
 
 }
