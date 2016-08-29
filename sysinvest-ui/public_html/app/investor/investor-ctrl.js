@@ -15,16 +15,26 @@
         $scope.descriptionText = 'Main Investor Controller.';
 
         $scope.data = {};
-
+        
         $scope.getInvestor = function () {
-            $log.debug("getInvestor clicked!");
             $http.get("sdata/investor.json")
                     .then(function (response) {
-                        $scope.data.investors = response.data;
+                        $scope.data.investor = response.data;
                         $log.debug("getInvestor responsed sucess");
                     });
 
         };
+        $scope.getInvestor();
+        
+         $scope.getInvestment = function () {
+            $http.get("sdata/investment.json")
+                    .then(function (response) {
+                        $scope.data.investment = response.data;
+                        $log.debug("getInvestment responsed sucess");
+                    });
+
+        };
+        $scope.getInvestment();
     }
 
 

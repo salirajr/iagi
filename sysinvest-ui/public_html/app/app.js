@@ -107,6 +107,17 @@
                         }
                     }
                 })
+                .state('index.covenant', {
+                    url: "/covenant",
+                    data: {pageTitle: 'Covenant'},
+                    templateUrl: "app/covenant/covenant.html",
+                    controller: "CovenantCtrl",
+                    resolve: {
+                        load: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('app/covenant/covenant-ctrl.js');
+                        }
+                    }
+                })
                 ;
     }
 })();

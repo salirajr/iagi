@@ -1,5 +1,28 @@
-[{
-        "name": "Doni"
-    }, {
-        "name": "Adi"
-    }]
+{
+    "accountType":"Investment",
+    "accountId":"IAGIINV00123",
+    "fullName": "Jovi Rengga Salira",
+    "nickName": "Jovi",
+    "gender": "M",
+    "birthPlace": "Tenggarong",
+    "birthDate": "13-02-1990",
+    "emailAddress": "jovirsalira@gmail.com",
+    "phoneNo": "021-22354998",
+    "mobilePhoneNo": "+6282321641471",
+    "socialMediaId": "skype:salira.jovi",
+    "address": "Jl. Menteng Atas Selatan 2 no 37",
+    "postalCode": "56682",
+    "province": "jakarta-selatan,-dki",
+    "nationalId": "9109011302900001",
+    "nationality": "Indonesia",
+    "occupation": "Analyst Programmer",
+    "jobSector": "Professional",
+    "jobSectorDetail": "Information System",
+    "employer": "PT. Xybase Indonesia",
+    "employerAddress": "Jl. Cassablanca Kav 88, Tower 88, lt. 3",
+    "employerPhoneNo": "021-21321251",
+    "bankAccount": "BCA",
+    "bankAccountNo": "8387392232",
+    "bankAccountReference": "a/n Jovi Rengga Salira"
+
+}

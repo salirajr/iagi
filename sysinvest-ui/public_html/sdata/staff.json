@@ -1,0 +1,23 @@
+[
+    {
+        "fullName": "Andi Taufik Yusuf",
+        "staffId": "IAGI12010001",
+        "NIK": "7371031701900005",
+        "level": "Direktur Utama",
+        "birthPlace": "Ujung Pandang",
+        "birthDate": "17-01-1990",
+        "address": "Jl. Pelanduk No. 56C",
+        "postalCode": "",
+        "province": "Makassar"
+    }, {
+        "fullName": "Rukmawati",
+        "staffId": "IAGI16010001",
+        "NIK": "7371031701900005",
+        "level": "Marketing Manager",
+        "birthPlace": "Serpong",
+        "birthDate": "28-03-1974",
+        "address": "Jl. Mawar II Kel. Bintro kec. Pesanggrahan",
+        "postalCode": "",
+        "province": "Jakarta Selatan"
+    }
+]

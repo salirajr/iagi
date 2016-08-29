@@ -1,0 +1,70 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Akad <small>.Aparkost</small></h5>
+                </div>
+                <div class="ibox-content">
+                    <form method="get" class="form-horizontal">
+                        <h3>Pihak Pertama <small>PT. Ibnu Auf Global Investama</small></h3>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Pemangku Kuasa</label>
+                            <div class="col-sm-4">
+                                <select class="form-control m-b" ng-change="selectCStaff()" ng-model="dInput.selectedCStaffId">
+                                    <!--<option ng-repeat="cStaff in data.covenantStaff" ng-value="cStaff.staffId">{{cStaff.level}}</option>-->
+                                    <option ng-repeat="cStaff in data.covenantStaff" ng-value="cStaff.staffId" ng-selected="cStaff.staffId == dInput.selectedCStaffId">{{cStaff.level}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group m-b-none">
+                            <span class="col-sm-2 control-label"></span>
+                            <div class="col-sm-4"><span class="help-block m-b-none"><small>Nama</small></span><p class="form-control-static">{{data.selectedCStaff.fullName}}</p></div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>NIK</small></span><p class="form-control-static">{{data.selectedCStaff.NIK}}</p></div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Jabatan</small></span><p class="form-control-static">{{data.selectedCStaff.level}}</p></div>
+                        </div>
+                        
+                        <div class="form-group m-b-none">
+                            <span class="col-sm-2 control-label"></span>
+                            <div class="col-sm-4"><span class="help-block m-b-none"><small>TTL</small></span><p class="form-control-static">{{data.selectedCStaff.birthPlace}}, {{data.selectedCStaff.birthDate}}</p></div>
+                            <div class="col-sm-6"><span class="help-block m-b-none"><small>Alamat</small></span><p class="form-control-static">{{data.selectedCStaff.address}}</p></div>
+                        </div>
+                        <h5>Pihak Kedua</h5>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Investor Id </label>
+                            <div class="col-lg-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" ng-model="data.cInvestor.accountId" > 
+                                    <span class="input-group-btn"> 
+                                        <button type="button" class="btn btn-info"><i class="fa fa-check"></i></button> 
+                                    </span>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="form-group m-b-none">
+                            <span class="col-sm-2 control-label"></span>
+                            <div class="col-sm-4"><span class="help-block m-b-none"><small>Nama</small></span><p class="form-control-static">{{data.cInvestor.fullName}}</p></div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>NIK/Passport</small></span><p class="form-control-static">{{data.cInvestor.nationalId}}</p></div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Pekerjaan</small></span><p class="form-control-static">{{data.cInvestor.occupation}}</p></div>
+                        </div>
+                        <div class="form-group m-b-none">
+                            <span class="col-sm-2 control-label"></span>
+                            <div class="col-sm-4"><span class="help-block m-b-none"><small>Kewarganegaraan</small></span><p class="form-control-static">{{data.cInvestor.fullName}}</p></div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Email</small></span><p class="form-control-static">{{data.cInvestor.nationalId}}</p></div>
+                        </div>
+                        
+                        <div class="form-group m-b-none">
+                            <span class="col-sm-2 control-label"></span>
+                            <div class="col-sm-4"><span class="help-block m-b-none"><small>TTL</small></span><p class="form-control-static">{{data.cInvestor.nationality}}</p></div>
+                            <div class="col-sm-6"><span class="help-block m-b-none"><small>Alamat</small></span><p class="form-control-static">{{data.cInvestor.nationality}}</p></div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
