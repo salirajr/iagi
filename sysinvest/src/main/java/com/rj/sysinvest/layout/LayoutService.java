@@ -1,4 +1,4 @@
-package com.rj.sysinvest.aparkost.util;
+package com.rj.sysinvest.layout;
 
 import java.awt.Image;
 
@@ -6,7 +6,7 @@ import java.awt.Image;
  *
  * @author salirajr
  */
-public interface LayoutProcessing {
+public interface LayoutService {
 
     /**
      * siteName + towerName => template Layout Image => know n of Rooms => put
@@ -14,12 +14,11 @@ public interface LayoutProcessing {
      *
      * sample: http://stackoverflow.com/questions/2318020/merging-two-images
      *
-     * @param siteName
-     * @param towerName
+     * @param towerId
      * @param level
-     * @param selectedRoomNumbers
+     * @param selectedRooms
      * @return
      */
-    public Image generateAparkostLayout(String siteName, String towerName, String level, String[] selectedRoomNumbers);
+    public Image generateAparkostLayout(String towerId, String level, String[] selectedRooms);
 
 }

@@ -1,4 +1,4 @@
-package com.rj.sysinvest.user;
+package com.rj.sysinvest.rest.user;
 
 
 
@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  *
- * @author is
+ * @author Rais <rais.gowa@gmail.com>
  */
 public interface UserService {
 

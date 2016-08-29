@@ -1,7 +1,7 @@
 package com.rj.sysinvest;
 
-import com.rj.sysinvest.jwt.JwtFilter;
-import com.rj.sysinvest.jwt.JwtService;
+import com.rj.util.jwt.JwtFilter;
+import com.rj.util.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.SpringApplication;

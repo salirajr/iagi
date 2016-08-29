@@ -1,11 +1,11 @@
-package com.rj.sysinvest.user;
+package com.rj.sysinvest.rest.user;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
  *
- * @author rais
+ * @author Rais <rais.gowa@gmail.com>
  */
 public class LoginClaims extends LinkedHashMap<String, Object> {
 

@@ -1,4 +1,4 @@
-package com.rj.sysinvest.jwt;
+package com.rj.util.jwt;
 
 import io.jsonwebtoken.JwtException;
 import java.io.IOException;
