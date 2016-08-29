@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="akad" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="04ed9353-a6bd-4c44-ac46-a44127cfb207">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="28" uuid="450595fa-f612-4b17-940f-884141281e18"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="18" isBold="true" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[SURAT PERJANJIAN JUAL BELI]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="310">
+			<staticText>
+				<reportElement x="226" y="86" width="300" height="142" uuid="5893687d-d1e8-4f83-9c0d-d0ca862a83c6"/>
+				<textElement markup="none"/>
+				<text><![CDATA[Static text
+asd
+ewf
+we
+wew
+
+wegwerververbv
+erberberb]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

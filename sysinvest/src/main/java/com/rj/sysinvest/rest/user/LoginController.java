@@ -1,7 +1,7 @@
 package com.rj.sysinvest.rest.user;
 
 import ch.qos.logback.core.CoreConstants;
-import com.rj.util.jwt.JwtService;
+import com.rj.sysinvest.jwt.JwtService;
 import java.util.List;
 
 import javax.servlet.ServletException;
