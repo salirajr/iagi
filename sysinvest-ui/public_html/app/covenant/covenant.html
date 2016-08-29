@@ -11,10 +11,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Pemangku Kuasa</label>
                             <div class="col-sm-4">
-                                <select class="form-control m-b" ng-change="selectCStaff()" ng-model="dInput.selectedCStaffId">
-                                    <!--<option ng-repeat="cStaff in data.covenantStaff" ng-value="cStaff.staffId">{{cStaff.level}}</option>-->
-                                    <option ng-repeat="cStaff in data.covenantStaff" ng-value="cStaff.staffId" ng-selected="cStaff.staffId == dInput.selectedCStaffId">{{cStaff.level}}</option>
-                                </select>
+                                <select class="form-control m-b" ng-init="cStaff.staffId == dInput.selectedCStaffId" ng-change="selectCStaff()" ng-model="dInput.selectedCStaffId" ng-options="cStaff.staffId as cStaff.level for cStaff in data.covenantStaff"></select>
                             </div>
                         </div>
                         <div class="form-group m-b-none">
@@ -23,7 +20,7 @@
                             <div class="col-sm-3"><span class="help-block m-b-none"><small>NIK</small></span><p class="form-control-static">{{data.selectedCStaff.NIK}}</p></div>
                             <div class="col-sm-3"><span class="help-block m-b-none"><small>Jabatan</small></span><p class="form-control-static">{{data.selectedCStaff.level}}</p></div>
                         </div>
-                        
+
                         <div class="form-group m-b-none">
                             <span class="col-sm-2 control-label"></span>
                             <div class="col-sm-4"><span class="help-block m-b-none"><small>TTL</small></span><p class="form-control-static">{{data.selectedCStaff.birthPlace}}, {{data.selectedCStaff.birthDate}}</p></div>
@@ -39,11 +36,11 @@
                                         <button type="button" class="btn btn-info"><i class="fa fa-check"></i></button> 
                                     </span>
                                 </div>
-                                
+
                             </div>
-                            
+
                         </div>
-                        
+
                         <div class="form-group m-b-none">
                             <span class="col-sm-2 control-label"></span>
                             <div class="col-sm-4"><span class="help-block m-b-none"><small>Nama</small></span><p class="form-control-static">{{data.cInvestor.fullName}}</p></div>
@@ -52,16 +49,121 @@
                         </div>
                         <div class="form-group m-b-none">
                             <span class="col-sm-2 control-label"></span>
-                            <div class="col-sm-4"><span class="help-block m-b-none"><small>Kewarganegaraan</small></span><p class="form-control-static">{{data.cInvestor.fullName}}</p></div>
-                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Email</small></span><p class="form-control-static">{{data.cInvestor.nationalId}}</p></div>
+                            <div class="col-sm-4"><span class="help-block m-b-none"><small>Kewarganegaraan</small></span><p class="form-control-static">{{data.cInvestor.nationality}}</p></div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Email</small></span><p class="form-control-static">{{data.cInvestor.emailAddress}}</p></div>
                         </div>
-                        
+
                         <div class="form-group m-b-none">
                             <span class="col-sm-2 control-label"></span>
-                            <div class="col-sm-4"><span class="help-block m-b-none"><small>TTL</small></span><p class="form-control-static">{{data.cInvestor.nationality}}</p></div>
-                            <div class="col-sm-6"><span class="help-block m-b-none"><small>Alamat</small></span><p class="form-control-static">{{data.cInvestor.nationality}}</p></div>
+                            <div class="col-sm-4"><span class="help-block m-b-none"><small>TTL</small></span><p class="form-control-static">{{data.cInvestor.birthPlace}}, {{data.cInvestor.birthDate}}</p></div>
+                            <div class="col-sm-6"><span class="help-block m-b-none"><small>Alamat</small></span><p class="form-control-static">{{data.cInvestor.address}}</p></div>
+                        </div>
+                        <div class="form-group  m-b-none">
+                            <label class="col-lg-2 control-label"></label>
+                            <div class="col-lg-8">
+                                <span class="help-block m-b-none"><small>Aparkos</small></span>
+                                <table class="table table-striped table-bordered table-hover dataTables-example" style="font-size: 85% !important;">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Site</th>
+                                            <th>Unit</th>
+                                            <th colspan="2">Harga Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr class="gradeX">
+                                            <td class="dt-center"><input type="checkbox" value=""></td>
+                                            <td>THE APARKOST, Kp. Carang Pulang Kidul, RT
+                                                04. RW 06, Ds. Cikarawang, Kec Dramaga, Kab Bogor,
+                                                Prov Jawa Barat</td>
+                                            <td>Tower 1 lt. 3 no. 301</td>
+                                            <td>Rp</td>
+                                            <td>75.900.000,00</td>
+                                        </tr>
+                                        <tr class="gradeX">
+                                            <td class="dt-center"><input type="checkbox" value=""></td>
+                                            <td>THE APARKOST, Kp. Carang Pulang Kidul, RT
+                                                04. RW 06, Ds. Cikarawang, Kec Dramaga, Kab Bogor,
+                                                Prov Jawa Barat</td>
+                                            <td>Tower 1 lt. 2 no. 201</td>
+                                            <td>Rp</td>
+                                            <td>75.900.000,00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-sm-2 control-label">Pembelian</span>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Tanda Jadi</small></span><div class="input-group m-b"><span class="input-group-addon">Rp</span> <input type="text" class="form-control"></div></div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Uang Muka</small></span><div class="input-group m-b"><span class="input-group-addon">Rp</span> <input type="text" class="form-control"></div></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"></label>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Sisa Pembayaran</small></span><div class="input-group m-b"><span class="input-group-addon">Rp</span> <input type="text" class="form-control"></div></div>
+                            <div class="col-sm-2">
+                                <span class="help-block m-b-none"><small>Metode Pembayaran</small></span>
+                                <select class="form-control" name="account">
+                                    <option>Kontan</option>
+                                    <option>Bertahap</option>
+                                    <option>Cicilan IAGI</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="help-block m-b-none"><small>Dasar Tahapan</small></span>
+                                <select class="form-control" name="account">
+                                    <option>Jumlah</option>
+                                    <option>Nilai</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <span class="help-block m-b-none"><small> Tahapan</small></span>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group  m-b-none">
+                            <label class="col-lg-2 control-label"></label>
+                            <div class="col-lg-6">
+                                <span class="help-block m-b-none"><small>Simulasi Pembayaran</small></span>
+                                <table class="table table-striped table-bordered table-hover dataTables-example" style="font-size: 85% !important;">
+                                    <thead>
+                                        <tr>
+                                            <th>Tahapan</th>
+                                            <th colspan="2">Jumlah</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr class="gradeX">
+                                            <td>Tanda Jadi</td>
+                                            <td>Rp</td>
+                                            <td align="right">1.000.000,00</td>
+                                        </tr>
+                                        <tr class="gradeX">
+                                            <td>Uang Muka</td>
+                                            <td>Rp</td>
+                                            <td align="right">39.000.000,00</td>
+                                        </tr>
+                                        <tr class="gradeX">
+                                            <td>Angsuran 1 - 27 dengan Jatuh Tempo pada tanggal 2 tiap bulannya</td>
+                                            <td>Rp</td>
+                                            <td align="right">1.329.629,63</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10">
+                                <button class="btn btn-primary btn-sm" type="submit">Proses</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
