@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import lombok.Data;
@@ -18,18 +17,14 @@ import lombok.Data;
  */
 @Entity
 @Data
-public class Tower implements Serializable {
+public class Site implements Serializable {
 
     @Id
     private String id;
     @Column
     private String name;
-    @Column
-    private String layoutId;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Site site;
-    @OneToMany(mappedBy = "tower", fetch = FetchType.LAZY)
-    private List<Room> rooms;
+    @OneToMany(mappedBy = "site", fetch = FetchType.LAZY)
+    private List<Tower> towers;
 
     @Version
     private Timestamp version;

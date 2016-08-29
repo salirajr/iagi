@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f7cfa37-1a7e-4b79-b075-d9abca891b32">
+	<property name="ireport.zoom" value="1.2100000000000073"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="762"/>
+	<background>
+		<band height="802">
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="609" width="555" height="193" uuid="b5cad64d-61d0-4dc4-a006-42b4dc69c8bc"/>
+				<imageExpression><![CDATA["/home/is/NetBeansProjects/iagi/sysinvest/template/images/background.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="0" y="0" width="555" height="122" uuid="a8b7fcab-ad22-4d74-9fac-2f5b1ae6df7c"/>
+				<imageExpression><![CDATA["/home/is/NetBeansProjects/iagi/sysinvest/template/images/header.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="711" width="555" height="17" uuid="4cca290f-83ff-42a9-b1eb-cb5598c548c4"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<text><![CDATA[Yang bertanda tangan di bawah ini :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="94" y="442" width="379" height="121" uuid="7e87716b-b3ef-4ad9-9d42-622fa3f7c8b4"/>
+				<graphicElement>
+					<pen lineStyle="Double" lineColor="#FF0000"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</background>
+	<title>
+		<band height="122"/>
+	</title>
+	<detail>
+		<band height="584">
+			<staticText>
+				<reportElement x="0" y="20" width="555" height="17" uuid="d282f187-5969-43cb-84b4-31179023d37c"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<text><![CDATA[Yang bertanda tangan di bawah ini :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="dd99825e-0f8e-4ec3-9b59-56a19dba8a38"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[SURAT PERJANJIAN JUAL BELI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="567" width="555" height="17" uuid="656f1fe5-f8f6-4de5-bd4f-b858cd213777"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<text><![CDATA[Yang bertanda tangan di bawah ini :]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>
