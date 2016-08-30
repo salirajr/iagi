@@ -1,5 +1,6 @@
 package com.rj.sysinvest.layout;
 
+import java.awt.Point;
 import java.awt.Polygon;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,9 @@ public class LayoutTemplateInfo {
 //    "description": "some description",
 //    "templatePath": "/path/to/file",
 //    "templateType": "svg",
+//    "sitePoint" : [1,2],
+//    "towerPoint" : [1,3],
+//    "levelPoint" : [99,33],    
 //    "rooms": [
 //        {
 //            "positionId": "01",
@@ -25,11 +29,12 @@ public class LayoutTemplateInfo {
 //        }
 //    ]
 //}
-
     private String id,
             description,
             templatePath,
             templateType;
+
+    private int[] sitePoint, towerPoint, levelPoint;
 
     private List<LayoutRoom> rooms;
 

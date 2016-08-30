@@ -1,6 +1,7 @@
 package com.rj.sysinvest.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.Column;
@@ -25,7 +26,16 @@ public class Investor implements Serializable {
     private String name;
     @OneToMany(mappedBy = "investor", fetch = FetchType.LAZY)
     private List<Room> rooms;
-
+    @Column
+    private String job;
+    @Column
+    private String address;
+    @Column
+    private String idCardNumber;
+    @Column
+    private String birthPlace;
+    @Column
+    private Date birthDate;
     @Version
     private Timestamp version;
 }

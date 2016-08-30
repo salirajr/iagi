@@ -1,5 +1,6 @@
 package com.rj.sysinvest.layout;
 
+import com.rj.sysinvest.model.Tower;
 import java.util.List;
 
 /**
@@ -9,13 +10,24 @@ import java.util.List;
 public interface LayoutImageService {
 
     /**
+     * Generate layout images for each level in selected rooms. If selected
+     * rooms contains multiple level, then it will generate multiple layout
+     * images for each level.
      *
-     * @param towerId
-     * @param level
-     * @param selectedRooms
-     * @return
+     * @param tower
+     * @param listOfSelectedRoomId
+     * @return list of layout per level
      */
-    byte[] getLayoutImage(String towerId, String level, List<String> selectedRooms);
+    List<LayoutData> getLayoutImages(Tower tower, List<String> listOfSelectedRoomId);
 
-    LayoutTemplateInfo getLayoutTemplateInfo(String towerId);
+    /**
+     * Generate single layout image for selected level
+     *
+     * @param tower
+     * @param selectedLevel
+     * @param listOfSelectedRoomId
+     * @return single layout image for selected level
+     */
+    LayoutData getLayoutImage(Tower tower, List<String> listOfSelectedRoomId, String selectedLevel);
+
 }

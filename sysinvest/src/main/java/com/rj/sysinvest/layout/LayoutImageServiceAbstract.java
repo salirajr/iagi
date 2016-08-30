@@ -14,7 +14,10 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.Data;
@@ -33,45 +36,49 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
 
     private Font siteFont = new Font("Verdana", Font.BOLD, 24);
     private Color siteColor = Color.BLACK;
-    private Point sitePoint = new Point(10, 30);
     private Font towerFont = new Font("Verdana", Font.BOLD, 24);
     private Color towerColor = Color.BLACK;
-    private Point towerPoint = new Point(10, 60);
     private Font levelFont = new Font("Verdana", Font.BOLD, 24);
     private Color levelColor = Color.BLACK;
-    private Point levelPoint = new Point(10, 90);
     private Font roomNameFont = new Font("Verdana", Font.BOLD, 12);
     private Color roomNameColor = Color.BLACK;
     private Color highlightedRoomColor = new Color(255, 255, 0, 127);
 
-    protected void drawOverlay(Graphics2D g, LayoutTemplateInfo layout, Tower tower, String level, List<String> selectedRooms) {
+    static Point createPoint(int[] xy) {
+        return new Point(xy[0], xy[1]);
+    }
+
+    protected void drawOverlay(Graphics2D g, LayoutTemplateInfo layout, Tower tower, List<String> listOfSelectedRoomId, String selectedLevel) {
 
         // Draw string for Site Name
         g.setFont(siteFont);
         g.setColor(siteColor);
+        Point sitePoint = createPoint(layout.getSitePoint());
         g.drawString(tower.getSite().getName(), sitePoint.x, sitePoint.y);
 
         // Draw string for Tower Name
         g.setFont(towerFont);
         g.setColor(towerColor);
+        Point towerPoint = createPoint(layout.getTowerPoint());
         g.drawString(tower.getName(), towerPoint.x, towerPoint.y);
 
         // Draw string for Level
         g.setFont(levelFont);
         g.setColor(levelColor);
+        Point levelPoint = createPoint(layout.getLevelPoint());
         g.drawString(tower.getName(), levelPoint.x, levelPoint.y);
 
-        List<Room> levelRooms = tower.getRooms().stream()
-                // filter rooms by level
-                .filter(room -> level.equals(room.getLevelId()))
+        // collect all rooms filter by selectedLevel
+        List<Room> listOfRoomBySelectedLevel = tower.getRooms().stream()
+                .filter(room -> selectedLevel.equals(room.getLevelId()))
                 .collect(Collectors.toList());
 
-        levelRooms.stream()
-                // filter rooms by selectedRooms
-                .filter(room -> selectedRooms.contains(room.getId()))
+        listOfRoomBySelectedLevel.stream()
+                // filter rooms by selectedRoomId
+                .filter(room -> listOfSelectedRoomId.contains(room.getId()))
                 // Draw filled polygon for All Selected Rooms  
                 .forEach(room -> {
-                    // get itLayoutRoomea from LayoutTemplateInfo
+                    // get LayoutRoom from LayoutTemplateInfo
                     Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getPositionId());
                     if (layoutRoom.isPresent()) {
                         g.setColor(getHighlightedRoomColor());
@@ -82,16 +89,16 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
                 });
 
         // Draw string room names for all room
-        levelRooms.forEach(room -> {
+        listOfRoomBySelectedLevel.forEach(room -> {
             Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getPositionId());
             if (layoutRoom.isPresent()) {
                 int[][] points = layoutRoom.get().getArea();
                 if (points.length > 0) {
-                    int x = points[0][0] + 3;
-                    int y = points[0][1] + 3 + roomNameFont.getSize();
+                    Point p = createPoint(points[0]);
+                    p.translate(3, 3 + roomNameFont.getSize());
                     g.setColor(roomNameColor);
                     g.setFont(roomNameFont);
-                    g.drawString(room.getName(), x, y);
+                    g.drawString(room.getName(), p.x, p.y);
                 } else {
                     throw new RuntimeException("No coordinates defined for room " + room.getId());
                 }
@@ -104,7 +111,6 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
     @Value("${layoutTemplateDirectory}")
     private String layoutTemplateDirectory;
 
-    @Override
     public LayoutTemplateInfo getLayoutTemplateInfo(String towerId) {
         try {
             Path path = Paths.get(getLayoutTemplateDirectory(), towerId + ".json");
@@ -127,5 +133,47 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
     public byte[] getLayoutTemplateBytes(LayoutTemplateInfo layoutTemplateInfo) throws IOException {
         Path path = Paths.get(getLayoutTemplateDirectory(), layoutTemplateInfo.getTemplatePath());
         return Files.readAllBytes(path);
+    }
+
+//    @Override
+//    public Map<String, byte[]> getLayoutImages(Tower tower, List<String> listOfSelectedRoomId) {
+//        // Map<Level, List<RoomId>> mapOfLevelOfSelectedRooms
+//        Map<String, List<String>> mapOfLevelOfSelectedRooms = new HashMap();
+//        tower.getRooms().stream()
+//                .filter(r -> listOfSelectedRoomId.contains(r.getId()))
+//                .forEach(r -> {
+//                    List<String> rooms = mapOfLevelOfSelectedRooms.get(r.getLevelId());
+//                    if (rooms == null) {
+//                        rooms = new ArrayList();
+//                        mapOfLevelOfSelectedRooms.put(r.getLevelId(), rooms);
+//                    }
+//                    rooms.add(r.getId());
+//                });
+//        Map<String, byte[]> listOfLayoutOfLevel = new HashMap();
+//        mapOfLevelOfSelectedRooms.forEach((level, selectedRooms) -> {
+//            byte[] levelLayout = getLayoutImage(tower, selectedRooms, level);
+//            listOfLayoutOfLevel.put(level, levelLayout);
+//        });
+//        return listOfLayoutOfLevel;
+//    }
+    @Override
+    public List<LayoutData> getLayoutImages(Tower tower, List<String> listOfSelectedRoomId) {
+        // Map<Level, List<RoomId>> mapOfLevelOfSelectedRooms
+        Map<String, List<String>> mapOfLevelOfSelectedRooms = new HashMap();
+        tower.getRooms().stream()
+                .filter(r -> listOfSelectedRoomId.contains(r.getId()))
+                .forEach(r -> {
+                    List<String> rooms = mapOfLevelOfSelectedRooms.get(r.getLevelId());
+                    if (rooms == null) {
+                        rooms = new ArrayList();
+                        mapOfLevelOfSelectedRooms.put(r.getLevelId(), rooms);
+                    }
+                    rooms.add(r.getId());
+                });
+        List<LayoutData> listOfLayoutOfLevel = new ArrayList();
+        mapOfLevelOfSelectedRooms.forEach((level, selectedRooms) -> {
+            listOfLayoutOfLevel.add(getLayoutImage(tower, selectedRooms, level));
+        });
+        return listOfLayoutOfLevel;
     }
 }
