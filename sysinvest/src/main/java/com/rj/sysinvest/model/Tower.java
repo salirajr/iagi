@@ -24,8 +24,6 @@ public class Tower implements Serializable {
     private String id;
     @Column
     private String name;
-    @Column
-    private String layoutId;
     @ManyToOne(fetch = FetchType.LAZY)
     private Site site;
     @OneToMany(mappedBy = "tower", fetch = FetchType.LAZY)

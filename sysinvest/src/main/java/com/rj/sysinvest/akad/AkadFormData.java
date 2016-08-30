@@ -7,7 +7,7 @@ import lombok.Data;
  * @author Rais <rais.gowa@gmail.com>
  */
 @Data
-public class AkadDataBean {
+public class AkadFormData {
 
     private String pihakPertamaNama,
             pihakPertamaJabatan1, pihakPertamaJabatan2,
