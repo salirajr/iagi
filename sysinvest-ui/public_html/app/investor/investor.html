@@ -1,20 +1,4 @@
 <div class="wrapper wrapper-content animated fadeInRight">
-    <!--
-    <div class="row">
-            <div class="col-lg-12">
-                <div class="text-center m-t-lg">
-                    <h1>
-                        {{helloText}}
-                    </h1>
-                    <small>
-                        {{descriptionText}}
-                    </small>
-                    <button ng-click="getInvestor()">getInvestor</button>
-                    <div>{{data.investors}}</div>
-                </div>
-            </div>
-    </div>
-    -->
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
@@ -24,26 +8,25 @@
                 <div class="ibox-content">
                     <form method="get" class="form-horizontal">
                         <div class="form-group"><label class="col-sm-2 control-label">Jenis Akun</label>
-                            <!-- 
-                            <div class="col-sm-8">
-                                <label class="checkbox-inline"> 
-                                    <input type="checkbox" icheck value="option1" id="inlineCheckbox1" /> Investasi 
-                                </label> 
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" icheck value="option2" id="inlineCheckbox2" /> Hibah 
-                                </label> 
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" icheck value="option3" id="inlineCheckbox3"/> Lainnya 
-                                </label>
-                            </div>
-                            -->
-                            <div class="col-sm-2"><select class="form-control m-b" name="account" ng-model="data.investor.accountType">
-                                    <option value="Investment">Investasi</option>
-                                    <option>Hibah</option>
+
+                            <div class="col-sm-3">
+                                <select class="form-control m-b" name="account" ng-model="data.investor.accountType"  ng-init="data.investor.accountType = data.investor.accountType || 'INVESTASI'" >
+                                    <option value="INVESTASI">Investasi</option>
+                                    <option value="HIBAH">Hibah</option>
                                 </select>
                             </div>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" readonly="" ng-model="data.investor.accountId"><span class="help-block m-b-none"><small>Investor Id</small></span>
+                            <div class="form-group " ng-show="data.investor.accountType === 'INVESTASI'">
+                                
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-model="data.cInvestor.accountId" > 
+                                        <span class="input-group-btn"> 
+                                            <button type="button" class="btn btn-info"><i class="fa fa-check"></i></button>
+                                        </span>
+                                    </div>
+                                     <span class="m-b-none"><small>gen. Customer Id</small></span>
+                                </div>
+                               
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -52,7 +35,7 @@
                         </div>
                         <div class="form-group"><label class="col-sm-2 control-label">Jenis Kelamin </label>
                             <div class="col-sm-2">
-                                <select class="form-control m-b" name="account" ng-model="data.investor.gender">
+                                <select class="form-control m-b" name="account" ng-model="data.investor.gender" ng-init="data.investor.gender = data.investor.gender || 'M'">
                                     <option value="M">Pria</option>
                                     <option value="F">Wanita</option>
                                 </select>
@@ -67,7 +50,7 @@
                             <div class="col-sm-3">
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control"  ng-model="data.investor.birthDate">
+                                    <input type="text" class="form-control"  ng-model="data.investor.birthDate" ng-init="data.investor.birthDate = data.investor.birthDate || '2016-01-01'">
                                 </div>
                                 <span class="help-block m-b-none"><small>Tanggal</small></span>
                             </div>
@@ -101,7 +84,7 @@
                                 <span class="help-block m-b-none"><small>Kode Pos</small></span>
                             </div>
                             <div class="col-sm-3">
-                                <select class="form-control" name="account" ng-model="data.investor.province">
+                                <select class="form-control" name="account" ng-model="data.investor.province" ng-init="data.investor.province = data.investor.province || 'jakarta-selatan,-dki'">
                                     <option value="jakarta-selatan,-dki">Jakarta Selatan, DKI</option>
                                     <option value="jakarta-timur,-dki">Jakarta Timur, DKI</option>
                                 </select>
@@ -112,11 +95,11 @@
                             <div class="col-lg-4"><input type="text" class="form-control" ng-model="data.investor.nationalId"></div>
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label">Kewarganegaraan</label>
-                            <div class="col-sm-2"><select class="form-control m-b" name="account" ng-model="data.investor.nationality">
-                                    <option value="Indonesia">Indonesia</option>
-                                    <option>Malaysia</option>
-                                    <option>Brunei</option>
-                                    <option>Lainnya</option>
+                            <div class="col-sm-3"><select class="form-control m-b" name="account" ng-model="data.investor.nationality"  ng-init="data.investor.nationality = data.investor.nationality || 'INDONESIA'">
+                                    <option value="INDONESIA">INDONESIA</option>
+                                    <option>MALAYSIA</option>
+                                    <option>BRUNEI DARUSSALAM</option>
+                                    <option>LAINNYA</option>
                                 </select>
                             </div>
                         </div>
@@ -142,20 +125,13 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Sektor Pekerjaan</label>
-                            <!--
-                            <div class="col-sm-10"><label class="checkbox-inline"> 
-                                    <input type="radio" icheck value="option1" id="inlineCheckbox1" name="optionsRadios"> Pemerintah </label> <label class="checkbox-inline">
-                                    <input type="radio" icheck value="option2" id="inlineCheckbox2" name="optionsRadios"> Swasta </label><label class="checkbox-inline">
-                                    <input type="radio" icheck value="option2" id="inlineCheckbox2" name="optionsRadios"> Pendidikan </label><label class="checkbox-inline">
-                                    <input type="radio" icheck value="option2" id="inlineCheckbox2" name="optionsRadios"> Lainnya </label>
-                            </div>
-                            -->
-                            <div class="col-sm-2">
-                                <select class="form-control m-b" name="account" ng-model="data.investor.jobSector">
-                                    <option>Pemerintah</option>
-                                    <option>Swasta</option>
-                                    <option>Pendidikan</option>
-                                    <option value="Professional">Professional</option>
+
+                            <div class="col-sm-3">
+                                <select class="form-control m-b" name="account" ng-model="data.investor.jobSector" ng-init="data.investor.jobSector = data.investor.jobSector || 'PROFESSIONAL'">
+                                    <option>PEMERINTAHAN</option>
+                                    <option>SWASTA</option>
+                                    <option>PENDIDIKAN</option>
+                                    <option value="PROFESSIONAL">PROFESSIONAL</option>
                                 </select>
                             </div>
                             <div class="col-lg-3"><input type="text" class="form-control" ng-model="data.investor.jobSectorDetail"></div>
@@ -178,7 +154,7 @@
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Akun Bank</label>
-                            <div class="col-sm-2"><select class="form-control m-b" name="account" ng-model="data.investor.bankAccount">
+                            <div class="col-sm-2"><select class="form-control m-b" name="account" ng-model="data.investor.bankAccount" ng-init="data.investor.bankAccount = data.investor.bankAccount || 'BCA'">
                                     <option>Danamon</option>
                                     <option>BSM</option>
                                     <option value="BCA">BCA</option>
@@ -189,37 +165,14 @@
                             <div class="col-lg-2"><input type="text" class="form-control"  ng-model="data.investor.bankAccountNo" ><span class="help-block m-b-none"><small>Rekening</small></span></div>
                             <div class="col-lg-4"><input type="text" class="form-control"  ng-model="data.investor.bankAccountReference"><span class="help-block m-b-none"><small>Referensi Akun</small></span></div>
                         </div>
-                        <!--<div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label">Aparkos</label>
-                            <div class="col-lg-7">
-                                <table class="table table-striped table-bordered table-hover"  >
-                                    <thead>
-                                        <tr>
-                                            <th>Site</th>
-                                            <th>Unit</th>
-                                            <th>Alamat</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="invest in data.investment"  class="gradeX">
-                                            <td>{{invest.aparkostName}}</td>
-                                            <td>Tower {{invest.aparkostTower}} Lt. {{invest.aparkostFloor}}, {{invest.aparkostNo}}</td>
-                                            <td>{{invest.aparkostAddress}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>-->
+
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-10">
                                 <button class="btn btn-white btn-sm" type="submit">Batalkan</button>
-                                <button class="btn btn-success btn-sm" type="submit">Simpan</button>
-                                <a href="#/index/covenant" class="btn btn-primary btn-sm">
-                                    Lanjutkan
-                                </a>
+                                <button class="btn btn-success btn-sm" type="submit" ng-click="saveInvestor()">Simpan</button>
+                                <button class="btn btn-primary btn-sm" type="submit" ng-click="nextToCovenant()">Lanjutkan</button>
                             </div>
                         </div>
                     </form>
