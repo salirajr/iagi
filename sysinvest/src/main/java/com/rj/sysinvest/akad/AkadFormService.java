@@ -28,10 +28,10 @@ public class AkadFormService {
     }
 
     private void setPihakKeduaFromInvestor(AkadFormData d, Investor i) {
-        d.setPihakKeduaNama(i.getName());
-        d.setPihakKeduaPekerjaan(i.getJob());
+        d.setPihakKeduaNama(i.getFullName());
+        d.setPihakKeduaPekerjaan(i.getOccupation());
         d.setPihakKeduaAlamat1(i.getAddress());
-        d.setPihakKeduaKTP(i.getIdCardNumber());
+        d.setPihakKeduaKTP(i.getNationalId());
         d.setPihakKeduaTTL(i.getBirthPlace() + ", " + dateFormat.format(i.getBirthDate()));
     }
 }

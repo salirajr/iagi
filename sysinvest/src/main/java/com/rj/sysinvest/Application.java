@@ -1,5 +1,7 @@
 package com.rj.sysinvest;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rj.sysinvest.jwt.JwtFilter;
 import com.rj.sysinvest.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 /**
  *
@@ -29,5 +32,6 @@ public class Application {
         bean.addUrlPatterns("/api/*");
         return bean;
     }
+
 
 }

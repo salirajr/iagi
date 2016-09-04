@@ -102,6 +102,7 @@ public class PdfComponent {
         return inputStream;
     }
 
+    /*
     public static void main(String[] args) throws Exception {
 
         AkadFormData data = new AkadFormData();
@@ -117,4 +118,5 @@ public class PdfComponent {
         byte[] bytes = service.loadFillSaveToBytes(formPath, BeanUtils.describe(data));
         Files.write(Paths.get("akad-rais.pdf"), bytes);
     }
+    */
 }
