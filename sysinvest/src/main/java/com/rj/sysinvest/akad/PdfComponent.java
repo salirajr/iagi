@@ -2,9 +2,6 @@ package com.rj.sysinvest.akad;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -82,39 +79,53 @@ public class PdfComponent {
 //        merger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
 //        return destStream.toByteArray();
 //    }
+//    private InputStream createInputStream(byte[] bytes) throws IOException {
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        baos.write(bytes);
+//        PipedInputStream inputStream = new PipedInputStream();
+//        baos.writeTo(new PipedOutputStream(inputStream));
+//        return inputStream;
+//    }
+//    
     // http://stackoverflow.com/questions/37589590/merge-pdf-files-using-pdfbox 
     public byte[] mergePdf(byte[] pdf, byte[]... otherPdfs) throws IOException {
+        LOGGER.debug("mergePdf started on {}", new java.util.Date());
         PDFMergerUtility merger = new PDFMergerUtility();
         PDDocument destination = PDDocument.load(pdf);
+        LOGGER.debug("mergePdf numberOfPages={}", destination.getNumberOfPages());
         for (byte[] otherPdf : otherPdfs) {
-            merger.appendDocument(destination, PDDocument.load(otherPdf));
+            PDDocument source = PDDocument.load(otherPdf);
+            LOGGER.debug("mergePdf numberOfPages={}", source.getNumberOfPages());
+            merger.appendDocument(destination, source);
         }
+        LOGGER.debug("mergePdf total numberOfPages={}", destination.getNumberOfPages());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         destination.save(baos);
+        LOGGER.debug("mergePdf finished on {}", new java.util.Date());
         return baos.toByteArray();
-    }
-
-    private InputStream createInputStream(byte[] bytes) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.write(bytes);
-        PipedInputStream inputStream = new PipedInputStream();
-        baos.writeTo(new PipedOutputStream(inputStream));
-        return inputStream;
     }
 
     public static void main(String[] args) throws Exception {
 
-        AkadFormData data = new AkadFormData();
-        data.setPihakPertamaNama("Raisssss");
-        data.setPihakPertamaJabatan1("Sales Manager");
-        data.setPihakPertamaAlamat1("Jl. Malino no 87");
-        data.setKuasaNama("ANDI TAUFIQ YUSUF");
-        data.setKuasaJabatan("DIRUT PT.IBNU AUF GLOBAL INVESTAMA");
+//        AkadFormData data = new AkadFormData();
+//        data.setPihakPertamaNama("Raisssss");
+//        data.setPihakPertamaJabatan1("Sales Manager");
+//        data.setPihakPertamaAlamat1("Jl. Malino no 87");
+//        data.setKuasaNama("ANDI TAUFIQ YUSUF");
+//        data.setKuasaJabatan("DIRUT PT.IBNU AUF GLOBAL INVESTAMA");
+//
+//        PdfComponent service = new PdfComponent();
+//        String formPath = "template/akad-ipb.pdf";
+//
+//        byte[] bytes = service.loadFillSaveToBytes(formPath, BeanUtils.describe(data));
+//        Files.write(Paths.get("akad-rais.pdf"), bytes);
+        PdfComponent com = new PdfComponent();
 
-        PdfComponent service = new PdfComponent();
-        String formPath = "template/akad-ipb.pdf";
-
-        byte[] bytes = service.loadFillSaveToBytes(formPath, BeanUtils.describe(data));
-        Files.write(Paths.get("akad-rais.pdf"), bytes);
+        byte[] one = com.mergePdf(
+                Files.readAllBytes(Paths.get("template/akad-ipb.pdf")),
+                Files.readAllBytes(Paths.get("template/akad.pdf")),
+                Files.readAllBytes(Paths.get("akad-rais.pdf"))
+        );
+        Files.write(Paths.get("contoh-merge.pdf"), one);
     }
 }
