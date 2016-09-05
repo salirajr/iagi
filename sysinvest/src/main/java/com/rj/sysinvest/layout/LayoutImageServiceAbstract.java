@@ -69,43 +69,43 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
         g.drawString(tower.getName(), levelPoint.x, levelPoint.y);
 
         // collect all rooms filter by selectedLevel
-        List<Aparkost> listOfRoomBySelectedLevel = tower.getAparkosts().stream()
-                .filter(room -> selectedLevel.equals(room.getFloor()))
-                .collect(Collectors.toList());
+//        List<Aparkost> listOfRoomBySelectedLevel = tower.getAparkosts().stream()
+//                .filter(room -> selectedLevel.equals(room.getFloor()))
+//                .collect(Collectors.toList());
 
-        listOfRoomBySelectedLevel.stream()
-                // filter rooms by selectedRoomId
-                .filter(room -> listOfSelectedRoomId.contains(room.getId()))
-                // Draw filled polygon for All Selected Rooms  
-                .forEach(room -> {
-                    // get LayoutRoom from LayoutTemplateInfo
-                    Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getIndex());
-                    if (layoutRoom.isPresent()) {
-                        g.setColor(getHighlightedRoomColor());
-                        g.fill(layoutRoom.get().toPolygon());
-                    } else {
-                        throw new RuntimeException("No area defined for room " + room.getId());
-                    }
-                });
+//        listOfRoomBySelectedLevel.stream()
+//                // filter rooms by selectedRoomId
+//                .filter(room -> listOfSelectedRoomId.contains(room.getId()))
+//                // Draw filled polygon for All Selected Rooms  
+//                .forEach(room -> {
+//                    // get LayoutRoom from LayoutTemplateInfo
+//                    Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getIndex());
+//                    if (layoutRoom.isPresent()) {
+//                        g.setColor(getHighlightedRoomColor());
+//                        g.fill(layoutRoom.get().toPolygon());
+//                    } else {
+//                        throw new RuntimeException("No area defined for room " + room.getId());
+//                    }
+//                });
 
         // Draw string room names for all room
-        listOfRoomBySelectedLevel.forEach(room -> {
-            Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getIndex());
-            if (layoutRoom.isPresent()) {
-                int[][] points = layoutRoom.get().getArea();
-                if (points.length > 0) {
-                    Point p = createPoint(points[0]);
-                    p.translate(3, 3 + roomNameFont.getSize());
-                    g.setColor(roomNameColor);
-                    g.setFont(roomNameFont);
-                    g.drawString(room.getName(), p.x, p.y);
-                } else {
-                    throw new RuntimeException("No coordinates defined for room " + room.getId());
-                }
-            } else {
-                throw new RuntimeException("No area defined for room " + room.getId());
-            }
-        });
+//        listOfRoomBySelectedLevel.forEach(room -> {
+//            Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getIndex());
+//            if (layoutRoom.isPresent()) {
+//                int[][] points = layoutRoom.get().getArea();
+//                if (points.length > 0) {
+//                    Point p = createPoint(points[0]);
+//                    p.translate(3, 3 + roomNameFont.getSize());
+//                    g.setColor(roomNameColor);
+//                    g.setFont(roomNameFont);
+//                    g.drawString(room.getName(), p.x, p.y);
+//                } else {
+//                    throw new RuntimeException("No coordinates defined for room " + room.getId());
+//                }
+//            } else {
+//                throw new RuntimeException("No area defined for room " + room.getId());
+//            }
+//        });
     }
 
     @Value("${layoutTemplateDirectory}")
@@ -160,16 +160,16 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
     public List<LayoutData> getLayoutImages(Tower tower, List<String> listOfSelectedRoomId) {
         // Map<Level, List<RoomId>> mapOfLevelOfSelectedRooms
         Map<String, List<String>> mapOfLevelOfSelectedRooms = new HashMap();
-        tower.getAparkosts().stream()
-                .filter(r -> listOfSelectedRoomId.contains(r.getId()))
-                .forEach(r -> {
-                    List<String> rooms = mapOfLevelOfSelectedRooms.get(r.getFloor());
-                    if (rooms == null) {
-                        rooms = new ArrayList();
-                        mapOfLevelOfSelectedRooms.put(r.getFloor(), rooms);
-                    }
-                    //rooms.add(r.getId());
-                });
+//        tower.getAparkosts().stream()
+//                .filter(r -> listOfSelectedRoomId.contains(r.getId()))
+//                .forEach(r -> {
+//                    List<String> rooms = mapOfLevelOfSelectedRooms.get(r.getFloor());
+//                    if (rooms == null) {
+//                        rooms = new ArrayList();
+//                        mapOfLevelOfSelectedRooms.put(r.getFloor(), rooms);
+//                    }
+//                    //rooms.add(r.getId());
+//                });
         List<LayoutData> listOfLayoutOfLevel = new ArrayList();
         mapOfLevelOfSelectedRooms.forEach((level, selectedRooms) -> {
             listOfLayoutOfLevel.add(getLayoutImage(tower, selectedRooms, level));

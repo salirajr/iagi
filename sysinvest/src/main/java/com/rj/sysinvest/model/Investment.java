@@ -1,6 +1,5 @@
 package com.rj.sysinvest.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import javax.persistence.Column;
@@ -29,18 +28,9 @@ public class Investment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Investor investor;
-    public static final String PROP_INVESTOR = "investor";
-
     @OneToOne
     private Aparkost aparkost;
     public static final String PROP_APARKOST = "aparkost";
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Acquisition acquisition;
-    public static final String PROP_ACQUISITION = "acquisition";
 
     @Column(length = 19)
     private Long marketRate;

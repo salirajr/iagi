@@ -8,8 +8,9 @@ package com.rj.sysinvest.service;
 import com.rj.sysinvest.dao.AcquisitionRepository;
 import com.rj.sysinvest.dao.InvestmentRepository;
 import com.rj.sysinvest.model.Acquisition;
-import com.rj.sysinvest.model.Investment;
-import java.util.List;
+import com.rj.sysinvest.model.Investor;
+import java.util.Collection;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,18 @@ public class AcquisitionService {
     @Autowired
     InvestmentRepository repoInvestment;
     
+    @Autowired
+    EntityManager manager;
+    
+    
     @Transactional
     public Acquisition save(Acquisition payload){
         
         repoAcquisition.save(payload);
+//        payload.getInvestments().forEach(investment->{
+//            investment.setAcquisition(payload);
+//            repoInvestment.save(investment);
+//        });
         
         return payload;
     }

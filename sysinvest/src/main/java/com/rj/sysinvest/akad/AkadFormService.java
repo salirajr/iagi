@@ -23,7 +23,7 @@ public class AkadFormService {
 
     public byte[] generatePdf(Investment investment) throws IOException {
         AkadFormData d = new AkadFormData();
-        setPihakKeduaFromInvestor(d, investment.getInvestor());
+//        setPihakKeduaFromInvestor(d, investment.getInvestor());
         return pdfService.loadFillSaveToBytes(formPath, d);
     }
 

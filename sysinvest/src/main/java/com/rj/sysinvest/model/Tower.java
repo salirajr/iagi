@@ -37,14 +37,9 @@ public class Tower implements Serializable {
     @Column(length = 200)
     private String name;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Site site;
     public static final String PROP_SITE = "site";
-
-    @JsonIgnore
-    @OneToMany(mappedBy = Aparkost.PROP_TOWER, fetch = FetchType.LAZY)
-    private List<Aparkost> aparkosts;
 
     @Version
     private Timestamp version;
