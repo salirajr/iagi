@@ -15,13 +15,13 @@
                                     <option value="HIBAH">Hibah</option>
                                 </select>
                             </div>
-                            <div class="form-group " ng-show="data.investor.accountType === 'INVESTASI'">
+                            <div class="form-group " ng-show="data.investor.accountType === 'INVESTASI'" >
                                 
                                 <div class="col-lg-3">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" ng-model="data.cInvestor.accountId" > 
+                                        <input type="text" class="form-control" ng-model="data.cInvestor.accountId" ui-mask="AAAA9999"> 
                                         <span class="input-group-btn"> 
-                                            <button type="button" class="btn btn-info"><i class="fa fa-check"></i></button>
+                                            <button type="button" class="btn btn-info"><i class="fa fa-refresh"></i></button>
                                         </span>
                                     </div>
                                      <span class="m-b-none"><small>gen. Customer Id</small></span>
@@ -50,7 +50,7 @@
                             <div class="col-sm-3">
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control"  ng-model="data.investor.birthDate" ng-init="data.investor.birthDate = data.investor.birthDate || '2016-01-01'">
+                                    <input type="text" class="form-control"  ng-model="data.investor.birthDate" ng-init="data.investor.birthDate = data.investor.birthDate || '2016-01-01'" ui-mask="9999-99-99">
                                 </div>
                                 <span class="help-block m-b-none"><small>Tanggal</small></span>
                             </div>
@@ -64,11 +64,11 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Kontak</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" ng-model="data.investor.phoneNo"> 
+                                <input type="text" class="form-control" ng-model="data.investor.phoneNo" ui-mask="(999) 99999999"> 
                                 <span class="help-block m-b-none" ><small>Telepon</small></span>
                             </div>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" ng-model="data.investor.mobilePhoneNo"> 
+                                <input type="text" class="form-control" ng-model="data.investor.mobilePhoneNo" ui-mask="9999-9999-9999"> 
                                 <span class="help-block m-b-none"><small>Mobile</small></span>
                             </div>
                             <div class="col-sm-4">
@@ -80,7 +80,7 @@
                             <label class="col-sm-2 control-label">Alamat</label>
                             <div class="col-sm-5"><textarea class="form-control" ng-model="data.investor.address">{{data.investor.address}}</textarea></div>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" ng-model="data.investor.postalCode"> 
+                                <input type="text" class="form-control" ng-model="data.investor.postalCode" ui-mask="999999"> 
                                 <span class="help-block m-b-none"><small>Kode Pos</small></span>
                             </div>
                             <div class="col-sm-3">

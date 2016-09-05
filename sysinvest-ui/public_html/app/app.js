@@ -1,6 +1,6 @@
 
 (function () {
-    var app = angular.module('my-spa-client', ['ui.router', 'oc.lazyLoad', 'ui.bootstrap', 'ngStorage']);
+    var app = angular.module('my-spa-client', ['ui.router', 'oc.lazyLoad', 'ui.bootstrap', 'ngStorage', 'ui.mask']);
 
     app.config(config);
     app.run(run);
