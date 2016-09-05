@@ -36,10 +36,6 @@ public class AcquisitionService {
     public Acquisition save(Acquisition payload){
         
         repoAcquisition.save(payload);
-//        payload.getInvestments().forEach(investment->{
-//            investment.setAcquisition(payload);
-//            repoInvestment.save(investment);
-//        });
         
         return payload;
     }
