@@ -14,15 +14,14 @@
         $scope.descriptionText = 'It is an application skeleton for a typical AngularJS web app. You can use it to quickly bootstrap your angular webapp projects and dev environment for these projects.';
 
         $scope.data = {};
-        $scope.data.cInvestor = {};
         $scope.data.selectedCStaff = {};
         $scope.dInput = {};
         $scope.data.acquisition = {};
+        $scope.data.acquisition.investor = {};
 
 
-        $scope.data.cInvestor = {};
         if ($rootScope.dctrl !== undefined && $rootScope.dctrl.investor !== undefined) {
-            $scope.data.cInvestor = $rootScope.dctrl.investor;
+            $scope.data.acquisition.investor = $rootScope.dctrl.investor;
         }
 
 
@@ -51,11 +50,11 @@
         $scope.getCovenantStaff();
 
         $scope.getAccount = function () {
-            $http.get("/investor/ret/byaccountid?value=" + $scope.data.cInvestor.accountId)
+            $http.get("/investor/ret/byaccountid?value=" + $scope.data.acquisition.investor.id)
                     .then(function (response) {
                         $log.debug(response);
-                        $scope.data.cInvestor = response.data;
-                        $log.debug("getAccount responsed sucess with " + $scope.data.cInvestor.id);
+                        $scope.data.acquisition.investor = response.data;
+                        $log.debug("getAccount responsed sucess with " + $scope.data.acquisition.investor.id);
                     });
 
         };
@@ -113,10 +112,13 @@
 
         $scope.data.acquisition.investments = [];
         $scope.data.acquisition.totalFee = 0;
+        $scope.data.acquisition.totalMarketFee = 0;
         $scope.addCInvestment = function () {
             $scope.data.selectedInvestment.soldRate = parseInt($scope.data.selectedInvestment.soldRate);
-            $scope.data.acquisition.investments.push($scope.data.selectedInvestment);
+            var investment = $scope.data.selectedInvestment;
+            $scope.data.acquisition.investments.push(investment);
             $scope.data.acquisition.totalFee += $scope.data.selectedInvestment.soldRate;
+            $scope.data.acquisition.totalMarketFee += $scope.data.selectedInvestment.marketRate;
             alert("add " + $scope.data.selectedInvestment);
 
         };
@@ -125,6 +127,16 @@
             alert("saveAcquisition called!");
             $log.debug($scope.data.acquisition);
             var payload = $scope.data.acquisition;
+            var date = new Date();
+            payload.startDate = new Date(new Date(date.getFullYear(), date.getMonth(), 2).setMonth(date.getMonth() + 1));
+            if ($scope.data.acquisition.type === 'SOFT_INSTALLMENT') {
+                payload.endDate = new Date(new Date(date.getFullYear(), date.getMonth(), 2).setMonth(date.getMonth() + $scope.data.acquisition.nPeriod));
+            }else if ($scope.data.acquisition.type === 'INSTALLMENT') {
+                payload.endDate = new Date(new Date(date.getFullYear(), date.getMonth(), 2).setMonth(date.getMonth() + 27));
+            }else{
+                payload.startDate = new Date();
+                payload.endDate = new Date();
+            }
             $http.post('/acquisition/addnew', payload)
                     .success(function (response) {
                         $log.debug(response);

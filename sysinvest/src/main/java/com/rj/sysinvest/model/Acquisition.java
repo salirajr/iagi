@@ -6,6 +6,8 @@
 package com.rj.sysinvest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.sql.Date;
@@ -43,11 +45,12 @@ public class Acquisition implements Serializable {
     @Column
     private Timestamp timestamp;
 
-    @OneToMany(mappedBy = Investment.PROP_ACQUISITION)
-    private List<Investment> investments;
+    
+    @OneToMany
+    private Collection<Investment> investments;
     
     @ManyToOne
-    private Investor investor;
+    private Investor investor = null;
     public static final String PROP_INVESTOR = "investor";
     
     @Column

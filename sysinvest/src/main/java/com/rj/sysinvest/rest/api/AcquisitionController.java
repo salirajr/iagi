@@ -7,7 +7,9 @@ package com.rj.sysinvest.rest.api;
 
 import com.rj.sysinvest.dao.AcquisitionRepository;
 import com.rj.sysinvest.model.Acquisition;
+import com.rj.sysinvest.model.Investment;
 import com.rj.sysinvest.service.AcquisitionService;
+import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,21 +30,22 @@ public class AcquisitionController {
 
     @Resource
     private AcquisitionRepository repo;
-    
+
     @Autowired
     private AcquisitionService service;
 
     @RequestMapping(value = "/ret/byid", method = RequestMethod.GET)
-    public Acquisition ret(@RequestParam Long value, HttpServletRequest request)
+    public Acquisition retById(@RequestParam Long value, HttpServletRequest request)
             throws ServletException {
-        return repo.findOne(value);
+            return repo.findOne(value);
     }
-    
+
     @RequestMapping(value = "/addnew", method = RequestMethod.POST)
-    public Acquisition addnew(@RequestBody Acquisition payload, HttpServletRequest request)
+    public Long addnew(@RequestBody Acquisition payload, HttpServletRequest request)
             throws ServletException {
         System.out.println(payload.getDpFee());
-        return service.save(payload);
+        service.save(payload);
+        return payload.getId();
     }
 
 }
