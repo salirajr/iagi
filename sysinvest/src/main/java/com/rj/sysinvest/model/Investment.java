@@ -43,13 +43,13 @@ public class Investment implements Serializable {
     public static final String PROP_ACQUISITION = "acquisition";
 
     @Column(length = 19)
-    private long marketRate;
+    private Long marketRate;
 
     @Column
     private Timestamp marketRateUpdate;
 
     @Column(length = 19)
-    private long soldRate;
+    private Double soldRate;
 
     @Column
     private Timestamp timestamp;
