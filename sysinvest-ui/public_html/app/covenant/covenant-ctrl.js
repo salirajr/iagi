@@ -17,7 +17,7 @@
         $scope.data.cInvestor = {};
         $scope.data.selectedCStaff = {};
         $scope.dInput = {};
-        $scope.data.acquisition = [];
+        $scope.data.acquisition = {};
 
 
         $scope.data.cInvestor = {};
@@ -85,12 +85,12 @@
                         $scope.selectTower();
                     });
         };
-        
+
         $scope.selectTower = function () {
             $log.debug("selectSite called with " + $scope.dInput.selectedTowerId);
             $http.get("/investment/ret/onsale/bytowerid?value=" + $scope.dInput.selectedTowerId)
                     .then(function (response) {
-                        $log.debug(response);
+
                         $scope.data.investment = response.data;
                         $scope.dInput.selectedInvestmentId = response.data[0].id;
                         $scope.data.selectedInvestment = response.data[0];
@@ -98,7 +98,7 @@
                         $scope.selectInvestment();
                     });
         };
-        
+
         $scope.selectInvestment = function () {
             $log.debug("selectInvestment called with selectedInvestmentId:" + $scope.dInput.selectedInvestmentId);
 
@@ -110,16 +110,27 @@
             }
             $log.debug($scope.data.selectedInvestment);
         };
-        
+
         $scope.data.acquisition.investments = [];
         $scope.data.acquisition.totalFee = 0;
-        $scope.data.acquisition.bookingFee = 0;
-        $scope.data.acquisition.dpFee = 0;
         $scope.addCInvestment = function () {
+            $scope.data.selectedInvestment.soldRate = parseInt($scope.data.selectedInvestment.soldRate);
             $scope.data.acquisition.investments.push($scope.data.selectedInvestment);
-            $scope.data.acquisition.totalFee += $scope.data.selectedInvestment.marketRate;
-            alert("add "+$scope.data.selectedInvestment);
-            
+            $scope.data.acquisition.totalFee += $scope.data.selectedInvestment.soldRate;
+            alert("add " + $scope.data.selectedInvestment);
+
+        };
+
+        $scope.saveAcquisition = function () {
+            alert("saveAcquisition called!");
+            $log.debug($scope.data.acquisition);
+            var payload = $scope.data.acquisition;
+            $http.post('/acquisition/addnew', payload)
+                    .success(function (response) {
+                        $log.debug(response);
+                    }).error(function (err) {
+                $log.debug(err);
+            });
         };
 
     }
