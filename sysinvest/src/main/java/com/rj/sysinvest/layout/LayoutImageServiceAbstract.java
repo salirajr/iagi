@@ -2,7 +2,7 @@ package com.rj.sysinvest.layout;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rj.sysinvest.layout.LayoutTemplateInfo.LayoutRoom;
-import com.rj.sysinvest.model.Room;
+import com.rj.sysinvest.model.Aparkost;
 import com.rj.sysinvest.model.Tower;
 import java.awt.Color;
 import java.awt.Font;
@@ -69,8 +69,8 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
         g.drawString(tower.getName(), levelPoint.x, levelPoint.y);
 
         // collect all rooms filter by selectedLevel
-        List<Room> listOfRoomBySelectedLevel = tower.getRooms().stream()
-                .filter(room -> selectedLevel.equals(room.getLevelId()))
+        List<Aparkost> listOfRoomBySelectedLevel = tower.getAparkosts().stream()
+                .filter(room -> selectedLevel.equals(room.getFloor()))
                 .collect(Collectors.toList());
 
         listOfRoomBySelectedLevel.stream()
@@ -79,7 +79,7 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
                 // Draw filled polygon for All Selected Rooms  
                 .forEach(room -> {
                     // get LayoutRoom from LayoutTemplateInfo
-                    Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getPositionId());
+                    Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getIndex());
                     if (layoutRoom.isPresent()) {
                         g.setColor(getHighlightedRoomColor());
                         g.fill(layoutRoom.get().toPolygon());
@@ -90,7 +90,7 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
 
         // Draw string room names for all room
         listOfRoomBySelectedLevel.forEach(room -> {
-            Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getPositionId());
+            Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getIndex());
             if (layoutRoom.isPresent()) {
                 int[][] points = layoutRoom.get().getArea();
                 if (points.length > 0) {
@@ -160,15 +160,15 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
     public List<LayoutData> getLayoutImages(Tower tower, List<String> listOfSelectedRoomId) {
         // Map<Level, List<RoomId>> mapOfLevelOfSelectedRooms
         Map<String, List<String>> mapOfLevelOfSelectedRooms = new HashMap();
-        tower.getRooms().stream()
+        tower.getAparkosts().stream()
                 .filter(r -> listOfSelectedRoomId.contains(r.getId()))
                 .forEach(r -> {
-                    List<String> rooms = mapOfLevelOfSelectedRooms.get(r.getLevelId());
+                    List<String> rooms = mapOfLevelOfSelectedRooms.get(r.getFloor());
                     if (rooms == null) {
                         rooms = new ArrayList();
-                        mapOfLevelOfSelectedRooms.put(r.getLevelId(), rooms);
+                        mapOfLevelOfSelectedRooms.put(r.getFloor(), rooms);
                     }
-                    rooms.add(r.getId());
+                    //rooms.add(r.getId());
                 });
         List<LayoutData> listOfLayoutOfLevel = new ArrayList();
         mapOfLevelOfSelectedRooms.forEach((level, selectedRooms) -> {

@@ -1,34 +1,25 @@
 [
     {
-        "accountId": "IAGIINV00123",
-        "aparkostId":"IVMAPR001",
-        "aparkostName":"THE APARKOST",
-        "aparkostAddress":"Kp. Carang Pulang Kidul, RT 04. RW 06, Ds. Cikarawang, Kec Dramaga, Kab Bogor",
-        "aparkostUnitId":"AS001",
-        "aparkostTower":"1",
-        "aparkostFloor":"3",
-        "aparkostNo":"330"
+        "investorId": "IAGIINV00123",
+        "aparkostId": "IVMAPR001",
+        "aparkostName": "THE APARKOST",
+        "aparkostAddress": "Jl. Menteng Atas Selatan 2 no 37",
+        "aparkostPostalCode": "56682",
+        "aparkostProvince": "jakarta-selatan,-dki",
+        "aparkostUnitId": "AS001",
+        "aparkostTower": "1",
+        "aparkostFloor": "3",
+        "aparkostNo": "330"
     },
     {
         "accountId": "IAGIINV00123",
-        "aparkostId":"IVMAPR031",
-        "aparkostName":"THE APARKOST",
-        "aparkostAddress":"Kp. Carang Pulang Kidul, RT 04. RW 06, Ds. Cikarawang, Kec Dramaga, Kab Bogor",
-        "aparkostUnitId":"AS002",
-        "aparkostTower":"1",
-        "aparkostFloor":"3",
-        "aparkostNo":"331"
-    }
-    ,
-    {
-        "accountId": "IAGIINV00123",
-        "aparkostId":"IVMAPR011",
-        "aparkostName":"THE APARKOST",
-        "aparkostAddress":"Kp. Carang Pulang Kidul, RT 04. RW 06, Ds. Cikarawang, Kec Dramaga, Kab Bogor",
-        "aparkostUnitId":"AS002",
-        "aparkostTower":"1",
-        "aparkostFloor":"3",
-        "aparkostNo":"431"
+        "aparkostId": "IVMAPR031",
+        "aparkostName": "THE APARKOST",
+        "aparkostAddress": "Kp. Carang Pulang Kidul, RT 04. RW 06, Ds. Cikarawang, Kec Dramaga, Kab Bogor",
+        "aparkostUnitId": "AS002",
+        "aparkostTower": "1",
+        "aparkostFloor": "3",
+        "aparkostNo": "331"
     }
 ]
 

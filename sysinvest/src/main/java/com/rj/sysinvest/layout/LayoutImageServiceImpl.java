@@ -23,11 +23,11 @@ public class LayoutImageServiceImpl extends LayoutImageServiceAbstract {
     @Override
     public LayoutData getLayoutImage(Tower tower, List<String> selectedRooms, String level) {
 
-        LayoutTemplateInfo layoutTemplateInfo = getLayoutTemplateInfo(tower.getId());
+        LayoutTemplateInfo layoutTemplateInfo;// = getLayoutTemplateInfo(tower.getId());
 
         BufferedImage img;
         try {
-            img = ImageIO.read(getLayoutTemplateFile(layoutTemplateInfo));
+            img = ImageIO.read(getLayoutTemplateFile(null));//layoutTemplateInfo));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -35,7 +35,7 @@ public class LayoutImageServiceImpl extends LayoutImageServiceAbstract {
         Graphics2D g = img.createGraphics();
         g.drawImage(img, 0, 0, null);
 
-        drawOverlay(g, layoutTemplateInfo, tower, selectedRooms, level);
+        //drawOverlay(g, layoutTemplateInfo, tower, selectedRooms, level);
 
         g.dispose();
 
@@ -47,8 +47,8 @@ public class LayoutImageServiceImpl extends LayoutImageServiceAbstract {
             layoutImage.setImageType(layoutImageFormat);
             layoutImage.setImageRaw(bytes);
             layoutImage.setLevel(level);
-            layoutImage.setTowerId(tower.getId());
-            layoutImage.setSiteId(tower.getSite().getId());
+            //layoutImage.setTowerId(tower.getId());
+            //layoutImage.setSiteId(tower.getSite().getId());
             layoutImage.setSelectedRooms(selectedRooms);
             return layoutImage;
         } catch (IOException ex) {

@@ -1,16 +1,17 @@
 package com.rj.sysinvest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.Version;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import lombok.Data;
 
 /**
@@ -19,23 +20,37 @@ import lombok.Data;
  */
 @Entity
 @Data
+@Table(name = Investment.TABLE_NAME)
 public class Investment implements Serializable {
 
+    public static final String TABLE_NAME = "investment";
+
     @Id
-    private String id;
-    @Column
-    private Timestamp trxTimestamp;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Investor investor;
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Room> rooms;
+    public static final String PROP_INVESTOR = "investor";
 
-    @Version
-    private int version;
+    @OneToOne
+    private Aparkost aparkost;
+    public static final String PROP_APARKOST = "aparkost";
 
-    @PrePersist
-    void prePersist() {
-        setTrxTimestamp(new Timestamp(System.currentTimeMillis()));
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Acquisition acquisition;
+    public static final String PROP_ACQUISITION = "acquisition";
 
+    @Column(length = 19)
+    private Long marketRate;
+
+    @Column
+    private Timestamp marketRateUpdate;
+
+    @Column(length = 19)
+    private Double soldRate;
+
+    @Column
+    private Timestamp timestamp;
 }

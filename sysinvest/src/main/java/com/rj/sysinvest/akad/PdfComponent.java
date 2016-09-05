@@ -105,6 +105,7 @@ public class PdfComponent {
         return baos.toByteArray();
     }
 
+    /*
     public static void main(String[] args) throws Exception {
 
 //        AkadFormData data = new AkadFormData();
@@ -128,4 +129,5 @@ public class PdfComponent {
         );
         Files.write(Paths.get("contoh-merge.pdf"), one);
     }
+    */
 }

@@ -51,7 +51,7 @@
 
     function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
-        $urlRouterProvider.otherwise('/index/main');
+        $urlRouterProvider.otherwise('/index/investor');
 
         $ocLazyLoadProvider.config({
             debug: true
@@ -74,14 +74,14 @@
                     url: "/index",
                     templateUrl: "app/common/main-layout-view.html"
                 })
-                .state('index.main', {
-                    url: "/main",
-                    data: {pageTitle: 'Main', roles: ['admin']},
-                    templateUrl: "app/main/main.html",
-                    controller: "MainCtrl",
+                .state('index.aparkost', {
+                    url: "/aparkost",
+                    data: {pageTitle: 'Aparkost', roles: ['admin']},
+                    templateUrl: "app/aparkost/aparkost.html",
+                    controller: "AparkostCtrl",
                     resolve: {
                         load: function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('app/main/main-ctrl.js');
+                            return $ocLazyLoad.load('app/aparkost/aparkost-ctrl.js');
                         }
                     }
                 })

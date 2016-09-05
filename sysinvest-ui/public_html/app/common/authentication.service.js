@@ -54,6 +54,8 @@
                             // execute callback with false to indicate failed login
                             callback(false);
                         }
+                    }).error(function(err){
+                        $log.debug(err);
                     });
         }
 

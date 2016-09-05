@@ -1,12 +1,12 @@
 package com.rj.sysinvest.dao;
 
-import com.rj.sysinvest.model.Room;
+import com.rj.sysinvest.model.Aparkost;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  *
  * @author Rais <rais.gowa@gmail.com>
  */
-public interface RoomRepository extends CrudRepository<Room, String> {
+public interface AparkostRepository extends CrudRepository<Aparkost, String> {
 
 }

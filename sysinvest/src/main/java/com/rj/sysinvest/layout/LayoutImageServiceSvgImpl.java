@@ -26,7 +26,7 @@ public class LayoutImageServiceSvgImpl extends LayoutImageServiceAbstract {
     @Override
     public LayoutData getLayoutImage(Tower tower, List<String> selectedRooms, String level) {
 
-        LayoutTemplateInfo layoutTemplateInfo = getLayoutTemplateInfo(tower.getId());
+        LayoutTemplateInfo layoutTemplateInfo = getLayoutTemplateInfo(null);//tower.getId());
         Document document;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -51,8 +51,8 @@ public class LayoutImageServiceSvgImpl extends LayoutImageServiceAbstract {
             layoutImage.setImageType("svg");
             layoutImage.setImageRaw(bytes);
             layoutImage.setLevel(level);
-            layoutImage.setTowerId(tower.getId());
-            layoutImage.setSiteId(tower.getSite().getId());
+            //layoutImage.setTowerId(tower.getId());
+            //layoutImage.setSiteId(tower.getSite().getId());
             layoutImage.setSelectedRooms(selectedRooms);
             return layoutImage;
         } catch (SVGGraphics2DIOException ex) {
