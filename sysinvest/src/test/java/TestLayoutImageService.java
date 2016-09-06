@@ -42,14 +42,14 @@ public class TestLayoutImageService {
 
     private static List<Aparkost> getData() {
         List<Aparkost> list = new ArrayList();
-        list.add(createAparkost("001", "001", "G", "Tower1", "Site1"));
-        list.add(createAparkost("009", "009", "G", "Tower1", "Site1"));
-        list.add(createAparkost("001", "201", "2", "Tower1", "Site1"));
-        list.add(createAparkost("008", "208", "2", "Tower1", "Site1"));
+        list.add(createAparkost(1, "001", "G", "Tower1", "Site1"));
+        list.add(createAparkost(9, "009", "G", "Tower1", "Site1"));
+        list.add(createAparkost(1, "201", "2", "Tower1", "Site1"));
+        list.add(createAparkost(8, "208", "2", "Tower1", "Site1"));
         return list;
     }
 
-    static Aparkost createAparkost(String index, String aparkostName, String floor, String tower, String site) {
+    static Aparkost createAparkost(long index, String aparkostName, String floor, String tower, String site) {
         Aparkost a = new Aparkost();
         a.setIndex(index);
         a.setName(aparkostName);
