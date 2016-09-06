@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -34,86 +35,71 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private Font siteFont = new Font("Verdana", Font.BOLD, 24);
-    private Color siteColor = Color.BLACK;
-    private Font towerFont = new Font("Verdana", Font.BOLD, 24);
-    private Color towerColor = Color.BLACK;
-    private Font levelFont = new Font("Verdana", Font.BOLD, 24);
-    private Color levelColor = Color.BLACK;
-    private Font roomNameFont = new Font("Verdana", Font.BOLD, 12);
-    private Color roomNameColor = Color.BLACK;
-    private Color highlightedRoomColor = new Color(255, 255, 0, 127);
+    private Font aparkostNameFont = new Font("Verdana", Font.BOLD, 12);
+    private Color aparkostNameColor = Color.BLACK;
+    private Color highlightedAparkostColor = new Color(255, 255, 0, 127);
 
     static Point createPoint(int[] xy) {
         return new Point(xy[0], xy[1]);
     }
 
-    protected void drawOverlay(Graphics2D g, LayoutTemplateInfo layout, Tower tower, List<String> listOfSelectedRoomId, String selectedLevel) {
+    /**
+     *
+     * @param g is Graphics2D
+     * @param layout
+     * @param listOfAparkost
+     * @param selectedTower
+     * @param selectedFloor
+     */
+    protected void drawOverlay2(Graphics2D g, LayoutTemplateInfo layout, List<Aparkost> listOfAparkost, Tower selectedTower, String selectedFloor) {
 
-        // Draw string for Site Name
-        g.setFont(siteFont);
-        g.setColor(siteColor);
-        Point sitePoint = createPoint(layout.getSitePoint());
-        g.drawString(tower.getSite().getName(), sitePoint.x, sitePoint.y);
+        // Filter by selected tower and selected floor
+        List<Aparkost> listOfApakostBySelectedTowerAndFloor = listOfAparkost.stream()
+                .filter(aparkost -> aparkost.getTower().equals(selectedTower))
+                .filter(aparkost -> aparkost.getFloor().equals(selectedFloor))
+                .collect(Collectors.toList());
 
-        // Draw string for Tower Name
-        g.setFont(towerFont);
-        g.setColor(towerColor);
-        Point towerPoint = createPoint(layout.getTowerPoint());
-        g.drawString(tower.getName(), towerPoint.x, towerPoint.y);
-
-        // Draw string for Level
-        g.setFont(levelFont);
-        g.setColor(levelColor);
-        Point levelPoint = createPoint(layout.getLevelPoint());
-        g.drawString(tower.getName(), levelPoint.x, levelPoint.y);
-
-        // collect all rooms filter by selectedLevel
-//        List<Aparkost> listOfRoomBySelectedLevel = tower.getAparkosts().stream()
-//                .filter(room -> selectedLevel.equals(room.getFloor()))
-//                .collect(Collectors.toList());
-
-//        listOfRoomBySelectedLevel.stream()
-//                // filter rooms by selectedRoomId
-//                .filter(room -> listOfSelectedRoomId.contains(room.getId()))
-//                // Draw filled polygon for All Selected Rooms  
-//                .forEach(room -> {
-//                    // get LayoutRoom from LayoutTemplateInfo
-//                    Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getIndex());
-//                    if (layoutRoom.isPresent()) {
-//                        g.setColor(getHighlightedRoomColor());
-//                        g.fill(layoutRoom.get().toPolygon());
-//                    } else {
-//                        throw new RuntimeException("No area defined for room " + room.getId());
-//                    }
-//                });
+        // Draw highlighted area for selected aparkost
+        listOfApakostBySelectedTowerAndFloor
+                // Draw filled polygon for All Selected Aparkost  
+                .forEach(aparkost -> {
+                    // get LayoutRoom from LayoutTemplateInfo
+                    Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(aparkost.getIndex());
+                    if (layoutRoom.isPresent()) {
+                        g.setColor(getHighlightedAparkostColor());
+                        g.fill(layoutRoom.get().toPolygon());
+                    } else {
+                        throw new RuntimeException("No area defined for aparkost " + aparkost.getName());
+                    }
+                });
 
         // Draw string room names for all room
-//        listOfRoomBySelectedLevel.forEach(room -> {
-//            Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(room.getIndex());
-//            if (layoutRoom.isPresent()) {
-//                int[][] points = layoutRoom.get().getArea();
-//                if (points.length > 0) {
-//                    Point p = createPoint(points[0]);
-//                    p.translate(3, 3 + roomNameFont.getSize());
-//                    g.setColor(roomNameColor);
-//                    g.setFont(roomNameFont);
-//                    g.drawString(room.getName(), p.x, p.y);
-//                } else {
-//                    throw new RuntimeException("No coordinates defined for room " + room.getId());
-//                }
-//            } else {
-//                throw new RuntimeException("No area defined for room " + room.getId());
-//            }
-//        });
+        listOfApakostBySelectedTowerAndFloor.forEach(aparkost -> {
+            Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(aparkost.getIndex());
+            if (layoutRoom.isPresent()) {
+                int[][] points = layoutRoom.get().getArea();
+                if (points.length > 0) {
+                    Point p = createPoint(points[0]);
+                    p.translate(3, 3 + aparkostNameFont.getSize());
+                    g.setColor(aparkostNameColor);
+                    g.setFont(aparkostNameFont);
+                    g.drawString(aparkost.getName(), p.x, p.y);
+                } else {
+                    throw new RuntimeException("No coordinates defined for aparkost " + aparkost.getName());
+                }
+            } else {
+                throw new RuntimeException("No area defined for aparkost " + aparkost.getName());
+            }
+        });
     }
 
     @Value("${layoutTemplateDirectory}")
     private String layoutTemplateDirectory;
 
-    public LayoutTemplateInfo getLayoutTemplateInfo(String towerId) {
+    public LayoutTemplateInfo getLayoutTemplateInfo(Tower tower) {
         try {
-            Path path = Paths.get(getLayoutTemplateDirectory(), towerId + ".json");
+            String fileName = tower.getSite().getName() + "_" + tower.getName() + ".json";
+            Path path = Paths.get(layoutTemplateDirectory, fileName);
             return getObjectMapper().readValue(Files.newInputStream(path), LayoutTemplateInfo.class);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -121,59 +107,54 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
     }
 
     public File getLayoutTemplateFile(LayoutTemplateInfo layoutTemplateInfo) throws IOException {
-        Path path = Paths.get(getLayoutTemplateDirectory(), layoutTemplateInfo.getTemplatePath());
-        return path.toFile();
+        return Paths.get(layoutTemplateDirectory, layoutTemplateInfo.getTemplatePath()).toFile();
     }
 
     public InputStream getLayoutTemplateInputStream(LayoutTemplateInfo layoutTemplateInfo) throws IOException {
-        Path path = Paths.get(getLayoutTemplateDirectory(), layoutTemplateInfo.getTemplatePath());
-        return Files.newInputStream(path);
+        return new FileInputStream(getLayoutTemplateFile(layoutTemplateInfo));
     }
 
     public byte[] getLayoutTemplateBytes(LayoutTemplateInfo layoutTemplateInfo) throws IOException {
-        Path path = Paths.get(getLayoutTemplateDirectory(), layoutTemplateInfo.getTemplatePath());
-        return Files.readAllBytes(path);
+        return Files.readAllBytes(getLayoutTemplateFile(layoutTemplateInfo).toPath());
     }
 
-//    @Override
-//    public Map<String, byte[]> getLayoutImages(Tower tower, List<String> listOfSelectedRoomId) {
-//        // Map<Level, List<RoomId>> mapOfLevelOfSelectedRooms
-//        Map<String, List<String>> mapOfLevelOfSelectedRooms = new HashMap();
-//        tower.getRooms().stream()
-//                .filter(r -> listOfSelectedRoomId.contains(r.getId()))
-//                .forEach(r -> {
-//                    List<String> rooms = mapOfLevelOfSelectedRooms.get(r.getLevelId());
-//                    if (rooms == null) {
-//                        rooms = new ArrayList();
-//                        mapOfLevelOfSelectedRooms.put(r.getLevelId(), rooms);
-//                    }
-//                    rooms.add(r.getId());
-//                });
-//        Map<String, byte[]> listOfLayoutOfLevel = new HashMap();
-//        mapOfLevelOfSelectedRooms.forEach((level, selectedRooms) -> {
-//            byte[] levelLayout = getLayoutImage(tower, selectedRooms, level);
-//            listOfLayoutOfLevel.put(level, levelLayout);
-//        });
-//        return listOfLayoutOfLevel;
-//    }
     @Override
-    public List<LayoutData> getLayoutImages(Tower tower, List<String> listOfSelectedRoomId) {
-        // Map<Level, List<RoomId>> mapOfLevelOfSelectedRooms
-        Map<String, List<String>> mapOfLevelOfSelectedRooms = new HashMap();
-//        tower.getAparkosts().stream()
-//                .filter(r -> listOfSelectedRoomId.contains(r.getId()))
-//                .forEach(r -> {
-//                    List<String> rooms = mapOfLevelOfSelectedRooms.get(r.getFloor());
-//                    if (rooms == null) {
-//                        rooms = new ArrayList();
-//                        mapOfLevelOfSelectedRooms.put(r.getFloor(), rooms);
-//                    }
-//                    //rooms.add(r.getId());
-//                });
-        List<LayoutData> listOfLayoutOfLevel = new ArrayList();
-        mapOfLevelOfSelectedRooms.forEach((level, selectedRooms) -> {
-            listOfLayoutOfLevel.add(getLayoutImage(tower, selectedRooms, level));
+    public List<LayoutData> getLayoutImages(List<Aparkost> selectedAparkosts, Tower selectedTower) {
+        Map<String, List<Aparkost>> mapOfSelectedAparkostByLevel = new HashMap();
+        selectedAparkosts.stream()
+                .filter(aparkost -> selectedTower.equals(aparkost.getTower()))
+                .forEach(aparkost -> {
+                    List<Aparkost> rooms = mapOfSelectedAparkostByLevel.get(aparkost.getFloor());
+                    if (rooms == null) {
+                        rooms = new ArrayList();
+                        mapOfSelectedAparkostByLevel.put(aparkost.getFloor(), rooms);
+                    }
+                    rooms.add(aparkost);
+                });
+        List<LayoutData> result = new ArrayList();
+        mapOfSelectedAparkostByLevel.forEach((floor, aparkosts) -> {
+            result.add(getLayoutImage(aparkosts, selectedTower, floor));
         });
-        return listOfLayoutOfLevel;
+        return result;
+    }
+
+    @Override
+    public List<LayoutData> getLayoutImages(List<Aparkost> selectedAparkosts) {
+        Map<Tower, List<Aparkost>> mapOfSelectedAparkostByTower = new HashMap();
+        selectedAparkosts.stream()
+                .forEach(aparkost -> {
+                    Tower tower = aparkost.getTower();
+                    List<Aparkost> aparkosts = mapOfSelectedAparkostByTower.get(tower);
+                    if (aparkosts == null) {
+                        aparkosts = new ArrayList();
+                        mapOfSelectedAparkostByTower.put(tower, aparkosts);
+                    }
+                    aparkosts.add(aparkost);
+                });
+        List<LayoutData> result = new ArrayList();
+        mapOfSelectedAparkostByTower.forEach((tower, aparkosts) -> {
+            result.addAll(getLayoutImages(aparkosts, tower));
+        });
+        return result;
     }
 }

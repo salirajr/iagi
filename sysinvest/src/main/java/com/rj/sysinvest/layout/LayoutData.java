@@ -10,8 +10,8 @@ import lombok.Data;
 @Data
 public class LayoutData {
 
-    private String siteId;
-    private String towerId;
+    private String siteName;
+    private String towerName;
     private String level;
     private String imageType;
     private byte[] imageRaw;

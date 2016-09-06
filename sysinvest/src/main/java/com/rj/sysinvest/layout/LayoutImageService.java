@@ -1,5 +1,6 @@
 package com.rj.sysinvest.layout;
 
+import com.rj.sysinvest.model.Aparkost;
 import com.rj.sysinvest.model.Tower;
 import java.util.List;
 
@@ -10,24 +11,34 @@ import java.util.List;
 public interface LayoutImageService {
 
     /**
+     * Generate layout images for each tower and level in selected rooms. If
+     * selected rooms contains multiple tower and/or level, then it will
+     * generate multiple layout images for each tower and level.
+     *
+     * @param selectedAparkosts
+     * @return list of layout per level
+     */
+    List<LayoutData> getLayoutImages(List<Aparkost> selectedAparkosts);
+
+    /**
      * Generate layout images for each level in selected rooms. If selected
      * rooms contains multiple level, then it will generate multiple layout
      * images for each level.
      *
-     * @param tower
-     * @param listOfSelectedRoomId
+     * @param selectedTower
+     * @param selectedAparkosts
      * @return list of layout per level
      */
-    List<LayoutData> getLayoutImages(Tower tower, List<String> listOfSelectedRoomId);
+    List<LayoutData> getLayoutImages(List<Aparkost> selectedAparkosts, Tower selectedTower);
 
     /**
      * Generate single layout image for selected level
      *
-     * @param tower
-     * @param selectedLevel
-     * @param listOfSelectedRoomId
+     * @param selectedAparkosts
+     * @param selectedTower
+     * @param selectedFloor
      * @return single layout image for selected level
      */
-    LayoutData getLayoutImage(Tower tower, List<String> listOfSelectedRoomId, String selectedLevel);
+    LayoutData getLayoutImage(List<Aparkost> selectedAparkosts, Tower selectedTower, String selectedFloor);
 
 }

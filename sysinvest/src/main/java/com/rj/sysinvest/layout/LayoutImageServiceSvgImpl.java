@@ -1,10 +1,12 @@
 package com.rj.sysinvest.layout;
 
+import com.rj.sysinvest.model.Aparkost;
 import com.rj.sysinvest.model.Tower;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,9 +26,9 @@ import org.xml.sax.SAXException;
 public class LayoutImageServiceSvgImpl extends LayoutImageServiceAbstract {
 
     @Override
-    public LayoutData getLayoutImage(Tower tower, List<String> selectedRooms, String level) {
+    public LayoutData getLayoutImage(List<Aparkost> selectedAparkosts, Tower selectedTower, String selectedFloor) {
 
-        LayoutTemplateInfo layoutTemplateInfo = getLayoutTemplateInfo(null);//tower.getId());
+        LayoutTemplateInfo layoutTemplateInfo = getLayoutTemplateInfo(selectedTower);
         Document document;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -39,7 +41,7 @@ public class LayoutImageServiceSvgImpl extends LayoutImageServiceAbstract {
         // Create an instance of the SVG Generator.
         SVGGraphics2D g = new SVGGraphics2D(document);
 
-        drawOverlay(g, layoutTemplateInfo, tower, selectedRooms, level);
+        drawOverlay2(g, layoutTemplateInfo, selectedAparkosts, selectedTower, selectedFloor);
 
         g.dispose();
 
@@ -50,10 +52,13 @@ public class LayoutImageServiceSvgImpl extends LayoutImageServiceAbstract {
             LayoutData layoutImage = new LayoutData();
             layoutImage.setImageType("svg");
             layoutImage.setImageRaw(bytes);
-            layoutImage.setLevel(level);
-            //layoutImage.setTowerId(tower.getId());
-            //layoutImage.setSiteId(tower.getSite().getId());
-            layoutImage.setSelectedRooms(selectedRooms);
+            layoutImage.setLevel(selectedFloor);
+            layoutImage.setTowerName(selectedTower.getName());
+            layoutImage.setSiteName(selectedTower.getSite().getName());
+            List<String> listOfAparkostId = selectedAparkosts.stream()
+                    .map(aparkost -> aparkost.getFloor())
+                    .collect(Collectors.toList());
+            layoutImage.setSelectedRooms(listOfAparkostId);
             return layoutImage;
         } catch (SVGGraphics2DIOException ex) {
             throw new RuntimeException(ex);

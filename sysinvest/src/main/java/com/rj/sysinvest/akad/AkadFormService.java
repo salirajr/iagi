@@ -1,6 +1,6 @@
 package com.rj.sysinvest.akad;
 
-import com.rj.sysinvest.model.Investment;
+import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Investor;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -21,17 +21,21 @@ public class AkadFormService {
     private String formPath = "template/akad.pdf";
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-    public byte[] generatePdf(Investment investment) throws IOException {
-        AkadFormData d = new AkadFormData();
-//        setPihakKeduaFromInvestor(d, investment.getInvestor());
+    public byte[] generatePdf(Acquisition acquisition) throws IOException {
+        AkadFormData d = generateAkadFormData(acquisition);
         return pdfService.loadFillSaveToBytes(formPath, d);
     }
 
-    private void setPihakKeduaFromInvestor(AkadFormData d, Investor i) {
+    private AkadFormData generateAkadFormData(Acquisition acquisition) {
+        AkadFormData d = new AkadFormData();
+
+        Investor i = acquisition.getInvestor();
         d.setPihakKeduaNama(i.getFullName());
         d.setPihakKeduaPekerjaan(i.getOccupation());
         d.setPihakKeduaAlamat1(i.getAddress());
         d.setPihakKeduaKTP(i.getNationalId());
         d.setPihakKeduaTTL(i.getBirthPlace() + ", " + dateFormat.format(i.getBirthDate()));
+
+        return d;
     }
 }

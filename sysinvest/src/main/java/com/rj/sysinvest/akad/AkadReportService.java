@@ -1,5 +1,6 @@
 package com.rj.sysinvest.akad;
 
+import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Investment;
 import javax.annotation.Resource;
 import lombok.Data;
@@ -28,10 +29,10 @@ public class AkadReportService {
          3. layoutImagePdf <- load svg, draw overlay, load jrxml, fill data, export to pdf
          4. finalAkadPdf <- merge 1,2,3 into single pdf file    
      */
-    public byte[] generateCompleteAkadPdf(Investment investment) throws Exception {
-        byte[] akadPdf = akadFormService.generatePdf(investment);
-        byte[] lampiranPembayaranPdf = lampiranPembayaranService.generatePdf(investment);
-        byte[] lampiranLayoutPdf = lampiranLayoutService.generatePdf(investment);
+    public byte[] generateCompleteAkadPdf(Acquisition acquisition) throws Exception {
+        byte[] akadPdf = akadFormService.generatePdf(acquisition);
+        byte[] lampiranPembayaranPdf = lampiranPembayaranService.generatePdf(acquisition);
+        byte[] lampiranLayoutPdf = lampiranLayoutService.generatePdf(acquisition);
         return pdfService.mergePdf(akadPdf, lampiranPembayaranPdf, lampiranLayoutPdf);
     }
 

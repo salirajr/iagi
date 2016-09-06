@@ -1,6 +1,6 @@
 package com.rj.sysinvest.akad;
 
-import com.rj.sysinvest.model.Investment;
+import com.rj.sysinvest.model.Acquisition;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,9 +23,13 @@ public class LampiranPembayaranService {
     private JasperComponent jasperService;
     private String jrxmlPath = "template/lampiran-pembayaran.jrxml";
 
-    public byte[] generatePdf(Investment investment) throws IOException, JRException {
+    public byte[] generatePdf(Acquisition acquisition) throws IOException, JRException {
+        List<LampiranPembayaranData> dataList = generateListOfLampiranPembayaranData(acquisition);
         Map<String, Object> params = new HashMap();
-        List<LampiranPembayaranData> dataList = new ArrayList();
         return jasperService.loadFillExportToPdf(jrxmlPath, params, dataList);
+    }
+
+    private List<LampiranPembayaranData> generateListOfLampiranPembayaranData(Acquisition acquisition) {
+        return new ArrayList();
     }
 }

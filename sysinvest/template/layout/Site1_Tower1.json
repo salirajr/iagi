@@ -1,0 +1,18 @@
+{
+    "id": "Site1_Tower1",
+    "description": "some description",
+    "templatePath": "Site1_Tower1.jpg",
+    "templateType": "jpg",
+    "rooms": [
+        {
+            "positionId": "001",
+            "area": [[11, 22], [44, 22], [44, 55], [11, 55]]
+        }, {
+            "positionId": "008",
+            "area": [[66, 77], [99, 77], [99, 55], [120, 55]]
+        }, {
+            "positionId": "009",
+            "area": [[111, 122], [144, 122], [144, 155], [111, 155]]
+        }
+    ]
+}
