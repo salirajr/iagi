@@ -1,6 +1,6 @@
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rj.sysinvest.layout.LayoutData;
+import com.rj.sysinvest.layout.LayoutImageData;
 import com.rj.sysinvest.layout.LayoutImageServiceImpl;
 import com.rj.sysinvest.model.Aparkost;
 import com.rj.sysinvest.model.Site;
@@ -26,11 +26,11 @@ public class TestLayoutImageService {
         LayoutImageServiceImpl impl = new LayoutImageServiceImpl();
         impl.setLayoutTemplateDirectory("template/layout");
         impl.setObjectMapper(new ObjectMapper());
-        List<LayoutData> result = impl.getLayoutImages(selectedAparkosts);
+        List<LayoutImageData> result = impl.getLayoutImages(selectedAparkosts);
 
         // write to file
-        for (LayoutData d : result) {
-            String fileName = d.getSiteName() + "_" + d.getTowerName() + "_" + d.getLevel();
+        for (LayoutImageData d : result) {
+            String fileName = d.getSiteName() + "_" + d.getTowerName() + "_" + d.getFloor();
             Path path = Paths.get("result-test", fileName + "." + d.getImageType());
             System.out.println("Writing to file " + path);
             if (!Files.exists(path.getParent())) {

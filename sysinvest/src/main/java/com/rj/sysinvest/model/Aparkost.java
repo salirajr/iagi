@@ -40,6 +40,10 @@ public class Aparkost implements Serializable {
     private Tower tower;
     public static final String PROP_TOWER = "tower";
 
+    @ManyToOne
+    private Investor investor;
+    public static final String PROP_INVESTOR = "investor";
+
     @Version
     private Timestamp version;
 
