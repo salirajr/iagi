@@ -1,9 +1,7 @@
 package com.rj.sysinvest.layout;
 
-import java.awt.Point;
 import java.awt.Polygon;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import lombok.Data;
 
@@ -18,13 +16,10 @@ public class LayoutTemplateInfo {
 //    "id": "layout-01",
 //    "description": "some description",
 //    "templatePath": "/path/to/file",
-//    "templateType": "svg",
-//    "sitePoint" : [1,2],
-//    "towerPoint" : [1,3],
-//    "levelPoint" : [99,33],    
+//    "templateType": "jpg",
 //    "rooms": [
 //        {
-//            "positionId": "01",
+//            "positionId": 1,
 //            "area": [[1, 22], [3, 12], [33, 213]]
 //        }
 //    ]
@@ -38,16 +33,16 @@ public class LayoutTemplateInfo {
 
     private List<LayoutRoom> rooms;
 
-    public Optional<LayoutTemplateInfo.LayoutRoom> findLayoutRoomByPositionId(String positionId) {
+    public Optional<LayoutTemplateInfo.LayoutRoom> findLayoutRoomByPositionId(long positionId) {
         return getRooms().stream()
-                .filter(roomArea -> roomArea.getPositionId().equals(positionId))
+                .filter(roomArea -> roomArea.getPositionId() == positionId)
                 .findFirst();
     }
 
     @Data
     public static class LayoutRoom {
 
-        private String positionId;
+        private long positionId;
         private int[][] area;
 
         public Polygon toPolygon() {
