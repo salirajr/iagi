@@ -64,7 +64,7 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
                 // Draw filled polygon for All Selected Aparkost  
                 .forEach(aparkost -> {
                     // get LayoutRoom from LayoutTemplateInfo
-                    Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(aparkost.getIndex());
+                    Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByIndex(aparkost.getIndex());
                     if (layoutRoom.isPresent()) {
                         g.setColor(getHighlightedAparkostColor());
                         g.fill(layoutRoom.get().toPolygon());
@@ -75,7 +75,7 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
 
         // Draw string room names for all room
         listOfApakostBySelectedTowerAndFloor.forEach(aparkost -> {
-            Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByPositionId(aparkost.getIndex());
+            Optional<LayoutRoom> layoutRoom = layout.findLayoutRoomByIndex(aparkost.getIndex());
             if (layoutRoom.isPresent()) {
                 int[][] points = layoutRoom.get().getArea();
                 if (points.length > 0) {
