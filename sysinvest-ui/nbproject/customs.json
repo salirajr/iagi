@@ -1,0 +1,9 @@
+{
+    "elements": {},
+    "attributes": {
+        "minimaliza-sidebar": {},
+        "ui-sref-active": {
+            "context": "li"
+        }
+    }
+}

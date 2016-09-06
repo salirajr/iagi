@@ -27,14 +27,14 @@ public class Aparkost implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20)
+    @Column(unique = true, length = 20)
     private String name;
 
     @Column(length = 2)
     private String floor;
 
     @Column(length = 3)
-    private String index;
+    private Long index;
 
     @ManyToOne
     private Tower tower;

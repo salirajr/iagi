@@ -6,7 +6,6 @@
 package com.rj.sysinvest.service;
 
 import com.rj.sysinvest.dao.InvestmentRepository;
-import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Investment;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -28,11 +27,6 @@ public class InvestmentService {
     
     public Investment retById(Long id){
         Investment result = repo.findOne(id);
-//        if(result.getAcquisition() != null && result.getAcquisition().getId() != null){
-//             Acquisition acquisition = manager.find(Acquisition.class, result.getId());
-//             result.setAcquisition(acquisition);
-//             System.out.println(result.getAcquisition().getEndDate());
-//        }
         return result;
     }
 }
