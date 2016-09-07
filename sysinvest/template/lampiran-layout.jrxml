@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="lampiran-layout" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8f4daeb5-99a5-40f1-a813-76ec8ef2ebe6">
 	<property name="ireport.zoom" value="1.2100000000000053"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="101"/>
+	<property name="ireport.y" value="293"/>
 	<field name="imageInputStream" class="java.io.InputStream"/>
 	<field name="towerName" class="java.lang.String"/>
 	<field name="floor" class="java.lang.String"/>
@@ -55,7 +55,7 @@
 		<band height="20" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="150" splitType="Stretch">
+		<band height="272" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="100" height="15" uuid="4261ef1c-bc48-4c96-a0ea-f11d9f86b8da"/>
 				<textElement>
@@ -99,7 +99,7 @@
 				<textFieldExpression><![CDATA[$F{floor}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="0" y="30" width="555" height="101" uuid="1f35453b-5a5a-4ad5-9f6c-3968806609b5"/>
+				<reportElement x="0" y="30" width="555" height="242" uuid="1f35453b-5a5a-4ad5-9f6c-3968806609b5"/>
 				<imageExpression><![CDATA[$F{imageInputStream}]]></imageExpression>
 			</image>
 		</band>
