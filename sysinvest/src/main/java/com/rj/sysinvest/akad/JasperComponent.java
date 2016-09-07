@@ -36,10 +36,11 @@ import org.springframework.stereotype.Component;
 public class JasperComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JasperComponent.class);
+    private boolean alwaysCompile = false;
 
     protected JasperReport loadReport(String jrxmlFilePathString) throws JRException, IOException {
         Path pathJasper = Paths.get(jrxmlFilePathString + ".jasper");
-        if (Files.exists(pathJasper)) {
+        if (!alwaysCompile && Files.exists(pathJasper)) {
             LOGGER.debug("load {}", jrxmlFilePathString, ".jasper");
             return (JasperReport) JRLoader.loadObject(pathJasper.toFile());
         }

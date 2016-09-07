@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Data
 public class LayoutImageServiceImpl extends LayoutImageServiceAbstract {
 
-    private String layoutImageFormat = "png";
+    private String imageType = "png";
 
     @Override
     public LayoutImageData getLayoutImage(List<Aparkost> selectedAparkosts, Tower selectedTower, String selectedFloor) {
@@ -42,10 +42,10 @@ public class LayoutImageServiceImpl extends LayoutImageServiceAbstract {
 
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(img, layoutImageFormat, baos);
+            ImageIO.write(img, imageType, baos);
             byte[] bytes = baos.toByteArray();
             LayoutImageData layoutData = new LayoutImageData();
-            layoutData.setImageType(layoutImageFormat);
+            layoutData.setImageType(imageType);
             layoutData.setImageRaw(bytes);
             layoutData.setFloor(selectedFloor);
             layoutData.setTowerName(selectedTower.getName());

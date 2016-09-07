@@ -1,17 +1,17 @@
 package com.rj.sysinvest.akad;
 
-import com.rj.sysinvest.dao.AcquisitionRepository;
-import com.rj.sysinvest.dao.TowerRepository;
 import com.rj.sysinvest.layout.LayoutImageData;
 import com.rj.sysinvest.layout.LayoutImageService;
 import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Aparkost;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.Data;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,21 +21,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Data
-public class LampiranLayoutService {
+public class LampiranLayoutReportService {
 
     @Resource(name = "LayoutImageServiceImpl")
     private LayoutImageService layoutImageService;
     @Resource
-    private TowerRepository towerRepository;
-    @Resource
     private JasperComponent jasperService;
-    @Value("${lampiranLayoutJrxmlPath}")
-    private String lampiranLayoutJrxmlPath;
+    @Value("${LampiranLayoutReportService.jrxmlPath}")
+    private String jrxmlPath;
 
-    @Resource
-    private AcquisitionRepository acquisitionRepository;
-
-    public byte[] generatePdf(Acquisition acquisition) throws Exception {
+    public byte[] generatePdf(Acquisition acquisition) throws IOException, JRException {
         // get list of selected aparkost
         List<Aparkost> selectedAparkosts = acquisition.getInvestments().stream()
                 .map(investment -> investment.getAparkost())
@@ -43,12 +38,12 @@ public class LampiranLayoutService {
         return generatePdf(selectedAparkosts);
     }
 
-    public byte[] generatePdf(List<Aparkost> selectedAparkosts) throws Exception {
+    public byte[] generatePdf(List<Aparkost> selectedAparkosts) throws IOException, JRException {
         // get list of layout data
         List<LayoutImageData> layoutDataList = layoutImageService.getLayoutImages(selectedAparkosts);
         // generate report to pdf
         Map<String, Object> params = new HashMap();
-        return jasperService.loadFillExportToPdf(lampiranLayoutJrxmlPath, params, layoutDataList);
+        return jasperService.loadFillExportToPdf(jrxmlPath, params, layoutDataList);
     }
 
 }
