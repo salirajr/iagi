@@ -20,7 +20,7 @@ public class AkadReportService {
     @Resource
     private LampiranPembayaranReportService lampiranPembayaranService;
     @Resource
-    private AkadFormService akadFormService;
+    private AkadFormReportService akadFormService;
 
     /*
          1. akadPdf <- fill the akad pdf form
