@@ -1,9 +1,8 @@
 package com.rj.sysinvest.akad;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,23 +40,34 @@ public class JasperComponent {
     protected JasperReport loadReport(String jrxmlFilePathString) throws JRException, IOException {
         Path pathJasper = Paths.get(jrxmlFilePathString + ".jasper");
         if (!alwaysCompile && Files.exists(pathJasper)) {
-            LOGGER.debug("load {}", jrxmlFilePathString, ".jasper");
-            return (JasperReport) JRLoader.loadObject(pathJasper.toFile());
+            LOGGER.debug("start load {}", jrxmlFilePathString, ".jasper");
+            JasperReport jr = (JasperReport) JRLoader.loadObject(pathJasper.toFile());
+            LOGGER.debug("finish load {}", jrxmlFilePathString, ".jasper");
+            return jr;
         }
-        LOGGER.debug("load {}", jrxmlFilePathString);
         Path pathJrxml = Paths.get(jrxmlFilePathString);
         // load the jrxml design
+        LOGGER.debug("start load {}", jrxmlFilePathString);
         JasperDesign design = JRXmlLoader.load(pathJrxml.toFile());
-
+        LOGGER.debug("finish load {}", jrxmlFilePathString);
         // compile to bytes and save it to file and load from the bytes
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        LOGGER.debug("start compile {}", jrxmlFilePathString);
         JasperCompileManager.compileReportToStream(design, baos);
+        LOGGER.debug("finish compile {}", jrxmlFilePathString);
         // save it to file and load from the bytes
-        Files.write(pathJasper, baos.toByteArray());
-        // load the bytes
-        PipedInputStream in = new PipedInputStream();
-        baos.writeTo(new PipedOutputStream(in));
-        return (JasperReport) JRLoader.loadObject(in);
+        LOGGER.debug("start write to file {}", pathJasper);
+        byte[] bytes = baos.toByteArray();
+        Files.write(pathJasper, bytes);
+        LOGGER.debug("finish write to file {}", pathJasper);
+        // load the bytes 
+        LOGGER.debug("start write the bytes to inputStream");
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+        LOGGER.debug("finish write the bytes to inputStream");
+        LOGGER.debug("start load from inputStream");
+        JasperReport jr = (JasperReport) JRLoader.loadObject(in);
+        LOGGER.debug("finish load from inputStream");
+        return jr;
     }
 
     // Fill the report with the Data
