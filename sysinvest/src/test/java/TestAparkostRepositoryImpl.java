@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  */
 public class TestAparkostRepositoryImpl implements AparkostRepository {
 
-    List<Aparkost> dataList = TestLayoutImageService.getData();
+    List<Aparkost> dataList = TestUtil.createAparkostList();
 
     @Override
     public List<Aparkost> findByTowerId(Long towerId) {
