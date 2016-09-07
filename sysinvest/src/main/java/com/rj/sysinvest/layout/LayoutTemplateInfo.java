@@ -19,7 +19,7 @@ public class LayoutTemplateInfo {
 //    "templateType": "jpg",
 //    "rooms": [
 //        {
-//            "index": 1,
+//            "positionId": 1,
 //            "area": [[1, 22], [3, 12], [33, 213]]
 //        }
 //    ]
@@ -33,9 +33,9 @@ public class LayoutTemplateInfo {
 
     private List<LayoutRoom> rooms;
 
-    public Optional<LayoutTemplateInfo.LayoutRoom> findLayoutRoomByIndex(long index) {
+    public Optional<LayoutTemplateInfo.LayoutRoom> findLayoutRoomByPositionId(long positionId) {
         return getRooms().stream()
-                .filter(roomArea -> roomArea.getIndex() == index)
+                .filter(roomArea -> roomArea.getPositionId() == positionId)
                 .findFirst();
     }
 
