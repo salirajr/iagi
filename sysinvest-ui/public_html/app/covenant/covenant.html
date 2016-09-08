@@ -31,7 +31,7 @@
                             <label class="col-sm-2 control-label">Investor Id </label>
                             <div class="col-lg-3">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" ng-model="data.acquisition.investor.id" > 
+                                    <input type="text" class="form-control" ng-model="data.acquisition.investor.accountId"  ui-mask="AAAA9999" > 
                                     <span class="input-group-btn"> 
                                         <button type="button" class="btn btn-info" ng-click="getAccount()" ><i class="fa fa-check"></i></button> 
                                     </span>
@@ -224,7 +224,7 @@
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-10">
                                 <button class="btn btn-default" type="submit" ng-click="saveAcquisition()">Simpan</button>
-                                <button class="btn btn-primary" type="submit">Simpan dan Proses</button>
+                                <button class="btn btn-primary" type="submit" ng-click="generateAkad()">Simpan dan Proses</button>
                             </div>
                         </div>
                     </form>

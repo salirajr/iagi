@@ -1,0 +1,42 @@
+<div class="loginColumns animated fadeInDown">
+    <div class="row">
+
+        <div class="col-md-3">
+            <h2 class="font-bold">SI+</h2>
+            <p>SysINVEST</p>
+            <p>
+                <small>System Information Management of Investment</small>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <div class="ibox-content">
+                <form class="m-t" role="form" ng-submit="doLogin()">
+                    {{message}}
+                    <div class="form-group"> 
+                        <span class="help-block m-b-none"><small>Staff</small></span>
+                        <input ng-model="username" type="email" class="form-control" placeholder="admin@iagi.com" required>
+
+                    </div>
+                    <div class="form-group">
+                        <span class="help-block m-b-none"><small>Pin</small></span>
+                        <input ng-model="password" type="password" class="form-control" placeholder="******" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+
+                </form>
+                <p class="m-t">
+                    <small>{{message}}</small>
+                </p>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-6">
+            dev. <strong>sysinvest</strong> pt. iagi.
+        </div>
+        <div class="col-md-6 text-right">
+            <small><strong>Copyright</strong> RJ &copy; 2016-2018</small>
+        </div>
+    </div>
+</div>

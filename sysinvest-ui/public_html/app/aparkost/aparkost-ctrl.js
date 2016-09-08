@@ -7,7 +7,7 @@
     /*
      * MainCtrl - controller
      */
-    function AparkostCtrl($rootScope, $scope, $log, $http) {
+    function AparkostCtrl($scope, $log) {
         $log.debug('AparkostCtrl is loaded');
         $scope.userName = 'Example user';
         $scope.helloText = 'Hello You Welcome in SeedProject';

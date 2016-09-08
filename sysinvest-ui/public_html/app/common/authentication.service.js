@@ -18,7 +18,7 @@
         };
 
         function getCurrentRoles() {
-            return getCurrentUser() ? getCurrentUser().roles : undefined;
+            return getCurrentUser() ? getCurrentUser().roles ? getCurrentUser().roles : [] : [];
         }
 
         function getCurrentUser() {
@@ -42,9 +42,9 @@
                         if (response.token) {
                             // store username and token in local storage to keep user logged in between page refreshes
                             $localStorage.currentUser = {
-                                username: username, 
+                                username: username,
                                 token: response.token,
-                                roles:response.roles
+                                roles: response.roles
                             };
 
                             setupHttpHeader();
@@ -54,9 +54,9 @@
                             // execute callback with false to indicate failed login
                             callback(false);
                         }
-                    }).error(function(err){
-                        $log.debug(err);
-                    });
+                    }).error(function (err) {
+                $log.debug(err);
+            });
         }
 
         function Logout() {
