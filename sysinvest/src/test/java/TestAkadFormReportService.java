@@ -9,7 +9,6 @@ import com.rj.sysinvest.model.Acquisition;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author salirajr
@@ -20,7 +19,7 @@ public class TestAkadFormReportService {
         AkadFormReportService s = createAkadFormReportService();
         Acquisition a = TestUtil.createAcquisition();
         byte[] bytes = s.generatePdf(a);
-        String filepath = "result-test/akadform/" + a.getInvestor().getNickName();
+        String filepath = "result-test/akadform/" + a.getInvestor().getNickName() + ".pdf";
         TestUtil.writeToFile(filepath, bytes);
     }
 

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class TestUtil {
 
     public static void writeToFile(String filepath, byte[] bytes) throws IOException {
-        Path path = Paths.get(filepath + ".pdf");
+        Path path = Paths.get(filepath);
         System.out.println("Writing to file " + path);
         if (!Files.exists(path.getParent())) {
             Files.createDirectories(path.getParent());

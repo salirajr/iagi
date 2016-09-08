@@ -18,8 +18,8 @@ public class TestLampiranLayoutReportService {
         // generate pdf
         byte[] pdfBytes = svc.generatePdf(a);
         // Write the pdf to file
-        String fileName = a.getInvestor().getFullName();
-        TestUtil.writeToFile("result-test/lampiran-layout/" + fileName, pdfBytes);
+        String fileName = "result-test/lampiran-layout/" + a.getInvestor().getFullName() + ".pdf";
+        TestUtil.writeToFile(fileName, pdfBytes);
     }
 
     public static LampiranLayoutReportService createLampiranLayoutReportService() {
