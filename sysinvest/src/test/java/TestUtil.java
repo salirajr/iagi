@@ -37,6 +37,15 @@ public class TestUtil {
         Acquisition a = new Acquisition();
         a.setInvestor(investor);
         a.setInvestments(investments);
+        a.setBookingFee(1000000);
+        a.setDpFee(50000000);
+        a.setTotalFee(85000000);
+        a.setEndDate(new Date(System.currentTimeMillis()));
+        a.setInvestor(TestUtil.createInvestor());
+        a.setType("INSTALLMENT");
+        a.setNPeriod(27);
+        a.setRate(1000000);
+        a.setStartDate(new Date(System.currentTimeMillis()));
         return a;
     }
 
