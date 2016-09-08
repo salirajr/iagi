@@ -1,22 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rj.sysinvest.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,16 +32,19 @@ public class Acquisition implements Serializable {
     private Long id;
 
     @Column
-    private Timestamp timestamp;
+    private Timestamp trxTimestamp;
 
-    
     @OneToMany
     private Collection<Investment> investments;
-    
+
     @ManyToOne
     private Investor investor = null;
     public static final String PROP_INVESTOR = "investor";
-    
+
+    @ManyToOne
+    private Staff staff;
+    public static final String PROP_STAFF = "staff";
+
     @Column
     private String type;
 
@@ -82,6 +74,6 @@ public class Acquisition implements Serializable {
 
     @PrePersist
     void prePersist() {
-        setTimestamp(new Timestamp(System.currentTimeMillis()));
+        setTrxTimestamp(new Timestamp(System.currentTimeMillis()));
     }
 }
