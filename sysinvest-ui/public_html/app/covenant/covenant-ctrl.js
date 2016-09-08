@@ -14,10 +14,10 @@
         $scope.descriptionText = 'It is an application skeleton for a typical AngularJS web app. You can use it to quickly bootstrap your angular webapp projects and dev environment for these projects.';
 
         $scope.data = {};
-        $scope.data.selectedCStaff = {};
         $scope.dInput = {};
         $scope.data.acquisition = {};
         $scope.data.acquisition.investor = {};
+         $scope.data.acquisition.staff = {};
 
 
         if ($rootScope.data !== undefined && $rootScope.data.investor !== undefined) {
@@ -31,7 +31,7 @@
 
             for (var i = 0; i < $scope.data.covenantStaff.length; i++) {
                 if ($scope.data.covenantStaff[i].id === $scope.dInput.selectedCStaffId) {
-                    $scope.data.selectedCStaff = $scope.data.covenantStaff[i];
+                    $scope.data.acquisition.staff = $scope.data.covenantStaff[i];
                     break;
                 }
             }
@@ -43,7 +43,7 @@
                         $log.debug(response);
                         $scope.data.covenantStaff = response.data;
                         $scope.dInput.selectedCStaffId = response.data[0].rank.id;
-                        $scope.data.selectedCStaff = response.data[0];
+                        $scope.data.acquisition.staff = response.data[0];
                         $log.debug("getInvestor responsed sucess with " + $scope.dInput.selectedCStaffId);
                     });
 
