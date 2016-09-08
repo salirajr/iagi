@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author salirajr
  */
 @RestController
-@RequestMapping("/tower")
+@RequestMapping(ApiController.PREFIX+"/tower")
 public class TowerController {
     
     @Resource

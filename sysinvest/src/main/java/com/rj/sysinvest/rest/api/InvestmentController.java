@@ -6,16 +6,13 @@
 package com.rj.sysinvest.rest.api;
 
 import com.rj.sysinvest.dao.InvestmentRepository;
-import com.rj.sysinvest.dao.InvestorRepository;
 import com.rj.sysinvest.model.Investment;
-import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.service.InvestmentService;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author salirajr
  */
 @RestController
-@RequestMapping("/investment")
+@RequestMapping(ApiController.PREFIX+"/investment")
 public class InvestmentController {
 
     @Resource

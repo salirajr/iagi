@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author salirajr
  */
 @RestController
-@RequestMapping("/investor")
+@RequestMapping(ApiController.PREFIX+"/investor")
 public class InvestorController {
     
     @Resource

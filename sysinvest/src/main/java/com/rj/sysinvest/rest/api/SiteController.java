@@ -6,10 +6,7 @@
 package com.rj.sysinvest.rest.api;
 
 import com.rj.sysinvest.dao.SiteRepository;
-import com.rj.sysinvest.dao.StaffRepository;
-import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.model.Site;
-import com.rj.sysinvest.model.Staff;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author salirajr
  */
 @RestController
-@RequestMapping("/site")
+@RequestMapping(ApiController.PREFIX+"/site")
 public class SiteController {
 
     @Resource

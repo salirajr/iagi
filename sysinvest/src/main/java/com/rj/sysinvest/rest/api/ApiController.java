@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping(ApiController.PREFIX)
 public class ApiController {
+    
+    public static final String PREFIX = "/api";
 
     @RequestMapping(value = "role/{role}", method = RequestMethod.GET)
     public Boolean hasRole(@PathVariable String role, HttpServletRequest request)

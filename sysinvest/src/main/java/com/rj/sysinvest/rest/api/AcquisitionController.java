@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author salirajr
  */
 @RestController
-@RequestMapping("/acquisition")
+@RequestMapping(ApiController.PREFIX + "/acquisition")
 public class AcquisitionController {
 
     @Resource
