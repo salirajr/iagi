@@ -4,6 +4,7 @@ import com.rj.sysinvest.model.Acquisition;
 import java.io.IOException;
 import javax.annotation.Resource;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,7 +19,8 @@ public class AkadFormReportService {
     private PdfComponent pdfService;
     @Resource
     private AkadFormDataService dataService;
-    private String formPath = "template/akad.pdf";
+    @Value("${AkadFormReportService.pdfFormPath}")
+    private String formPath;
 
     public byte[] generatePdf(Acquisition acquisition) throws IOException {
         AkadFormData data = dataService.generateAkadFormData(acquisition);

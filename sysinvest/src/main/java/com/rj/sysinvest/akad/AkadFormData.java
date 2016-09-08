@@ -11,8 +11,7 @@ public class AkadFormData {
 
     private String pihakPertamaNama,
             pihakPertamaJabatan1, pihakPertamaJabatan2,
-            pihakPertamaAlamat1,
-            pihakPertamaAlamat2,
+            pihakPertamaAlamat,
             pihakPertamaKTP,
             pihakPertamaTTL;
 
@@ -24,12 +23,14 @@ public class AkadFormData {
 
     private String pihakKeduaNama,
             pihakKeduaPekerjaan,
-            pihakKeduaAlamat1,
-            pihakKeduaAlamat2,
+            pihakKeduaAlamat,
             pihakKeduaKTP,
             pihakKeduaTTL;
 
-    private String namaRusun1, namaRusun2,
-            lantaiTowerNomor;
+    private String lantaiTowerNomor;
+
+    private String harga, hargaTerbilang, tglPemesanan, caraPembayaran;
+
+    private String tempatDanTanggal;
 
 }

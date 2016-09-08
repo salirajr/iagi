@@ -24,7 +24,13 @@ public class TestLayoutImageService {
 
         // write to file
         for (LayoutImageData d : result) {
-            String filepath = "result-test/" + d.getSiteName() + "_" + d.getTowerName() + "_" + d.getFloor();
+            String filepath = "result-test/"
+                    + d.getSiteName()
+                    + "_"
+                    + d.getTowerName()
+                    + "_"
+                    + d.getFloor()
+                    + "." + d.getImageType();
             TestUtil.writeToFile(filepath, d.getImageRaw());
         }
     }

@@ -57,13 +57,8 @@ public class TestLampiranPembayaranReportService {
         // generate pdf
         byte[] pdfBytes = lps.generatePdf(a);
         // Write the pdf to file
-        String fileName = a.getInvestor().getFullName();
-        Path path = Paths.get("result-test", fileName + ".pdf");
-        System.out.println("Writing to file " + path);
-        if (!Files.exists(path.getParent())) {
-            Files.createDirectories(path.getParent());
-        }
-        Files.write(path, pdfBytes);
+        String fileName = "result-test/"+a.getInvestor().getFullName()+".pdf";
+        TestUtil.writeToFile(fileName, pdfBytes);
     }
 
     public static LampiranPembayaranReportService createLampiranPembayaranReportService() {
