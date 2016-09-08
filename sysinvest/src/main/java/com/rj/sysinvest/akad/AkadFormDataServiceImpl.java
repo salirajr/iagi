@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
  * @author Rais <rais.gowa@gmail.com>
  */
 @Service
-public class AkadFormDataServiceImpl {
+public class AkadFormDataServiceImpl implements AkadFormDataService {
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+    @Override
     public AkadFormData generateAkadFormData(Acquisition a) {
 
         AkadFormData d = new AkadFormData();
