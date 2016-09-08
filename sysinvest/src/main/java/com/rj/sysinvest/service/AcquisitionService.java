@@ -6,10 +6,10 @@
 package com.rj.sysinvest.service;
 
 import com.rj.sysinvest.dao.AcquisitionRepository;
-import com.rj.sysinvest.dao.InvestmentRepository;
+import com.rj.sysinvest.dao.AparkostRepository;
 import com.rj.sysinvest.model.Acquisition;
+import com.rj.sysinvest.model.Aparkost;
 import com.rj.sysinvest.model.Investor;
-import java.util.Collection;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,10 @@ public class AcquisitionService {
     
     @Autowired
     AcquisitionRepository repoAcquisition;
+   
     
     @Autowired
-    InvestmentRepository repoInvestment;
+    AparkostRepository repoAparkost;
     
     @Autowired
     EntityManager manager;
@@ -36,7 +37,12 @@ public class AcquisitionService {
     public Acquisition save(Acquisition payload){
         
         repoAcquisition.save(payload);
-        
+        Investor investor = payload.getInvestor();
+        payload.getInvestments().forEach(investment->{
+            Aparkost t = investment.getAparkost();
+            t.setInvestor(investor);
+            repoAparkost.save(t);
+        });
         return payload;
     }
     

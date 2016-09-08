@@ -35,20 +35,21 @@ public class Investor implements Serializable {
 
     @Column(unique = true, length = 10)
     private String accountId;
+    
 
-    @Column(length = 200)
+    @Column(nullable = false, length = 200)
     private String fullName;
 
     @Column(length = 100)
     private String nickName;
 
-    @Column(length = 1)
+    @Column(nullable = false,length = 1)
     private String gender;
 
-    @Column(length = 50)
+    @Column(nullable = false,length = 50)
     private String birthPlace;
 
-    @Column
+    @Column(nullable = false)
     private Date birthDate;
 
     @Column(length = 100)
@@ -72,7 +73,7 @@ public class Investor implements Serializable {
     @Column(length = 100)
     private String province;
 
-    @Column(unique = true, length = 100)
+    @Column(nullable = false, unique = true, length = 100)
     private String nationalId;
 
     @Column(length = 100)

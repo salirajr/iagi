@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="lampiran-pembayaran" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8f4daeb5-99a5-40f1-a813-76ec8ef2ebe6">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="lampiran-pembayaran" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8f4daeb5-99a5-40f1-a813-76ec8ef2ebe6">
 	<property name="ireport.zoom" value="1.3310000000000044"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="240"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="unit" class="java.lang.String"/>
 	<parameter name="nama" class="java.lang.String"/>
-	<parameter name="alamat1" class="java.lang.String"/>
-	<parameter name="alamat2" class="java.lang.String"/>
+	<parameter name="alamat" class="java.lang.String"/>
 	<parameter name="nomorKTP" class="java.lang.String"/>
-	<field name="nomor" class="java.lang.String"/>
+	<field name="nomor" class="java.lang.Integer"/>
 	<field name="keterangan" class="java.lang.String"/>
-	<field name="tglJatuhTempo" class="java.lang.String"/>
-	<field name="jumlah" class="java.lang.String"/>
-	<variable name="variable1" class="java.lang.String" calculation="Sum">
-		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	<field name="tglJatuhTempo" class="java.util.Date"/>
+	<field name="jumlah" class="java.math.BigDecimal"/>
+	<variable name="sumOfJumlah" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{jumlah}]]></variableExpression>
+		<initialValueExpression><![CDATA[java.math.BigDecimal.ZERO]]></initialValueExpression>
 	</variable>
 	<background>
 		<band height="802" splitType="Stretch"/>
@@ -22,7 +22,7 @@
 		<band height="110" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="-10" width="555" height="120" uuid="02a3108a-ee23-4b84-85bb-76f85e7bb822"/>
-				<imageExpression><![CDATA["/home/is/NetBeansProjects/iagi/sysinvest/template/images/header.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["template/images/header.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -99,18 +99,11 @@
 				<textFieldExpression><![CDATA[$P{nama}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="105" y="105" width="450" height="15" uuid="87709e9c-c7f5-4b9c-b8dc-41c7ecad22e3"/>
+				<reportElement x="105" y="105" width="450" height="30" uuid="87709e9c-c7f5-4b9c-b8dc-41c7ecad22e3"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{alamat1}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="105" y="120" width="450" height="15" uuid="ec7d1c92-cd6a-4e9e-a26e-78e03a2de76e"/>
-				<textElement>
-					<font fontName="Calibri" size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{alamat2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{alamat}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="105" y="135" width="450" height="15" uuid="8026a604-73d1-4e10-b03a-60b2f468d693"/>
@@ -197,14 +190,14 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{keterangan}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="d" isBlankWhenNull="true">
 				<reportElement x="240" y="0" width="115" height="20" uuid="931bfa9e-c053-49a8-9742-0be65fb1e3bd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tglJatuhTempo}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00">
 				<reportElement x="355" y="0" width="200" height="20" uuid="ba90a498-8852-4abf-8fef-5109df20aff6"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11"/>
@@ -222,12 +215,12 @@
 				</textElement>
 				<text><![CDATA[Harga]]></text>
 			</staticText>
-			<textField>
+			<textField evaluationTime="Report" pattern="#,##0.00">
 				<reportElement x="355" y="0" width="200" height="20" uuid="80b0ee45-090b-4588-937a-29bbcf67c706"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{sumOfJumlah}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>

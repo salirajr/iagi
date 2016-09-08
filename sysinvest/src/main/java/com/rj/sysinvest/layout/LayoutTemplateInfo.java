@@ -33,7 +33,7 @@ public class LayoutTemplateInfo {
 
     private List<LayoutRoom> rooms;
 
-    public Optional<LayoutTemplateInfo.LayoutRoom> findLayoutRoomByIndex(long index) {
+    public Optional<LayoutRoom> findLayoutRoomByIndex(long index) {
         return getRooms().stream()
                 .filter(roomArea -> roomArea.getIndex() == index)
                 .findFirst();

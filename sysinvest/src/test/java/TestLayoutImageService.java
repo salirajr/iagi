@@ -1,18 +1,14 @@
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rj.sysinvest.layout.LayoutData;
+import com.rj.sysinvest.layout.LayoutImageData;
+import com.rj.sysinvest.layout.LayoutImageService;
 import com.rj.sysinvest.layout.LayoutImageServiceImpl;
 import com.rj.sysinvest.model.Aparkost;
-import com.rj.sysinvest.model.Site;
-import com.rj.sysinvest.model.Tower;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Unit test for com.rj.sysinvest.layout.LayoutImageService
  *
  * @author Rais <rais.gowa@gmail.com>
  */
@@ -20,51 +16,24 @@ public class TestLayoutImageService {
 
     public static void main(String[] args) throws IOException {
         // define data
-        List<Aparkost> selectedAparkosts = getData();
+        List<Aparkost> selectedAparkosts = TestUtil.createAparkostList();
 
         // generate layout images
-        LayoutImageServiceImpl impl = new LayoutImageServiceImpl();
-        impl.setLayoutTemplateDirectory("template/layout");
-        impl.setObjectMapper(new ObjectMapper());
-        List<LayoutData> result = impl.getLayoutImages(selectedAparkosts);
+        LayoutImageService impl = createLayoutImageService();
+        List<LayoutImageData> result = impl.getLayoutImages(selectedAparkosts);
 
         // write to file
-        for (LayoutData d : result) {
-            String fileName = d.getSiteName() + "_" + d.getTowerName() + "_" + d.getLevel();
-            Path path = Paths.get("result-test", fileName + "." + d.getImageType());
-            System.out.println("Writing to file " + path);
-            if (!Files.exists(path.getParent())) {
-                Files.createDirectories(path.getParent());
-            }
-            Files.write(path, d.getImageRaw());
+        for (LayoutImageData d : result) {
+            String filepath = "result-test/" + d.getSiteName() + "_" + d.getTowerName() + "_" + d.getFloor();
+            TestUtil.writeToFile(filepath, d.getImageRaw());
         }
     }
 
-    private static List<Aparkost> getData() {
-        List<Aparkost> list = new ArrayList();
-        list.add(createAparkost(1, "001", "G", "Tower1", "Site1"));
-        list.add(createAparkost(2, "002", "G", "Tower1", "Site1"));
-        list.add(createAparkost(3, "003", "G", "Tower1", "Site1"));
-        list.add(createAparkost(4, "004", "G", "Tower1", "Site1"));
-        list.add(createAparkost(5, "005", "G", "Tower1", "Site1"));
-        list.add(createAparkost(6, "006", "G", "Tower1", "Site1"));
-        
-        list.add(createAparkost(8, "208", "2", "Tower1", "Site1"));
-        return list;
+    public static LayoutImageService createLayoutImageService() {
+        LayoutImageServiceImpl impl = new LayoutImageServiceImpl();
+        impl.setLayoutTemplateDirectory("template/layout");
+        impl.setObjectMapper(new ObjectMapper());
+        impl.setAparkostRepository(new TestAparkostRepositoryImpl());
+        return impl;
     }
-
-    static Aparkost createAparkost(long index, String aparkostName, String floor, String tower, String site) {
-        Aparkost a = new Aparkost();
-        a.setIndex(index);
-        a.setName(aparkostName);
-        a.setFloor(floor);
-        Site s = new Site();
-        s.setName(site);
-        Tower t = new Tower();
-        t.setName(tower);
-        t.setSite(s);
-        a.setTower(t);
-        return a;
-    }
-
 }

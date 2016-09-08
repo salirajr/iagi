@@ -18,18 +18,18 @@ public interface LayoutImageService {
      * @param selectedAparkosts
      * @return list of layout per level
      */
-    List<LayoutData> getLayoutImages(List<Aparkost> selectedAparkosts);
+    List<LayoutImageData> getLayoutImages(List<Aparkost> selectedAparkosts);
 
-    /**
-     * Generate layout images for each level in selected rooms. If selected
-     * rooms contains multiple level, then it will generate multiple layout
-     * images for each level.
-     *
-     * @param selectedTower
-     * @param selectedAparkosts
-     * @return list of layout per level
-     */
-    List<LayoutData> getLayoutImages(List<Aparkost> selectedAparkosts, Tower selectedTower);
+//    /**
+//     * Generate layout images for each level in selected rooms. If selected
+//     * rooms contains multiple level, then it will generate multiple layout
+//     * images for each level.
+//     *
+//     * @param selectedTower
+//     * @param selectedAparkosts
+//     * @return list of layout per level
+//     */
+//    List<LayoutImageData> getLayoutImages(List<Aparkost> selectedAparkosts, Tower selectedTower);
 
     /**
      * Generate single layout image for selected level
@@ -39,6 +39,6 @@ public interface LayoutImageService {
      * @param selectedFloor
      * @return single layout image for selected level
      */
-    LayoutData getLayoutImage(List<Aparkost> selectedAparkosts, Tower selectedTower, String selectedFloor);
+    LayoutImageData getLayoutImage(List<Aparkost> selectedAparkosts, Tower selectedTower, String selectedFloor);
 
 }

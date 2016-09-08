@@ -26,7 +26,7 @@ public class Investment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(optional = false)
     private Aparkost aparkost;
     public static final String PROP_APARKOST = "aparkost";
 

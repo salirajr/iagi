@@ -20,12 +20,12 @@ import org.springframework.stereotype.Component;
 @Data
 public class LayoutImageServiceImpl extends LayoutImageServiceAbstract {
 
-    private String layoutImageFormat = "png";
+    private String imageType = "png";
 
     @Override
-    public LayoutData getLayoutImage(List<Aparkost> selectedAparkosts, Tower selectedTower, String selectedFloor) {
+    public LayoutImageData getLayoutImage(List<Aparkost> selectedAparkosts, Tower selectedTower, String selectedFloor) {
 
-        LayoutTemplateInfo layoutTemplateInfo = getLayoutTemplateInfo(selectedTower);
+        LayoutTemplateInfo layoutTemplateInfo = getLayoutTemplateInfo(selectedTower, selectedFloor);
 
         BufferedImage img;
         try {
@@ -37,24 +37,23 @@ public class LayoutImageServiceImpl extends LayoutImageServiceAbstract {
         Graphics2D g = img.createGraphics();
         g.drawImage(img, 0, 0, null);
 
-        drawOverlay2(g, layoutTemplateInfo, selectedAparkosts, selectedTower, selectedFloor);
+        drawOverlay(g, layoutTemplateInfo, selectedAparkosts, selectedTower, selectedFloor);
         g.dispose();
 
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(img, layoutImageFormat, baos);
+            ImageIO.write(img, imageType, baos);
             byte[] bytes = baos.toByteArray();
-            LayoutData layoutImage = new LayoutData();
-            layoutImage.setImageType(layoutImageFormat);
-            layoutImage.setImageRaw(bytes);
-            layoutImage.setLevel(selectedFloor);
-            layoutImage.setTowerName(selectedTower.getName());
-            layoutImage.setSiteName(selectedTower.getSite().getName());
-            List<String> listOfAparkostId = selectedAparkosts.stream()
-                    .map(aparkost -> aparkost.getFloor())
-                    .collect(Collectors.toList());
-            layoutImage.setSelectedRooms(listOfAparkostId);
-            return layoutImage;
+            LayoutImageData layoutData = new LayoutImageData();
+            layoutData.setImageType(imageType);
+            layoutData.setImageRaw(bytes);
+            layoutData.setFloor(selectedFloor);
+            layoutData.setTowerName(selectedTower.getName());
+            layoutData.setSiteName(selectedTower.getSite().getName());
+            layoutData.setSelectedAparkostNames(selectedAparkosts.stream()
+                    .map(aparkost -> aparkost.getName())
+                    .collect(Collectors.toList()));
+            return layoutData;
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

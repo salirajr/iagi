@@ -1,5 +1,10 @@
 package com.rj.sysinvest.akad;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.Data;
 
 /**
@@ -8,5 +13,32 @@ import lombok.Data;
  */
 @Data
 public class LampiranPembayaranData {
+
+    private Header header;
+    private List<Detail> details;
+
+    @Data
+    public static class Header {
+
+        private String unit, nama, alamat, nomorKTP;
+
+        public Map toMap() {
+            Map m = new HashMap(4);
+            m.put("unit", unit);
+            m.put("nama", nama);
+            m.put("alamat", alamat);
+            m.put("nomorKTP", nomorKTP);
+            return m;
+        }
+    }
+
+    @Data
+    public static class Detail {
+
+        private Integer nomor;
+        private String keterangan;
+        private Date tglJatuhTempo;
+        private BigDecimal jumlah;
+    }
 
 }
