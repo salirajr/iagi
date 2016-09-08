@@ -29,7 +29,10 @@ public class AkadFormData {
             pihakKeduaKTP,
             pihakKeduaTTL;
 
-    private String namaRusun1, namaRusun2,
-            lantaiTowerNomor;
+    private String lantaiTowerNomor;
+
+    private String harga, hargaTerbilang, tglPemesanan, caraPembayaran;
+
+    private String tempatDanTanggal;
 
 }
