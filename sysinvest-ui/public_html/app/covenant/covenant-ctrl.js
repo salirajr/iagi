@@ -7,7 +7,7 @@
     /*
      * MainCtrl - controller
      */
-    function CovenantCtrl($rootScope, $scope, $log, $http) {
+    function CovenantCtrl($rootScope, $scope, $log, $http, $window) {
         $log.debug('CovenantCtrl is loaded');
         $scope.userName = 'Example user';
         $scope.helloText = 'Hello You Welcome in SeedProject';
@@ -17,7 +17,7 @@
         $scope.dInput = {};
         $scope.data.acquisition = {};
         $scope.data.acquisition.investor = {};
-         $scope.data.acquisition.staff = {};
+        $scope.data.acquisition.staff = {};
 
 
         if ($rootScope.data !== undefined && $rootScope.data.investor !== undefined) {
@@ -152,9 +152,12 @@
 
 
         $scope.generateAkad = function () {
-            $http.get('/api/acquisition/generateakad?id=' + $scope.data.acquisition.id)
+            $http.post('/api/acquisition/generateakad?id=' + $scope.data.acquisition.id,{}, {responseType: 'arraybuffer'})
                     .success(function (response) {
-                        $log.debug("generateakad success! " + response);
+                        $log.debug("generateakad success!");
+                        var file = new Blob([response], {type: 'application/pdf'});
+                        var fileURL = URL.createObjectURL(file);
+                        $window.open(fileURL);
                     }).error(function (err) {
                 $log.debug(err);
             });

@@ -126,6 +126,17 @@
                         }
                     }
                 })
+                .state('index.acquisition', {
+                    url: "/acquisition",
+                    data: {pageTitle: 'Acquisition', roles: ['admin']},
+                    templateUrl: "app/acquisition/acquisition.html",
+                    controller: "AcquisitionCtrl",
+                    resolve: {
+                        load: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('app/acquisition/acquisition-ctrl.js');
+                        }
+                    }
+                })
                 ;
     }
 })();
