@@ -55,7 +55,7 @@ public class TestLampiranPembayaranReportService {
         // generate pdf
         byte[] pdfBytes = lps.generatePdf(a);
         // Write the pdf to file
-        String fileName = "result-test/"+a.getInvestor().getFullName()+".pdf";
+        String fileName = "result-test/lampiran-pembayaran-" + a.getInvestor().getFullName() + ".pdf";
         TestUtil.writeToFile(fileName, pdfBytes);
     }
 
@@ -75,7 +75,7 @@ public class TestLampiranPembayaranReportService {
             @Override
             public List<Detail> generateDetails(Acquisition acquisition) {
                 List<Detail> l = new ArrayList();
-                for (int i = 1; i < 4; i++) {
+                for (int i = 1; i <= 30; i++) {
                     Detail d = new Detail();
                     d.setNomor(1);
                     d.setTglJatuhTempo(new Date(System.currentTimeMillis()));
