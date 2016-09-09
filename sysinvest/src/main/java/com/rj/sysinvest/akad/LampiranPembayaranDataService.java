@@ -27,6 +27,7 @@ public abstract class LampiranPembayaranDataService {
         List<Aparkost> list = a.getInvestments().stream()
                 .map(i -> i.getAparkost())
                 .collect(Collectors.toList());
+        h.setSite(list.get(0).getTower().getSite().getName().toUpperCase());
         h.setUnit(generateUnitNames(list));
         h.setNama(a.getInvestor().getFullName());
         h.setAlamat(a.getInvestor().getAddress());

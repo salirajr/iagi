@@ -18,7 +18,7 @@ public class TestAkadFormReportService {
         AkadFormReportService s = createAkadFormReportService();
         Acquisition a = TestUtil.createAcquisition();
         byte[] bytes = s.generatePdf(a);
-        String filepath = "result-test/akadform/" + a.getInvestor().getNickName() + ".pdf";
+        String filepath = "result-test/akadform-" + a.getInvestor().getNickName() + ".pdf";
         TestUtil.writeToFile(filepath, bytes);
     }
 

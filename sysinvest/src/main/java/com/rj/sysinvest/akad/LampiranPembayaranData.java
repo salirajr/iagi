@@ -20,10 +20,11 @@ public class LampiranPembayaranData {
     @Data
     public static class Header {
 
-        private String unit, nama, alamat, nomorKTP;
+        private String site, unit, nama, alamat, nomorKTP;
 
         public Map toMap() {
-            Map m = new HashMap(4);
+            Map m = new HashMap();
+            m.put("site", site);
             m.put("unit", unit);
             m.put("nama", nama);
             m.put("alamat", alamat);
