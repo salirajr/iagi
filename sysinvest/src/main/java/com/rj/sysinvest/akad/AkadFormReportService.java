@@ -17,8 +17,10 @@ public class AkadFormReportService {
 
     @Resource
     private PdfComponent pdfService;
+    
     @Resource
     private AkadFormDataService dataService;
+    
     @Value("${AkadFormReportService.pdfFormPath}")
     private String formPath;
 

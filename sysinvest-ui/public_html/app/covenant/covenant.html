@@ -16,14 +16,14 @@
                         </div>
                         <div class="form-group m-b-none">
                             <span class="col-sm-2 control-label"></span>
-                            <div class="col-sm-4"><span class="help-block m-b-none"><small>Nama</small></span><p class="form-control-static">{{data.selectedCStaff.fullName}}</p></div>
-                            <div class="col-sm-3"><span class="help-block m-b-none"><small>NIK</small></span><p class="form-control-static">{{data.selectedCStaff.nationalId}}</p></div>
-                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Jabatan</small></span><p class="form-control-static">{{data.selectedCStaff.rank.name}}</p></div>
+                            <div class="col-sm-4"><span class="help-block m-b-none"><small>Nama</small></span><p class="form-control-static">{{data.acquisition.staff.fullName}}</p></div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>NIK</small></span><p class="form-control-static">{{data.acquisition.staff.nationalId}}</p></div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Jabatan</small></span><p class="form-control-static">{{data.acquisition.staff.rank.name}}</p></div>
                         </div>
 
                         <div class="form-group m-b-none">
                             <span class="col-sm-2 control-label"></span>
-                            <div class="col-sm-4"><span class="help-block m-b-none"><small>TTL</small></span><p class="form-control-static">{{data.selectedCStaff.birthPlace}}, {{data.selectedCStaff.birthDate}}</p></div>
+                            <div class="col-sm-4"><span class="help-block m-b-none"><small>TTL</small></span><p class="form-control-static">{{data.acquisition.staff.birthPlace}}, {{data.acquisition.staff.birthDate}}</p></div>
                             <div class="col-sm-6"><span class="help-block m-b-none"><small>Alamat</small></span><p class="form-control-static">{{data.selectedCStaff.address}}</p></div>
                         </div>
                         <h5>Pihak Kedua</h5>
@@ -31,7 +31,7 @@
                             <label class="col-sm-2 control-label">Investor Id </label>
                             <div class="col-lg-3">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" ng-model="data.acquisition.investor.id" > 
+                                    <input type="text" class="form-control" ng-model="data.acquisition.investor.accountId"  ui-mask="AAAA9999" > 
                                     <span class="input-group-btn"> 
                                         <button type="button" class="btn btn-info" ng-click="getAccount()" ><i class="fa fa-check"></i></button> 
                                     </span>
@@ -224,7 +224,7 @@
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-10">
                                 <button class="btn btn-default" type="submit" ng-click="saveAcquisition()">Simpan</button>
-                                <button class="btn btn-primary" type="submit">Simpan dan Proses</button>
+                                <button class="btn btn-primary" type="submit" ng-click="generateAkad()">Simpan dan Proses</button>
                             </div>
                         </div>
                     </form>

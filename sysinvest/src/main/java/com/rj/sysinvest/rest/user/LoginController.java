@@ -1,6 +1,5 @@
 package com.rj.sysinvest.rest.user;
 
-import ch.qos.logback.core.CoreConstants;
 import com.rj.sysinvest.jwt.JwtService;
 import java.util.List;
 
@@ -44,6 +43,8 @@ public class LoginController {
         claims.setSubject(subject);
         claims.setRoles(roles);
         String token = jwtService.buildJwt(claims);
+        
+        loginResponse.setRoles(roles);
         loginResponse.setMessage("Successfully login");
         loginResponse.setStatus("SUCCESS");
         loginResponse.setToken(token);
@@ -56,6 +57,7 @@ public class LoginController {
         private String token;
         private String status;
         private String message;
+        private List<String> roles;
 
     }
 

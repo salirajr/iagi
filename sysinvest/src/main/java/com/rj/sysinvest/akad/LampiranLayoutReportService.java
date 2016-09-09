@@ -27,6 +27,7 @@ public class LampiranLayoutReportService {
     private LayoutImageService layoutImageService;
     @Resource
     private JasperComponent jasperService;
+    
     @Value("${LampiranLayoutReportService.jrxmlPath}")
     private String jrxmlPath;
 

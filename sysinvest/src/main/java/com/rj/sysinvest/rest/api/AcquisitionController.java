@@ -11,8 +11,6 @@ import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.service.AcquisitionService;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author salirajr
  */
 @RestController
-@RequestMapping("/acquisition")
+@RequestMapping(ApiController.PREFIX + "/acquisition")
 public class AcquisitionController {
 
     @Resource
@@ -56,9 +54,9 @@ public class AcquisitionController {
         service.save(payload);
         return payload.getId();
     }
-
+    
     @ResponseBody
-    @RequestMapping(value = "/generateakad", method = RequestMethod.GET)
+    @RequestMapping(value = "/generateakad", method = RequestMethod.POST)
     public ResponseEntity<InputStreamResource> generateAkad(@RequestParam Long id, HttpServletRequest request)
             throws ServletException {
         Acquisition t = repo.findOne(id);

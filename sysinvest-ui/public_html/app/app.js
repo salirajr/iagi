@@ -12,9 +12,9 @@
 
     function run($rootScope, $http, $location, $localStorage, $log, $state, AuthenticationService) {
 
-        $rootScope.$state = $state;
+        //$rootScope.$state = $state;
 
-        /*$rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState, fromParams) {
+        $rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState, fromParams) {
 
             var stateRoles = toState.data.roles;
             var isPublicState = !stateRoles || stateRoles.indexOf('public') >= 0;
@@ -46,12 +46,20 @@
                     $state.go('login', params);
                 }
             }
-        });*/
+        });
+
+        $rootScope.doLogout = function () {
+
+            if (AuthenticationService.isLoggedIn()) {
+                AuthenticationService.doLogout();
+                 $state.go('login');
+            }
+        }
     }
 
     function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
-        $urlRouterProvider.otherwise('/index/investor');
+        $urlRouterProvider.otherwise('/index/main');
 
         $ocLazyLoadProvider.config({
             debug: true
@@ -61,7 +69,7 @@
                 .state('login', {
                     url: '/login?msg',
                     data: {pageTitle: 'Login'},
-                    templateUrl: 'app/login/login-two-columns.html',
+                    templateUrl: 'app/login/sysinvest.html',
                     controller: 'LoginCtrl',
                     resolve: {
                         load: function ($ocLazyLoad) {
@@ -85,20 +93,20 @@
                         }
                     }
                 })
-                .state('index.minor', {
-                    url: "/minor",
-                    data: {pageTitle: 'Minor'},
-                    templateUrl: "app/minor/minor.html",
-                    controller: "MinorCtrl",
+                .state('index.main', {
+                    url: "/main",
+                    data: {pageTitle: 'Main', roles: ['admin']},
+                    templateUrl: "app/main/main.html",
+                    controller: "MainCtrl",
                     resolve: {
                         load: function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('app/minor/minor-ctrl.js');
+                            return $ocLazyLoad.load('app/main/main-ctrl.js');
                         }
                     }
                 })
                 .state('index.investor', {
                     url: "/investor",
-                    data: {pageTitle: 'Investor'},
+                    data: {pageTitle: 'Investor', roles: ['admin']},
                     templateUrl: "app/investor/investor.html",
                     controller: "InvestorCtrl",
                     resolve: {
@@ -109,7 +117,7 @@
                 })
                 .state('index.covenant', {
                     url: "/covenant",
-                    data: {pageTitle: 'Covenant'},
+                    data: {pageTitle: 'Covenant', roles: ['admin']},
                     templateUrl: "app/covenant/covenant.html",
                     controller: "CovenantCtrl",
                     resolve: {

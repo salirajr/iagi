@@ -15,39 +15,42 @@
         $scope.descriptionText = 'Main Investor Controller.';
 
         $scope.data = {};
+        $scope.data.investor = {};
 
-        $rootScope.dctrl = {};
-        $rootScope.dctrl.investor = {};
+        $rootScope.data = {};
+        $rootScope.data.investor = {};
 
-
-        //$scope.getInvestor = function () {
-        //    $http.get("sdata/investor.json")
-        //            .then(function (response) {
-        //                $scope.data.investor = response.data;
-        //                $log.debug("getInvestor responsed sucess");
-        //            });
-        //
-        //};
-        //$scope.getInvestor();
-
+        $scope.data.accountType = 'INVESTASI';
 
         $scope.saveInvestor = function () {
-            var payload = $scope.data.investor;
-            payload.birthDate = new Date($scope.data.investor.birthDate);
-
-            $http.post('/investor/addnew', payload)
-                    .success(function (response) {
-                        $scope.data.investor = response;
-                        $rootScope.dctrl.investor.id = response.id;
-                    }).error(function (err) {
-                $log.debug(err);
-            });
-
+            if ($scope.data.accountType === 'INVESTASI') {
+                var payload = $scope.data.investor;
+                payload.birthDate = new Date($scope.data.investor.birthDate);
+                $http.post('/api/investor/addnew', payload)
+                        .success(function (response) {
+                            $scope.data.investor = response;
+                            $rootScope.data.investor.id = response.id;
+                        }).error(function (err) {
+                    $log.debug(err);
+                });
+            }else{
+                
+            }
         };
 
         $scope.nextToCovenant = function () {
-            $rootScope.dctrl.investor = $scope.data.investor;
+            $rootScope.data.investor = $scope.data.investor;
             $location.path('/index/covenant');
+        };
+        
+        $scope.getAccount = function () {
+            $http.get("/api/investor/ret/byaccountid?value=" + $scope.data.investor.accountId)
+                    .then(function (response) {
+                        $log.debug(response);
+                        $scope.data.investor = response.data;
+                        $log.debug("getAccount responsed sucess with " + $scope.data.investor.accountId);
+                    });
+
         };
 
     }

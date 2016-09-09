@@ -7,9 +7,6 @@ package com.rj.sysinvest.rest.api;
 
 import com.rj.sysinvest.dao.StaffRepository;
 import com.rj.sysinvest.model.Staff;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author salirajr
  */
 @RestController
-@RequestMapping("/staff")
+@RequestMapping(ApiController.PREFIX+"/staff")
 public class StaffController {
 
     @Resource

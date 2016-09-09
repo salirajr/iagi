@@ -14,14 +14,15 @@
         $scope.descriptionText = 'It is an application skeleton for a typical AngularJS web app. You can use it to quickly bootstrap your angular webapp projects and dev environment for these projects.';
 
         $scope.data = {};
-        $scope.data.selectedCStaff = {};
         $scope.dInput = {};
         $scope.data.acquisition = {};
         $scope.data.acquisition.investor = {};
+         $scope.data.acquisition.staff = {};
 
 
-        if ($rootScope.dctrl !== undefined && $rootScope.dctrl.investor !== undefined) {
-            $scope.data.acquisition.investor = $rootScope.dctrl.investor;
+        if ($rootScope.data !== undefined && $rootScope.data.investor !== undefined) {
+            $scope.data.acquisition.investor = $rootScope.data.investor;
+            $rootScope.data.investor = undefined;
         }
 
 
@@ -30,19 +31,19 @@
 
             for (var i = 0; i < $scope.data.covenantStaff.length; i++) {
                 if ($scope.data.covenantStaff[i].id === $scope.dInput.selectedCStaffId) {
-                    $scope.data.selectedCStaff = $scope.data.covenantStaff[i];
+                    $scope.data.acquisition.staff = $scope.data.covenantStaff[i];
                     break;
                 }
             }
         };
 
         $scope.getCovenantStaff = function () {
-            $http.get("/staff/ret?key=covenant")
+            $http.get("/api/staff/ret?key=covenant")
                     .then(function (response) {
                         $log.debug(response);
                         $scope.data.covenantStaff = response.data;
                         $scope.dInput.selectedCStaffId = response.data[0].rank.id;
-                        $scope.data.selectedCStaff = response.data[0];
+                        $scope.data.acquisition.staff = response.data[0];
                         $log.debug("getInvestor responsed sucess with " + $scope.dInput.selectedCStaffId);
                     });
 
@@ -50,17 +51,17 @@
         $scope.getCovenantStaff();
 
         $scope.getAccount = function () {
-            $http.get("/investor/ret/byaccountid?value=" + $scope.data.acquisition.investor.id)
+            $http.get("/api/investor/ret/byaccountid?value=" + $scope.data.acquisition.investor.accountId)
                     .then(function (response) {
                         $log.debug(response);
                         $scope.data.acquisition.investor = response.data;
-                        $log.debug("getAccount responsed sucess with " + $scope.data.acquisition.investor.id);
+                        $log.debug("getAccount responsed sucess with " + $scope.data.acquisition.investor.accountId);
                     });
 
         };
 
         $scope.getSite = function () {
-            $http.get("/site/ret?key=")
+            $http.get("/api/site/ret?key=")
                     .then(function (response) {
                         $log.debug(response);
                         $scope.data.site = response.data;
@@ -74,7 +75,7 @@
         $scope.getSite();
         $scope.selectSite = function () {
             $log.debug("selectSite called with " + $scope.dInput.selectedSiteId);
-            $http.get("/tower/ret/bysiteid?value=" + $scope.dInput.selectedSiteId)
+            $http.get("/api/tower/ret/bysiteid?value=" + $scope.dInput.selectedSiteId)
                     .then(function (response) {
                         $log.debug(response);
                         $scope.data.tower = response.data;
@@ -87,7 +88,7 @@
 
         $scope.selectTower = function () {
             $log.debug("selectSite called with " + $scope.dInput.selectedTowerId);
-            $http.get("/investment/ret/onsale/bytowerid?value=" + $scope.dInput.selectedTowerId)
+            $http.get("/api/investment/ret/onsale/bytowerid?value=" + $scope.dInput.selectedTowerId)
                     .then(function (response) {
 
                         $scope.data.investment = response.data;
@@ -123,7 +124,7 @@
 
         };
 
-        $scope.saveAcquisition = function () {
+        $scope.saveAcquisition = function (fnCallback) {
             alert("saveAcquisition called!");
             $log.debug($scope.data.acquisition);
             var payload = $scope.data.acquisition;
@@ -131,18 +132,33 @@
             payload.startDate = new Date(new Date(date.getFullYear(), date.getMonth(), 2).setMonth(date.getMonth() + 1));
             if ($scope.data.acquisition.type === 'SOFT_INSTALLMENT') {
                 payload.endDate = new Date(new Date(date.getFullYear(), date.getMonth(), 2).setMonth(date.getMonth() + $scope.data.acquisition.nPeriod));
-            }else if ($scope.data.acquisition.type === 'INSTALLMENT') {
+            } else if ($scope.data.acquisition.type === 'INSTALLMENT') {
                 payload.endDate = new Date(new Date(date.getFullYear(), date.getMonth(), 2).setMonth(date.getMonth() + 27));
-            }else{
+            } else {
                 payload.startDate = new Date();
                 payload.endDate = new Date();
             }
-            $http.post('/acquisition/addnew', payload)
+            $http.post('/api/acquisition/addnew', payload)
                     .success(function (response) {
-                        $log.debug(response);
+                        $log.debug("addnew success! " + response);
+                        $scope.data.acquisition.id = response;
+                        if (fnCallback) {
+                            fnCallback();
+                        }
                     }).error(function (err) {
                 $log.debug(err);
             });
+        };
+
+
+        $scope.generateAkad = function () {
+            $http.get('/api/acquisition/generateakad?id=' + $scope.data.acquisition.id)
+                    .success(function (response) {
+                        $log.debug("generateakad success! " + response);
+                    }).error(function (err) {
+                $log.debug(err);
+            });
+
         };
 
     }

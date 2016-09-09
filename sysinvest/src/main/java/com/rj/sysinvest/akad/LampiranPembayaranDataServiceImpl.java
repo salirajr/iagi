@@ -18,12 +18,47 @@ public class LampiranPembayaranDataServiceImpl extends LampiranPembayaranDataSer
     @Override
     public List<LampiranPembayaranData.Detail> generateDetails(Acquisition acquisition) {
         List<Detail> l = new ArrayList();
-        for (int i = 1; i < 4; i++) {
-            Detail d = new Detail();
-            d.setNomor(1);
+        int i = 1;
+        long totalFee = acquisition.getTotalFee();
+        // Tanda Jadi
+        Detail d = new Detail();
+        d.setNomor(i++);
+        d.setKeterangan("Tanda Jadi");
+        d.setJumlah(new BigDecimal(acquisition.getBookingFee()));
+        totalFee -= acquisition.getBookingFee();
+        l.add(d);
+        // Uang Muka
+        d = new Detail();
+        d.setNomor(i++);
+        d.setKeterangan("Uang Muka");
+        d.setJumlah(new BigDecimal(acquisition.getDpFee()));
+        totalFee -= acquisition.getDpFee();
+        l.add(d);
+
+        String tKet = "Angsuran";
+        long nRow = 0;
+        switch (acquisition.getType()) {
+            case "CASH":
+                nRow = 0;
+                tKet = "LUNAS";
+                d.setNomor(i++);
+                d.setKeterangan(tKet);
+                d.setJumlah(new BigDecimal(totalFee));
+                break;
+            case "SOFT_INSTALLMENT":
+                nRow = acquisition.getNPeriod();
+                break;
+            case "INSTALLMENT":
+                nRow = 27;
+                break;
+        }
+        double installment = totalFee / nRow;
+        for (; i < nRow; i++) {
+            d = new Detail();
+            d.setNomor(i);
             d.setTglJatuhTempo(new Date());
-            d.setKeterangan("Angsuran " + i);
-            d.setJumlah(new BigDecimal(1000000 * i));
+            d.setKeterangan(tKet + " " + i);
+            d.setJumlah(new BigDecimal(installment));
             l.add(d);
         }
         return l;

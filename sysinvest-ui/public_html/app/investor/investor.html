@@ -10,28 +10,34 @@
                         <div class="form-group"><label class="col-sm-2 control-label">Jenis Akun</label>
 
                             <div class="col-sm-3">
-                                <select class="form-control m-b" name="account" ng-model="data.investor.accountType"  ng-init="data.investor.accountType = data.investor.accountType || 'INVESTASI'" >
+                                <select class="form-control m-b" name="account" ng-model="data.accountType" >
                                     <option value="INVESTASI">Investasi</option>
                                     <option value="HIBAH">Hibah</option>
                                 </select>
                             </div>
-                            <div class="form-group " ng-show="data.investor.accountType === 'INVESTASI'" >
-                                
+                            <div class="form-group " ng-show="data.accountType === 'INVESTASI'" >
+
                                 <div class="col-lg-3">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" ng-model="data.cInvestor.accountId" ui-mask="AAAA9999"> 
+                                        <input type="text" class="form-control" ng-model="data.investor.accountId" ui-mask="AAAA9999"> 
                                         <span class="input-group-btn"> 
-                                            <button type="button" class="btn btn-info"><i class="fa fa-refresh"></i></button>
+                                            <button type="button" class="btn btn-info" ng-click="getAccount()"><i class="fa fa-search"></i></button>
                                         </span>
                                     </div>
-                                     <span class="m-b-none"><small>gen. Customer Id</small></span>
+                                    <span class="m-b-none"><small>gen. Customer Id</small></span>
                                 </div>
-                               
+
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group"><label class="col-sm-2 control-label">Nama Lengkap</label>
-                            <div class="col-sm-5"><input type="text" class="form-control" ng-model="data.investor.fullName"></div>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" ng-model="data.investor.fullName">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control"  ng-model="data.investor.nickName">
+                                <span class="help-block m-b-none"><small>Panggilan</small></span>
+                            </div>
                         </div>
                         <div class="form-group"><label class="col-sm-2 control-label">Jenis Kelamin </label>
                             <div class="col-sm-2">
@@ -144,12 +150,12 @@
 
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Alamat Perusahaan</label>
-                            <div class="col-sm-5"><textarea class="form-control">{{data.investor.employerAddress}}</textarea></div>
+                            <div class="col-sm-5"><textarea class="form-control" ng-model="data.investor.employerAddress">{{data.investor.employerAddress}}</textarea></div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Telepon Perusahaan</label>
-                            <div class="col-lg-2"><input type="text" class="form-control" ng-model="data.investor.employerPhoneNo"></div>
+                            <div class="col-lg-2"><input type="text" class="form-control" ng-model="data.investor.employerPhoneNo"  ui-mask="(999) 99999999"></div>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
