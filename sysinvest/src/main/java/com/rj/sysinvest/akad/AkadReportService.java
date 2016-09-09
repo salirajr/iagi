@@ -17,10 +17,13 @@ public class AkadReportService {
 
     @Resource
     private PdfComponent pdfService;
+    
     @Resource
     private LampiranLayoutReportService lampiranLayoutService;
+    
     @Resource
     private LampiranPembayaranReportService lampiranPembayaranService;
+    
     @Resource
     private AkadFormReportService akadFormService;
 

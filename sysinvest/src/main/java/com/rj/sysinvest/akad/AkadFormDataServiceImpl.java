@@ -34,11 +34,11 @@ public class AkadFormDataServiceImpl implements AkadFormDataService {
         d.setPihakKeduaKTP(i.getNationalId());
         d.setPihakKeduaTTL(i.getBirthPlace() + ", " + dateFormat.format(i.getBirthDate()));
 
-        d.setKuasaNama("RAIS");
-        d.setKuasaAlamat("MAKASSAR");
-        d.setKuasaJabatan("PRESIDEN");
-        d.setKuasaKTP("0987654321");
-        d.setKuasaTTL("Sungguminasa, 01 Maret 1986");
+//        d.setKuasaNama("RAIS");
+//        d.setKuasaAlamat("MAKASSAR");
+//        d.setKuasaJabatan("PRESIDEN");
+//        d.setKuasaKTP("0987654321");
+//        d.setKuasaTTL("Sungguminasa, 01 Maret 1986");
 
 //        d.setLantaiTowerNomor("Lantai 1, tower 1, unit 1 2 3 4");
         d.setHarga(String.valueOf(a.getTotalFee()));

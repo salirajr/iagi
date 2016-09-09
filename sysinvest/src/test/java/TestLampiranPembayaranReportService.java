@@ -5,8 +5,6 @@ import com.rj.sysinvest.akad.LampiranPembayaranDataService;
 import com.rj.sysinvest.akad.LampiranPembayaranDataServiceImpl;
 import com.rj.sysinvest.akad.LampiranPembayaranReportService;
 import com.rj.sysinvest.model.Acquisition;
-import com.rj.sysinvest.model.Investment;
-import com.rj.sysinvest.model.Investor;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;

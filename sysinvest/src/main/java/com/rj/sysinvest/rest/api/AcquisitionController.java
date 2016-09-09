@@ -54,9 +54,9 @@ public class AcquisitionController {
         service.save(payload);
         return payload.getId();
     }
-
+    
     @ResponseBody
-    @RequestMapping(value = "/generateakad", method = RequestMethod.GET)
+    @RequestMapping(value = "/generateakad", method = RequestMethod.POST)
     public ResponseEntity<InputStreamResource> generateAkad(@RequestParam Long id, HttpServletRequest request)
             throws ServletException {
         Acquisition t = repo.findOne(id);
