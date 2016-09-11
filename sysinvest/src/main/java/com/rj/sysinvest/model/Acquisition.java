@@ -44,6 +44,9 @@ public class Acquisition implements Serializable {
     @ManyToOne
     private Staff staff;
     public static final String PROP_STAFF = "staff";
+    
+    @OneToMany
+    private Collection<Payment> payments;
 
     @Column
     private String type;

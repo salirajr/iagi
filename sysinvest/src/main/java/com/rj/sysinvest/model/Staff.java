@@ -57,6 +57,12 @@ public class Staff implements Serializable {
 
     @Column(length = 100)
     private String scannedNationalIdPath;
+    
+    @Column(length = 100)
+    private String userName;
+    
+    @Column
+    private String password;
 
     @ManyToOne
     private Rank rank;

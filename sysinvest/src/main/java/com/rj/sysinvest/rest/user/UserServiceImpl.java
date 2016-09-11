@@ -20,12 +20,12 @@ public class UserServiceImpl implements UserService {
         Map userData = new HashMap();
         userData.put("password", "12345");
         userData.put("roles", Arrays.asList("user"));
-        userDb.put("user@iagi.com", userData);
+        userDb.put("user", userData);
 
         userData = new HashMap();
         userData.put("password", "12345");
         userData.put("roles", Arrays.asList("user", "admin"));
-        userDb.put("admin@iagi.com", userData);
+        userDb.put("admin", userData);
 
     }
 

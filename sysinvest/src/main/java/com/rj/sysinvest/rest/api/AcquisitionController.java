@@ -47,6 +47,12 @@ public class AcquisitionController {
             throws ServletException {
         return repo.findOne(value);
     }
+    
+    @RequestMapping(value = "/ret", method = RequestMethod.GET)
+    public Iterable<Acquisition> ret(HttpServletRequest request)
+            throws ServletException {
+        return repo.findAll();
+    }
 
     @RequestMapping(value = "/addnew", method = RequestMethod.POST)
     public Long addnew(@RequestBody Acquisition payload, HttpServletRequest request)

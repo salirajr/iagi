@@ -3,6 +3,7 @@ package com.rj.sysinvest.akad;
 import com.rj.sysinvest.akad.LampiranPembayaranData.Detail;
 import com.rj.sysinvest.model.Acquisition;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LampiranPembayaranDataServiceImpl extends LampiranPembayaranDataService {
-
+    
     @Override
     public List<LampiranPembayaranData.Detail> generateDetails(Acquisition acquisition) {
         List<Detail> l = new ArrayList();
@@ -34,7 +35,7 @@ public class LampiranPembayaranDataServiceImpl extends LampiranPembayaranDataSer
         d.setJumlah(new BigDecimal(acquisition.getDpFee()));
         totalFee -= acquisition.getDpFee();
         l.add(d);
-
+        
         String tKet = "Angsuran";
         long nRow = 0;
         switch (acquisition.getType()) {
@@ -59,9 +60,13 @@ public class LampiranPembayaranDataServiceImpl extends LampiranPembayaranDataSer
             d.setTglJatuhTempo(new Date());
             d.setKeterangan(tKet + " " + i);
             d.setJumlah(new BigDecimal(installment));
+            if (i < nRow - 1) {
+                double tTemp = totalFee - installment * (nRow - 1);
+                d.setJumlah(new BigDecimal(tTemp));
+            }
             l.add(d);
         }
         return l;
     }
-
+    
 }

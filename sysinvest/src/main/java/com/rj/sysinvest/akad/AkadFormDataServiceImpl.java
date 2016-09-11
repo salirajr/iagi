@@ -34,16 +34,16 @@ public class AkadFormDataServiceImpl implements AkadFormDataService {
         d.setPihakKeduaKTP(i.getNationalId());
         d.setPihakKeduaTTL(i.getBirthPlace() + ", " + dateFormat.format(i.getBirthDate()));
 
-//        d.setKuasaNama("RAIS");
-//        d.setKuasaAlamat("MAKASSAR");
-//        d.setKuasaJabatan("PRESIDEN");
-//        d.setKuasaKTP("0987654321");
-//        d.setKuasaTTL("Sungguminasa, 01 Maret 1986");
+        d.setKuasaNama("ANDI TAUFIQ YUSUF");
+        d.setKuasaJabatan("DIREKTUR UTAMA PT.IBNU AUF GLOBAL INVESTAMA");
+        d.setKuasaAlamat("JL. PELANDUK NOMOR 56C, MAKASSAR.");
+        d.setKuasaKTP("7371031701900005");
+        d.setKuasaTTL("UJUNG PANDANG, 17-01-1990");
 
-//        d.setLantaiTowerNomor("Lantai 1, tower 1, unit 1 2 3 4");
-        d.setHarga(String.valueOf(a.getTotalFee()));
-//        d.setHargaTerbilang(String.valueOf(a.getTotalFee()));
-//        d.setCaraPembayaran("asdfg");
+        d.setLantaiTowerNomor("Lantai 3 , Tower 1, Nomor : 330");
+        d.setHarga("Rp. 75.900.000,00");
+        d.setHargaTerbilang("(Tujuh Puluh Lima Juta Sembilan Ratus Ribu Rupiah) perunit");
+        d.setCaraPembayaran("Bertahap yang jumlah angsuran (cicilan) dan waktu (tanggal) pembayaran angsuran berdasarkan daftar jadual pembayaran (payment schedule) dalam lampiran perjanjian ini.");
         d.setTglPemesanan(dateFormat.format(a.getTrxTimestamp()));
 
         return d;
