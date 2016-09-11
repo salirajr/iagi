@@ -4,13 +4,14 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>Investor <small>.Aparkost</small></h5>
+                   
                 </div>
                 <div class="ibox-content">
-                    <form method="get" class="form-horizontal">
+                    <form class="form-horizontal" name="investorForm">
                         <div class="form-group"><label class="col-sm-2 control-label">Jenis Akun</label>
 
                             <div class="col-sm-3">
-                                <select class="form-control m-b" name="account" ng-model="data.accountType" >
+                                <select class="form-control m-b" name="account" ng-model="data.accountType">
                                     <option value="INVESTASI">Investasi</option>
                                     <option value="HIBAH">Hibah</option>
                                 </select>
@@ -19,7 +20,7 @@
 
                                 <div class="col-lg-3">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" ng-model="data.investor.accountId" ui-mask="AAAA9999"> 
+                                        <input type="text" class="form-control" ng-model="data.investor.accountId" oninvalid="this.setCustomValidity('Account Id adalah mandatory')"  required=""> 
                                         <span class="input-group-btn"> 
                                             <button type="button" class="btn btn-info" ng-click="getAccount()"><i class="fa fa-search"></i></button>
                                         </span>
@@ -32,10 +33,10 @@
                         <div class="hr-line-dashed"></div>
                         <div class="form-group"><label class="col-sm-2 control-label">Nama Lengkap</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" ng-model="data.investor.fullName">
+                                <input type="text" class="form-control" ng-model="data.investor.fullName" oninvalid="this.setCustomValidity('Nama Lengkap adalah mandatory')" required="">
                             </div>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control"  ng-model="data.investor.nickName">
+                                <input type="text" class="form-control"  ng-model="data.investor.nickName" oninvalid="this.setCustomValidity('Nama Panggilan adalah mandatory')" required="">
                                 <span class="help-block m-b-none"><small>Panggilan</small></span>
                             </div>
                         </div>
@@ -50,13 +51,13 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Kelahiran</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control"  ng-model="data.investor.birthPlace">
+                                <input type="text" class="form-control"  ng-model="data.investor.birthPlace" oninvalid="this.setCustomValidity('Tempat Kelahiran adalah mandatory')" required="">
                                 <span class="help-block m-b-none"><small>Tempat</small></span>
                             </div>
                             <div class="col-sm-3">
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control"  ng-model="data.investor.birthDate" ng-init="data.investor.birthDate = data.investor.birthDate || '2016-01-01'" ui-mask="9999-99-99">
+                                    <input type="text" class="form-control"  ng-model="data.investor.birthDate" ng-init="data.investor.birthDate = data.investor.birthDate || '2016-01-01'" ui-mask="9999-99-99" placeholder="" oninvalid="this.setCustomValidity('Tanggal Kelahiran adalah mandatory')">
                                 </div>
                                 <span class="help-block m-b-none"><small>Tanggal</small></span>
                             </div>
@@ -64,7 +65,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Email</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" ng-model="data.investor.emailAddress">
+                                <input type="text" class="form-control" ng-model="data.investor.emailAddress" oninvalid="this.setCustomValidity('Email adalah mandatory')" required="">
                             </div>
                         </div>
                         <div class="form-group">
@@ -74,7 +75,7 @@
                                 <span class="help-block m-b-none" ><small>Telepon</small></span>
                             </div>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" ng-model="data.investor.mobilePhoneNo" ui-mask="9999-9999-9999"> 
+                                <input type="text" class="form-control" ng-model="data.investor.mobilePhoneNo" ui-mask="9999-9999-9999" oninvalid="this.setCustomValidity('No. Telepon adalah mandatory')" required=""> 
                                 <span class="help-block m-b-none"><small>Mobile</small></span>
                             </div>
                             <div class="col-sm-4">
@@ -84,7 +85,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Alamat</label>
-                            <div class="col-sm-5"><textarea class="form-control" ng-model="data.investor.address">{{data.investor.address}}</textarea></div>
+                            <div class="col-sm-5"><textarea class="form-control" ng-model="data.investor.address" oninvalid="this.setCustomValidity('Alamat adalah mandatory')" required>{{data.investor.address}}</textarea></div>
                             <div class="col-sm-2">
                                 <input type="text" class="form-control" ng-model="data.investor.postalCode" ui-mask="999999"> 
                                 <span class="help-block m-b-none"><small>Kode Pos</small></span>
@@ -98,7 +99,7 @@
                             </div>
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label" >NIK/Passport</label>
-                            <div class="col-lg-4"><input type="text" class="form-control" ng-model="data.investor.nationalId"></div>
+                            <div class="col-lg-4"><input type="text" class="form-control" ng-model="data.investor.nationalId" oninvalid="this.setCustomValidity('NIK/Passport adalah mandatory')" required=""></div>
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label">Kewarganegaraan</label>
                             <div class="col-sm-3"><select class="form-control m-b" name="account" ng-model="data.investor.nationality"  ng-init="data.investor.nationality = data.investor.nationality || 'INDONESIA'">
@@ -114,10 +115,10 @@
                                 <div class="input-group">
                                     <label class="input-group-btn">
                                         <span class="btn btn-default">
-                                            Browse&hellip; <input type="file" style="display: none;" multiple>
+                                            Browse&hellip; <input type="file" style="display: none;" multiple onchange="angular.element(this).scope().addFile(this)">
                                         </span>
                                     </label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" ng-model="temp.fileName">
                                 </div>
                                 <span class="help-block m-b-none"><small>.jpg maximum 1024kB</small></span>
                             </div>
@@ -126,7 +127,7 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Pekerjaan</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control" ng-model="data.investor.occupation">
+                                <input type="text" class="form-control" ng-model="data.investor.occupation" oninvalid="this.setCustomValidity('Pekerjaan adalah mandatory')" required="">
                             </div>
                         </div>
                         <div class="form-group">
@@ -168,22 +169,75 @@
                                     <option>BRI</option>
                                 </select>
                             </div>
-                            <div class="col-lg-2"><input type="text" class="form-control"  ng-model="data.investor.bankAccountNo" ><span class="help-block m-b-none"><small>Rekening</small></span></div>
-                            <div class="col-lg-4"><input type="text" class="form-control"  ng-model="data.investor.bankAccountReference"><span class="help-block m-b-none"><small>Referensi Akun</small></span></div>
+                            <div class="col-lg-2"><input type="text" class="form-control"  ng-model="data.investor.bankAccountNo" oninvalid="this.setCustomValidity('No. Akun Bank adalah mandatory')" required=""><span class="help-block m-b-none"><small>Rekening</small></span></div>
+                            <div class="col-lg-4"><input type="text" class="form-control"  ng-model="data.investor.bankAccountReference" oninvalid="this.setCustomValidity('Referensi Akun Bank adalah mandatory')" required=""><span class="help-block m-b-none"><small>Referensi Akun</small></span></div>
                         </div>
 
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-10">
-                                <button class="btn btn-white btn-sm" type="submit">Batalkan</button>
-                                <button class="btn btn-success btn-sm" type="submit" ng-click="saveInvestor()">Simpan</button>
-                                <button class="btn btn-primary btn-sm" type="submit" ng-click="nextToCovenant()">Lanjutkan</button>
+                                <button class="btn btn-white btn-sm" ng-click="clearForm()" >Batalkan</button>
+                                <button class="btn btn-success btn-sm" ng-click="investorForm.$valid && saveInvestor()">Simpan</button>
+                                <button class="btn btn-primary btn-sm">Lanjutkan</button>
                             </div>
                         </div>
+
                     </form>
+
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <!--
+    <div class="modal inmodal fade" id="saveDialog" role="dialog" data-backdrop="static" aria-hidden="true">    
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="fa fa-warning modal-icon"></i>
+                </div>
+                <div class="modal-body">
+                    <small class="font-bold">Apakah anda yakin untuk menyimpan data?</small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary btn-sm" ng-click="saveInvestor()" >Simpan</button>
                 </div>
             </div>
         </div>
     </div>
+    <div class="modal inmodal fade" id="clarFormDialog" role="dialog" data-backdrop="static" aria-hidden="true">    
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="fa fa-warning modal-icon"></i>
+                </div>
+                <div class="modal-body">
+                    <small class="font-bold">Apakah anda yakin menghapus form?</small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary btn-sm" ng-click="saveInvestor()" >Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal inmodal fade" id="nextToAcquisistionDialog" role="dialog" data-backdrop="static" aria-hidden="true">    
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="fa fa-warning modal-icon"></i>
+                </div>
+                <div class="modal-body">
+                    <small class="font-bold">Apakah anda yakin menghapus form?</small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary btn-sm" ng-click="saveInvestor()" >Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
 </div>

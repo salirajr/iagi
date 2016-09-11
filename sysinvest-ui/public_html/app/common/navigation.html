@@ -17,8 +17,12 @@
                 </div>
             </li>
 
-            <li ui-sref-active="active">
-                <a ui-sref="index.investor"><i class="fa fa-child"></i> <span class="nav-label">Investor</span> </a>
+            <li>
+                <a><i class="fa fa-child"></i> <span class="nav-label">Investor</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a ui-sref="index.investor">Form Penambahan</a></li>
+                    <li><a ui-sref="index.investorlist">Register</a></li>
+                </ul>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="index.covenant"><i class="fa fa-book"></i> <span class="nav-label">Investasi</span></a>
@@ -29,6 +33,10 @@
             <li ui-sref-active="active">
                 <a ui-sref="index.acquisition"><i class="fa fa-legal"></i> <span class="nav-label">Kepemilikan</span></a>
             </li>
+            <li ui-sref-active="active">
+                <a ui-sref="index.staff"><i class="fa fa-user"></i> <span class="nav-label">Staff</span></a>
+            </li>
+
         </ul>
 
     </div>

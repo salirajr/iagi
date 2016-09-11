@@ -125,7 +125,9 @@
         };
 
         $scope.saveAcquisition = function (fnCallback) {
-            alert("saveAcquisition called!");
+            var isConfirm = confirm("Apakah anda ingin menyimpan data rekord berikut?");
+            if (!isConfirm)
+                return;
             $log.debug($scope.data.acquisition);
             var payload = $scope.data.acquisition;
             var date = new Date();
@@ -152,7 +154,10 @@
 
 
         $scope.generateAkad = function () {
-            $http.post('/api/acquisition/generateakad?id=' + $scope.data.acquisition.id,{}, {responseType: 'arraybuffer'})
+            var isConfirm = confirm("Apakah anda yakin untuk men-generate akad berdasarkan data rekord berikut?");
+            if (!isConfirm)
+                return;
+            $http.post('/api/acquisition/generateakad?id=' + $scope.data.acquisition.id, {}, {responseType: 'arraybuffer'})
                     .success(function (response) {
                         $log.debug("generateakad success!");
                         var file = new Blob([response], {type: 'application/pdf'});

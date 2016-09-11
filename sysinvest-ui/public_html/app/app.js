@@ -52,14 +52,14 @@
 
             if (AuthenticationService.isLoggedIn()) {
                 AuthenticationService.doLogout();
-                 $state.go('login');
+                $state.go('login');
             }
         }
     }
 
     function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
-        $urlRouterProvider.otherwise('/index/main');
+        $urlRouterProvider.otherwise('/index/acquisition');
 
         $ocLazyLoadProvider.config({
             debug: true
@@ -115,6 +115,17 @@
                         }
                     }
                 })
+                .state('index.investorlist', {
+                    url: "/investorlist",
+                    data: {pageTitle: 'Register Investor', roles: ['admin']},
+                    templateUrl: "app/investor/investorlist.html",
+                    controller: "InvestorListCtrl",
+                    resolve: {
+                        load: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('app/investor/investorlist-ctrl.js');
+                        }
+                    }
+                })
                 .state('index.covenant', {
                     url: "/covenant",
                     data: {pageTitle: 'Covenant', roles: ['admin']},
@@ -134,6 +145,17 @@
                     resolve: {
                         load: function ($ocLazyLoad) {
                             return $ocLazyLoad.load('app/acquisition/acquisition-ctrl.js');
+                        }
+                    }
+                })
+                .state('index.staff', {
+                    url: "/staff",
+                    data: {pageTitle: 'Staff', roles: ['admin']},
+                    templateUrl: "app/staff/staff.html",
+                    controller: "StaffCtrl",
+                    resolve: {
+                        load: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('app/staff/staff-ctrl.js');
                         }
                     }
                 })
