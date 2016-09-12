@@ -159,6 +159,17 @@
                         }
                     }
                 })
+                .state('index.stafflist', {
+                    url: "/stafflist",
+                    data: {pageTitle: 'StaffList', roles: ['admin']},
+                    templateUrl: "app/staff/stafflist.html",
+                    controller: "StaffListCtrl",
+                    resolve: {
+                        load: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('app/staff/stafflist-ctrl.js');
+                        }
+                    }
+                })
                 ;
     }
 })();

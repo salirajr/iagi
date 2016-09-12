@@ -20,7 +20,7 @@
 
                                 <div class="col-lg-3">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" ng-model="data.investor.accountId" oninvalid="this.setCustomValidity('Account Id adalah mandatory')"  required=""> 
+                                        <input type="text" class="form-control" ng-model="data.investor.accountId" name="accountId" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Account Id adalah mandatory')"  required> 
                                         <span class="input-group-btn"> 
                                             <button type="button" class="btn btn-info" ng-click="getAccount()"><i class="fa fa-search"></i></button>
                                         </span>
@@ -33,10 +33,10 @@
                         <div class="hr-line-dashed"></div>
                         <div class="form-group"><label class="col-sm-2 control-label">Nama Lengkap</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" ng-model="data.investor.fullName" oninvalid="this.setCustomValidity('Nama Lengkap adalah mandatory')" required="">
+                                <input type="text" class="form-control" ng-model="data.investor.fullName" name="fullName" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Nama Lengkap adalah mandatory')" required="">
                             </div>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control"  ng-model="data.investor.nickName" oninvalid="this.setCustomValidity('Nama Panggilan adalah mandatory')" required="">
+                                <input type="text" class="form-control"  ng-model="data.investor.nickName" name="nickName" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Nama Panggilan adalah mandatory')" required="">
                                 <span class="help-block m-b-none"><small>Panggilan</small></span>
                             </div>
                         </div>
@@ -51,13 +51,13 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Kelahiran</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control"  ng-model="data.investor.birthPlace" oninvalid="this.setCustomValidity('Tempat Kelahiran adalah mandatory')" required="">
+                                <input type="text" class="form-control"  ng-model="data.investor.birthPlace"  name="birthPlace" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Tempat Kelahiran adalah mandatory')" required="">
                                 <span class="help-block m-b-none"><small>Tempat</small></span>
                             </div>
                             <div class="col-sm-3">
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control"  ng-model="data.investor.birthDate" ng-init="data.investor.birthDate = data.investor.birthDate || '2016-01-01'" ui-mask="9999-99-99" placeholder="" oninvalid="this.setCustomValidity('Tanggal Kelahiran adalah mandatory')">
+                                    <input type="text" class="form-control"  ng-model="data.investor.birthDate" ng-init="data.investor.birthDate = data.investor.birthDate || '2016-01-01'" ui-mask="9999-99-99"  name="birthDate" oninput="setCustomValidity('')"  oninvalid="this.setCustomValidity('Tanggal Kelahiran adalah mandatory')" required="">
                                 </div>
                                 <span class="help-block m-b-none"><small>Tanggal</small></span>
                             </div>
@@ -65,7 +65,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Email</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" ng-model="data.investor.emailAddress" oninvalid="this.setCustomValidity('Email adalah mandatory')" required="">
+                                <input type="email" class="form-control" ng-model="data.investor.emailAddress"  name="emailAddress" oninput="setCustomValidity('')"  oninvalid="this.setCustomValidity('Email adalah mandatory')" required="">
                             </div>
                         </div>
                         <div class="form-group">
@@ -75,7 +75,7 @@
                                 <span class="help-block m-b-none" ><small>Telepon</small></span>
                             </div>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" ng-model="data.investor.mobilePhoneNo" ui-mask="9999-9999-9999" oninvalid="this.setCustomValidity('No. Telepon adalah mandatory')" required=""> 
+                                <input type="text" class="form-control" ng-model="data.investor.mobilePhoneNo" ui-mask="9999-9999-9999"  name="mobilePhoneNo" oninput="setCustomValidity('')"  oninvalid="this.setCustomValidity('No. Telepon adalah mandatory')" required=""> 
                                 <span class="help-block m-b-none"><small>Mobile</small></span>
                             </div>
                             <div class="col-sm-4">
@@ -85,7 +85,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Alamat</label>
-                            <div class="col-sm-5"><textarea class="form-control" ng-model="data.investor.address" oninvalid="this.setCustomValidity('Alamat adalah mandatory')" required>{{data.investor.address}}</textarea></div>
+                            <div class="col-sm-5"><textarea class="form-control" ng-model="data.investor.address"  name="address" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Alamat adalah mandatory')" required>{{data.investor.address}}</textarea></div>
                             <div class="col-sm-2">
                                 <input type="text" class="form-control" ng-model="data.investor.postalCode" ui-mask="999999"> 
                                 <span class="help-block m-b-none"><small>Kode Pos</small></span>
@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label" >NIK/Passport</label>
-                            <div class="col-lg-4"><input type="text" class="form-control" ng-model="data.investor.nationalId" oninvalid="this.setCustomValidity('NIK/Passport adalah mandatory')" required=""></div>
+                            <div class="col-lg-4"><input type="text" class="form-control" ng-model="data.investor.nationalId"  name="nationalId" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('NIK/Passport adalah mandatory')" required=""></div>
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label">Kewarganegaraan</label>
                             <div class="col-sm-3"><select class="form-control m-b" name="account" ng-model="data.investor.nationality"  ng-init="data.investor.nationality = data.investor.nationality || 'INDONESIA'">
@@ -127,7 +127,7 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Pekerjaan</label>
                             <div class="col-lg-3">
-                                <input type="text" class="form-control" ng-model="data.investor.occupation" oninvalid="this.setCustomValidity('Pekerjaan adalah mandatory')" required="">
+                                <input type="text" class="form-control" ng-model="data.investor.occupation"  name="occupation" oninput="setCustomValidity('')"  oninvalid="this.setCustomValidity('Pekerjaan adalah mandatory')" required="">
                             </div>
                         </div>
                         <div class="form-group">
@@ -169,8 +169,8 @@
                                     <option>BRI</option>
                                 </select>
                             </div>
-                            <div class="col-lg-2"><input type="text" class="form-control"  ng-model="data.investor.bankAccountNo" oninvalid="this.setCustomValidity('No. Akun Bank adalah mandatory')" required=""><span class="help-block m-b-none"><small>Rekening</small></span></div>
-                            <div class="col-lg-4"><input type="text" class="form-control"  ng-model="data.investor.bankAccountReference" oninvalid="this.setCustomValidity('Referensi Akun Bank adalah mandatory')" required=""><span class="help-block m-b-none"><small>Referensi Akun</small></span></div>
+                            <div class="col-lg-2"><input type="text" class="form-control"  ng-model="data.investor.bankAccountNo"  name="bankAccountNo" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('No. Akun Bank adalah mandatory')" required=""><span class="help-block m-b-none"><small>Rekening</small></span></div>
+                            <div class="col-lg-4"><input type="text" class="form-control"  ng-model="data.investor.bankAccountReference"  name="bankAccountReference" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Referensi Akun Bank adalah mandatory')" required=""><span class="help-block m-b-none"><small>Referensi Akun</small></span></div>
                         </div>
 
                         <div class="hr-line-dashed"></div>

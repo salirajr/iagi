@@ -7,7 +7,7 @@
     /*
      * MainCtrl - controller
      */
-    function StaffCtrl($scope, $log, $window) {
+    function StaffCtrl($scope, $log) {
         $log.debug('StaffCtrl is loaded');
         $scope.userName = 'Example user';
         $scope.helloText = 'Hello You Welcome in SeedProject';

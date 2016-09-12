@@ -79,7 +79,7 @@
                                             <td align="right"><b>{{data.acquisition.investments.length}} Unit</b></td>
                                             <td align="right">Rp</td>
                                             <td align="right">{{data.acquisition.totalFee|number:2}}</td>
-                                             <td align="right">Rp</td>
+                                            <td align="right">Rp</td>
                                             <td align="right">{{data.acquisition.totalMarketFee|number:2}}</td>
                                         </tr>
                                     </tfoot>
@@ -124,12 +124,12 @@
                                 </span>
                                 <input type="text" class="form-control" readonly="" ng-model="data.selectedInvestment.aparkost.floor">
                             </div>
-                           <div class="col-sm-3">
-                               <span class="help-block m-b-none"><small>Harga</small></span>
-                               <div class="input-group m-b">
-                                   <span class="input-group-addon">Rp</span> <input type="text" class="form-control text-right" ng-model="data.selectedInvestment.soldRate" ng-value="data.selectedInvestment.soldRate = data.selectedInvestment.soldRate > 0 ? data.selectedInvestment.soldRate : data.selectedInvestment.marketRate ">
-                               </div>
-                           </div>
+                            <div class="col-sm-3">
+                                <span class="help-block m-b-none"><small>Harga</small></span>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon">Rp</span> <input type="text" class="form-control text-right" ng-model="data.selectedInvestment.soldRate" ng-value="data.selectedInvestment.soldRate = data.selectedInvestment.soldRate > 0 ? data.selectedInvestment.soldRate : data.selectedInvestment.marketRate ">
+                                </div>
+                            </div>
                             <div class="col-sm-2">
                                 <span class="help-block m-b-none">
                                     <small>*</small>
@@ -140,30 +140,37 @@
                         </div>
                         <div class="form-group">
                             <span class="col-sm-2 control-label">Pembelian</span>
-                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Tanda Jadi</small></span><div class="input-group m-b"><span class="input-group-addon">Rp</span> <input type="text" class="form-control text-right" ng-model="data.acquisition.bookingFee" ng-init="data.acquisition.bookingFee = 0"></div></div>
-                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Uang Muka</small></span><div class="input-group m-b"><span class="input-group-addon">Rp</span> <input type="text" class="form-control text-right" ng-model="data.acquisition.dpFee" ng-init="data.acquisition.dpFee = 0"></div></div>
+                            <div class="col-sm-3">
+                                <span class="help-block m-b-none"><small>Tanda Jadi</small></span>
+                                <div class="input-group m-b"><span class="input-group-addon">Rp</span> 
+                                    <input type="text" class="form-control text-right" ng-model="data.acquisition.bookingFee" ng-init="data.acquisition.bookingFee = 0">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="help-block m-b-none"><small>Tanggal Pembayaran</small></span>
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" class="form-control"  ng-model="data.investor.birthDate" ng-init="data.investor.birthDate = data.investor.birthDate || '2016-01-01'" ui-mask="9999-99-99" placeholder="" oninvalid="this.setCustomValidity('Tanggal Kelahiran adalah mandatory')">
+                                </div>
+
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-2 control-label"></label>
-                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Sisa Pembayaran</small></span><div class="input-group m-b"><span class="input-group-addon">Rp</span> <input type="text" class="form-control text-right" ng-model="data.acquisition.payableFee" ng-value="data.acquisition.payableFee = data.acquisition.totalFee - data.acquisition.bookingFee - data.acquisition.dpFee" readonly=""></div></div>
+                            <span class="col-sm-2 control-label"></span>
+                            <div class="col-sm-3">
+                                <span class="help-block m-b-none"><small>Uang Muka</small></span>
+                                <div class="input-group m-b"><span class="input-group-addon">Rp</span> 
+                                    <input type="text" class="form-control text-right" ng-model="data.acquisition.dpFee" ng-init="data.acquisition.dpFee = 0">
+                                </div>
+                            </div>
                             <div class="col-sm-2">
-                                <span class="help-block m-b-none"><small>Metode Pembayaran</small></span>
-                                <select class="form-control" ng-init="data.acquisition.type = 'INSTALLMENT'"  ng-model="data.acquisition.type" >
-                                    <option value="CASH">Kontan</option>
-                                    <option value="SOFT_INSTALLMENT">Cicilan Lunak</option>
-                                    <option value="INSTALLMENT">Cicilan</option>
-                                </select>
+                                <span class="help-block m-b-none"><small>Tanggal Pembayaran</small></span>
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" class="form-control"  ng-model="data.investor.birthDate" ng-init="data.investor.birthDate = data.investor.birthDate || '2016-01-01'" ui-mask="9999-99-99" placeholder="" oninvalid="this.setCustomValidity('Tanggal Kelahiran adalah mandatory')">
+                                </div>
                             </div>
-                            <div class="col-sm-2" ng-show="data.acquisition.type === 'SOFT_INSTALLMENT'">
-                                <span class="help-block m-b-none"><small>Bulan</small></span>
-                                <select class="form-control m-b" ng-init="data.acquisition.nPeriod = '6'" ng-model="data.acquisition.nPeriod" >
-                                    <option value="3">3</option>
-                                    <option value="6">6</option>
-                                    <option value="12">12</option>
-                                    <option value="18">18</option>
-                                </select>
-                            </div>
-
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Sisa Pembayaran</small></span><div class="input-group m-b"><span class="input-group-addon">Rp</span> <input type="text" class="form-control text-right" ng-model="data.acquisition.payableFee" ng-value="data.acquisition.payableFee = data.acquisition.totalFee - data.acquisition.bookingFee - data.acquisition.dpFee" readonly=""></div></div>
                         </div>
                         <div class="form-group  m-b-none">
                             <label class="col-lg-2 control-label"></label>
@@ -172,45 +179,122 @@
                                 <table class="table table-striped table-bordered table-hover dataTables-example" style="font-size: 85% !important;">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>Tahapan</th>
+                                            <th>Tanggal</th>
                                             <th colspan="2">Jumlah</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr class="gradeX"  ng-show="data.acquisition.type === 'INSTALLMENT'">
-                                            <td>Angsuran 1 - 27 dengan Jatuh Tempo pada tanggal 2 tiap bulannya</td>
+                                            <th></th>
+                                            <td colspan="2">Angsuran 1 - 27 dengan Jatuh Tempo pada tanggal 2 tiap bulannya</td>
                                             <td>Rp</td>
-                                            <td align="right">{{$scope.data.acquisition.rate = data.acquisition.payableFee/27|number:2}}</td>
+                                            <td align="right">{{$scope.data.acquisition.rate = data.acquisition.payableFee / 27|number:2}}</td>
                                         </tr>
                                         <tr class="gradeX"  ng-show="data.acquisition.type === 'SOFT_INSTALLMENT'">
-                                            <td>Pembayaran akan diselesaikan dalam masa {{data.acquisition.nPeriod}} bulan, dengan rerata</td>
+                                            <th></th>
+                                            <td colspan="2">Pembayaran akan diselesaikan dalam masa {{data.acquisition.nPeriod}} bulan, dengan rerata</td>
                                             <td>Rp</td>
-                                            <td align="right">{{$scope.data.acquisition.rate = data.acquisition.payableFee/data.acquisition.nPeriod|number:2}}</td>
+                                            <td align="right">{{$scope.data.acquisition.rate = data.acquisition.payableFee / data.acquisition.nPeriod|number:2}}</td>
                                         </tr>
                                         <tr class="gradeX"  ng-show="data.acquisition.type === 'CASH'">
+                                            <th></th>
                                             <td>Terbayar <b>Lunas</b> sebesar</td>
+                                            <td>08-01-2016</td>
                                             <td>Rp</td>
                                             <td align="right">{{$scope.data.acquisition.rate = data.acquisition.payableFee|number:2}}</td>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         <tr class="gradeX">
+                                            <th></th>
                                             <td>Tanda Jadi</td>
+                                            <td>08-01-2016</td>
                                             <td>Rp</td>
                                             <td align="right">{{data.acquisition.bookingFee|number:2}}</td>
                                         </tr>
                                         <tr class="gradeX">
+                                            <th></th>
                                             <td>Uang Muka</td>
+                                            <td>29-02-2016</td>
                                             <td>Rp</td>
                                             <td align="right">{{data.acquisition.dpFee|number:2}}</td>
                                         </tr>
                                         <tr class="gradeX">
+                                            <th></th>
                                             <td>Hutang Pembayaran</td>
+                                            <td>30-03-2016</td>
                                             <td>Rp</td>
                                             <td align="right">{{data.acquisition.payableFee|number:2}}</td>
                                         </tr>
                                         <tr class="gradeX">
-                                            <td>Total</td>
+                                            <th></th>
+                                            <td colspan="2">Total</td>
+                                            <td>Rp</td>
+                                            <td align="right">{{data.acquisition.totalFee|number:2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"></label>
+
+                            <div class="col-sm-3">
+                                <span class="help-block m-b-none"><small>Metode Pembayaran</small></span>
+                                <select class="form-control" ng-init="data.acquisition.type = 'INSTALLMENT'"  ng-model="data.acquisition.type" >
+                                    <option value="CASH">Kontan</option>
+                                    <option value="SOFT_INSTALLMENT">Cicilan Lunak</option>
+                                    <option value="INSTALLMENT">Cicilan</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="help-block m-b-none"><small>Tanggal Pembayaran</small></span>
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" class="form-control"  ng-model="data.investor.birthDate" ng-init="data.investor.birthDate = data.investor.birthDate || '2016-01-01'" ui-mask="9999-99-99" placeholder="" oninvalid="this.setCustomValidity('Tanggal Kelahiran adalah mandatory')">
+                                </div>
+                            </div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Sisa Pembayaran</small></span><div class="input-group m-b"><span class="input-group-addon">Rp</span> <input type="text" class="form-control text-right" ng-model="data.acquisition.payableFee" ng-value="data.acquisition.payableFee = data.acquisition.totalFee - data.acquisition.bookingFee - data.acquisition.dpFee" readonly=""></div></div>
+
+                        </div>
+          
+                        <div class="form-group  m-b-none">
+                            <label class="col-lg-2 control-label"></label>
+                            <div class="col-lg-4">
+                                <span class="help-block m-b-none"><small>Tahapan Pembayaran</small></span>
+                                <table class="table table-striped table-bordered table-hover dataTables-example" style="font-size: 85% !important;">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Tanggal</th>
+                                            <th colspan="2">Jumlah</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <tr class="gradeX">
+                                            <td><input type="radio" value="" name="selectedAparkost"></td>
+                                            <td>08-01-2016</td>
+                                            <td>Rp</td>
+                                            <td align="right">{{10000000|number:2}}</td>
+                                        </tr>
+                                        <tr class="gradeX">
+                                            <td><input type="radio" value="" name="selectedAparkost"></td>
+                                            <td>29-02-2016</td>
+                                            <td>Rp</td>
+                                            <td align="right">{{13000000|number:2}}</td>
+                                        </tr>
+                                        <tr class="gradeX">
+                                            <td><input type="radio" value="" name="selectedAparkost"></td>
+                                            <td>30-03-2016</td>
+                                            <td>Rp</td>
+                                            <td align="right">{{14000000|number:2}}</td>
+                                        </tr>
+                                        <tr class="gradeX">
+                                            
+                                            <td colspan="2">Total</td>
                                             <td>Rp</td>
                                             <td align="right">{{data.acquisition.totalFee|number:2}}</td>
                                         </tr>
