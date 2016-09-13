@@ -53,6 +53,8 @@ public class LayoutImageServiceImpl extends LayoutImageServiceAbstract {
             layoutData.setSelectedAparkostNames(selectedAparkosts.stream()
                     .map(aparkost -> aparkost.getName())
                     .collect(Collectors.toList()));
+            layoutData.setWidth(img.getWidth());
+            layoutData.setHeight(img.getHeight());
             return layoutData;
         } catch (IOException ex) {
             throw new RuntimeException(ex);

@@ -58,6 +58,8 @@ public class LayoutImageServiceSvgImpl extends LayoutImageServiceAbstract {
             layoutImage.setSelectedAparkostNames(selectedAparkosts.stream()
                     .map(aparkost -> aparkost.getName())
                     .collect(Collectors.toList()));
+            layoutImage.setWidth(g.getSVGCanvasSize().width);
+            layoutImage.setHeight(g.getSVGCanvasSize().height);
             return layoutImage;
         } catch (SVGGraphics2DIOException ex) {
             throw new RuntimeException(ex);

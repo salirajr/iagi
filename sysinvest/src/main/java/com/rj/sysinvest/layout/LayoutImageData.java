@@ -1,7 +1,6 @@
 package com.rj.sysinvest.layout;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.List;
 import lombok.Data;
 
@@ -17,9 +16,10 @@ public class LayoutImageData {
     private String floor;
     private String imageType;
     private byte[] imageRaw;
+    private int width, height;
     private List<String> selectedAparkostNames;
 
-    public InputStream getImageInputStream() {
+    public ByteArrayInputStream getImageInputStream() {
         return new ByteArrayInputStream(imageRaw);
     }
 }
