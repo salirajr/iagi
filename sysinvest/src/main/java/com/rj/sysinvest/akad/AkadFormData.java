@@ -33,6 +33,6 @@ public class AkadFormData {
     private String harga, hargaTerbilang, tglPemesanan, caraPembayaran;
     private String tglJatuhTempo, tglJatuhTempoTerbilang;
 
-    private String tempatDanTglAkad;
+    private String tempatAkad, tglAkad;
 
 }

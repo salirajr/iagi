@@ -2,12 +2,11 @@ package com.rj.sysinvest.akad;
 
 import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Investor;
+import com.rj.sysinvest.model.Payment;
 import com.rj.sysinvest.model.Staff;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Date;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,59 +16,55 @@ import org.springframework.stereotype.Service;
 @Service
 public class AkadFormDataMapperImpl implements AkadFormDataMapper {
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat shortDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM-yyyy");
+    private SimpleDateFormat dateOnlyFormat = new SimpleDateFormat("d");
+    private NumberFormat moneyFormatter = NumberFormat.getInstance();
 
     @Override
     public AkadFormData apply(Acquisition a) {
         AkadFormData d = new AkadFormData();
 
         Staff s = a.getStaff();
-        d.setPihakPertamaNama(s.getFullName());
+        d.setPihakPertamaNama(upper(s.getFullName()));
         d.setPihakPertamaCompany("PT.IBNU AUF GLOBAL INVESTAMA");
         d.setPihakPertamaKTP(s.getNationalId());
-        d.setPihakPertamaAlamat(s.getAddress());
-        d.setPihakPertamaTTL(s.getBirthPlace() + ", " + dateFormat.format(s.getBirthDate()));
+        d.setPihakPertamaAlamat(upper(s.getAddress()));
+        d.setPihakPertamaTTL(upper(s.getBirthPlace()) + ", " + upper(shortDateFormat.format(s.getBirthDate())));
+
+        d.setKuasaNama("ANDI TAUFIQ YUSUF");
+        d.setKuasaAlamat("JL. PELANDUK NOMOR 56C, MAKASSAR");
+        d.setKuasaJabatan("DIRUT PT.IBNU AUF GLOBAL INVESTAMA");
+        d.setKuasaKTP("7371031701900005");
+        d.setKuasaTTL("UJUNG PANDANG, 17-01-1990");
 
         Investor i = a.getInvestor();
-        d.setPihakKeduaNama(i.getFullName());
-        d.setPihakKeduaPekerjaan(i.getOccupation());
-        d.setPihakKeduaAlamat(i.getAddress());
+        d.setPihakKeduaNama(upper(i.getFullName()));
+        d.setPihakKeduaPekerjaan(upper(i.getOccupation()));
+        d.setPihakKeduaAlamat(upper(i.getAddress()));
         d.setPihakKeduaKTP(i.getNationalId());
-        d.setPihakKeduaTTL(i.getBirthPlace() + ", " + dateFormat.format(i.getBirthDate()));
+        d.setPihakKeduaTTL(upper(i.getBirthPlace()) + ", " + upper(shortDateFormat.format(i.getBirthDate())));
 
-//        d.setKuasaNama("RAIS");
-//        d.setKuasaAlamat("MAKASSAR");
-//        d.setKuasaJabatan("PRESIDEN");
-//        d.setKuasaKTP("0987654321");
-//        d.setKuasaTTL("Sungguminasa, 01 Maret 1986");
-//        d.setLantaiTowerNomor("Lantai 1, tower 1, unit 1 2 3 4");
-        d.setHarga(String.valueOf(a.getRate()));
+        d.setHarga(moneyFormatter.format(a.getRate()));
 //        d.setHargaTerbilang(String.valueOf(a.getTotalFee()));
 //        d.setCaraPembayaran("asdfg");
-        d.setTglPemesanan(dateFormat.format(a.getAuditTime()));
 
-//        // Map<TowerName, Map<Floor, List<AparkostName>>>
-//        Map<String, Map<String, List<String>>> towerFloorUnitMap = new HashMap();
-//        d.setTowerFloorUnitMap(towerFloorUnitMap);
-//        a.getInvestments().stream()
-//                .map(inv -> inv.getAparkost())
-//                .forEach(aparkost -> {
-//                    String towerName = aparkost.getTower().getName();
-//                    Map<String, List<String>> floorUnitMap = towerFloorUnitMap.get(towerName);
-//                    if (floorUnitMap == null) {
-//                        floorUnitMap = new HashMap();
-//                        towerFloorUnitMap.put(towerName, floorUnitMap);
-//                    }
-//                    String floor = aparkost.getFloor();
-//                    List<String> unitList = floorUnitMap.get(floor);
-//                    if (unitList == null) {
-//                        unitList = new ArrayList();
-//                        floorUnitMap.put(floor, unitList);
-//                    }
-//                    String unitName = aparkost.getName();
-//                    unitList.add(unitName);
-//                });
+        d.setTglPemesanan(monthFormat.format(a.getAuditTime()));
+        for (Payment p : a.getPayments()) {
+            Date tglJatuhTempo = p.getPaydate();
+            if (tglJatuhTempo != null) {
+                d.setTglJatuhTempo(dateOnlyFormat.format(tglJatuhTempo));
+//                d.setTglJatuhTempoTerbilang();
+                break;
+            }
+        }
+        d.setTempatAkad(null);
+        d.setTglAkad(shortDateFormat.format(a.getAuditTime()));
 
         return d;
+    }
+
+    String upper(String s) {
+        return s == null ? null : s.toUpperCase();
     }
 }

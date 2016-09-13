@@ -116,6 +116,7 @@ public class AkadDocxService {
     private NumberFormat jumlahFormatter = NumberFormat.getInstance();
 
     private List<List<String>> generateTableDataForTowerFloorUnits(Acquisition a) {
+        // Map<TowerName, Map<Floor, List<AparkostName>>>
         Map<String, Map<String, List<String>>> towerFloorUnitMap = new HashMap();
         a.getInvestments().stream()
                 .map(inv -> inv.getAparkost())
@@ -137,16 +138,16 @@ public class AkadDocxService {
                 });
         List<List<String>> tableData = new ArrayList();
         towerFloorUnitMap
-                .forEach((towerName, floorUnitMap) -> {
-                    floorUnitMap.forEach((floor, unitList) -> {
-                        String units = buildString(unitList, null, ",", null);
-                        List<String> rowData = new ArrayList();
-                        rowData.add(towerName);
-                        rowData.add(floor);
-                        rowData.add(units);
-                        tableData.add(rowData);
-                    });
-                });
+                .forEach((towerName, floorUnitMap)
+                        -> floorUnitMap.forEach((floor, unitList) -> {
+                            String units = buildString(unitList, null, ",", null);
+                            List<String> rowData = new ArrayList();
+                            rowData.add(towerName);
+                            rowData.add(floor);
+                            rowData.add(units);
+                            tableData.add(rowData);
+                        })
+                );
         return tableData;
     }
 

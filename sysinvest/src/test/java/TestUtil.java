@@ -3,6 +3,7 @@ import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Aparkost;
 import com.rj.sysinvest.model.Investment;
 import com.rj.sysinvest.model.Investor;
+import com.rj.sysinvest.model.Payment;
 import com.rj.sysinvest.model.Site;
 import com.rj.sysinvest.model.Staff;
 import com.rj.sysinvest.model.Tower;
@@ -13,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +53,7 @@ public class TestUtil {
         a.setRate(1000000);
 //        a.setStartDate(new Date(System.currentTimeMillis()));
         a.setAuditTime(new Timestamp(System.currentTimeMillis()));
+        a.setPayments(createPaymentList());
         return a;
     }
 
@@ -81,6 +84,7 @@ public class TestUtil {
         ir.setNickName("FIRMAN");
         ir.setAddress("JL MALANGBONG 4 NO 2 RT/RW 003/003 KEL ANTAPANI WETAN KEC ANTAPANI BANDUNG");
         ir.setBirthDate(new Date(System.currentTimeMillis()));
+        ir.setOccupation("KARYAWAN SWASTA");
         return ir;
     }
 
@@ -113,5 +117,10 @@ public class TestUtil {
         a.setTower(t);
         a.setInvestor(investor);
         return a;
+    }
+
+    public static List<Payment> createPaymentList() {
+        List<Payment> list = new ArrayList();
+        return list;
     }
 }
