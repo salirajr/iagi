@@ -16,7 +16,8 @@
                                             <th></th>
                                             <th>Site</th>
                                             <th>Unit</th>
-                                            <th>Pemilik</th>
+                                            <th>Ref. No. Akad</th>
+                                            <th>Akun Id</th>
                                             <th colspan="2">Harga Unit</th>
                                             <th colspan="2">Harga Pasar</th>
                                         </tr>
@@ -24,29 +25,17 @@
                                     <tfoot>
                                     </tfoot>
                                     <tbody>
-                                        <tr class="gradeX">
+                                        <tr ng-repeat="investment in list.investments"  class="gradeX">
                                             <td class="dt-center"><input type="radio" value="" name="radioAparkost"></td>
-                                            <td>THE APARKOST IPB, Kp. Carang Pulang Kidul, RT
-                                                04. RW 06, Ds. Cikarawang, Kec Dramaga, Kab Bogor,
-                                                Prov Jawa Barat</td>
-                                            <td>Tower 1 lt. g no. 101</td>
-                                            <td>IAGI0001</td>
-                                            <td>Rp</td>
-                                            <td>85.000.000,00</td>
-                                            <td>Rp</td>
-                                            <td>85.000.000,00</td>
-                                        </tr>
-                                        <tr class="gradeX">
-                                            <td class="dt-center"><input type="radio" value="" name="radioAparkost"></td>
-                                            <td>THE APARKOST IPB, Kp. Carang Pulang Kidul, RT
-                                                04. RW 06, Ds. Cikarawang, Kec Dramaga, Kab Bogor,
-                                                Prov Jawa Barat</td>
-                                            <td>Tower 1 lt. 2 no. 201</td>
-                                            <td>IAGI0002</td>
-                                            <td>Rp</td>
-                                            <td>85.000.000,00</td>
-                                            <td>Rp</td>
-                                            <td>90.000.000,00</td>
+                                            <td>{{investment.aparkost.tower.site.name}}, {{investment.aparkost.tower.site.address}}
+                                                {{investment.aparkost.tower.site.province}}</td>
+                                            <td>{{investment.aparkost.tower.name}} lt. {{investment.aparkost.floor}} no. {{investment.aparkost.name}}</td>
+                                            <td>{{investment.aparkost.investor.fullName? 'AK/SCC-APRK/JB/2016/01/1'+investment.id:'-'}}</td>
+                                            <td>{{investment.aparkost.investor.accountId? investment.aparkost.investor.accountId:'0000000'}}</td>
+                                            <td  align="center">Rp</td>
+                                            <td  align="right">{{investment.soldRate?(investment.soldRate|number:2):'-'}}</td>
+                                            <td  align="center">Rp</td>
+                                            <td  align="right">{{investment.marketRate|number:2}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

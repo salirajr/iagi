@@ -42,7 +42,7 @@
                     .then(function (response) {
                         $log.debug(response);
                         $scope.data.covenantStaff = response.data;
-                        $scope.dInput.selectedCStaffId = response.data[0].rank.id;
+                        $scope.dInput.selectedCStaffId = response.data[0].id;
                         $scope.data.acquisition.staff = response.data[0];
                         $log.debug("getInvestor responsed sucess with " + $scope.dInput.selectedCStaffId);
                     });

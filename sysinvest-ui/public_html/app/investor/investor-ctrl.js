@@ -29,8 +29,9 @@
                 return;
 
             if ($scope.data.accountType === 'INVESTASI') {
-                var payload = $scope.data.investor;
-                payload.birthDate = new Date($scope.data.investor.birthDate);
+                var payload = {};
+                angular.copy($scope.data.investor, payload);
+                payload.birthDate = new Date(payload.birthDate);
                 $http.post('/api/investor/addnew', payload)
                         .success(function (response) {
                             $scope.data.investor = response;
@@ -61,6 +62,7 @@
         };
 
         $scope.getAccount = function () {
+            var tAccountId = $scope.data.investor.accountId;
             $http.get("/api/investor/ret/byaccountid?value=" + $scope.data.investor.accountId)
                     .then(function (response) {
                         $log.debug(response);
@@ -69,7 +71,8 @@
                             $log.debug("getAccount responsed sucess with " + $scope.data.investor.accountId);
                         } else {
                             alert("Account id dengan [" + $scope.data.investor.accountId + "] tidak ditemukan!");
-                             $scope.clearForm();
+                            $scope.clearForm();
+                            $scope.data.investor.accountId = tAccountId;
                         }
 
                     });
@@ -85,9 +88,9 @@
         $scope.clearForm = function () {
             $scope.data.investor = {};
             $scope.data.investor.gender = "M";
-            $scope.data.investor.province="jakarta-selatan,-dki";
-            $scope.data.investor.nationality="INDONESIA";
-            $scope.data.investor.jobSector="PROFESSIONAL";
+            $scope.data.investor.province = "jakarta-selatan,-dki";
+            $scope.data.investor.nationality = "INDONESIA";
+            $scope.data.investor.jobSector = "PROFESSIONAL";
             $scope.data.investor.bankAccount = "BCA";
         }
 
