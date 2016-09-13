@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,12 +33,14 @@ public class TestUtil {
 
     public static Acquisition createAcquisition() {
         Investor investor = createInvestor();
+        Staff staff = createStaff();
         List<Investment> investments = createAparkostList(investor).stream()
                 .map(aparkost -> createInvestment(aparkost))
                 .collect(Collectors.toList());
         Acquisition a = new Acquisition();
         a.setInvestor(investor);
         a.setInvestments(investments);
+        a.setStaff(staff);
 //        a.setBookingFee(1000000);
 //        a.setDpFee(50000000);
 //        a.setTotalFee(85000000);
@@ -45,8 +48,9 @@ public class TestUtil {
         a.setInvestor(TestUtil.createInvestor());
         a.setType("INSTALLMENT");
 //        a.setNPeriod(27);
-//        a.setRate(1000000);
+        a.setRate(1000000);
 //        a.setStartDate(new Date(System.currentTimeMillis()));
+        a.setAuditTime(new Timestamp(System.currentTimeMillis()));
         return a;
     }
 
@@ -63,10 +67,10 @@ public class TestUtil {
 
     public static List<Aparkost> createAparkostList(Investor ir) {
         List<Aparkost> list = new ArrayList();
-        list.add(createAparkost(1, "001", "G", "Tower1", "Site1", ir));
-        list.add(createAparkost(9, "009", "G", "Tower1", "Site1", ir));
-        list.add(createAparkost(1, "201", "2", "Tower1", "Site1", ir));
-        list.add(createAparkost(8, "208", "2", "Tower1", "Site1", ir));
+        list.add(createAparkost(1, "001", "G", "Tower 1", "THE APARKOST IPB", ir));
+        list.add(createAparkost(3, "003", "G", "Tower 1", "THE APARKOST IPB", ir));
+        list.add(createAparkost(1, "201", "2", "Tower 1", "THE APARKOST IPB", ir));
+        list.add(createAparkost(5, "205", "2", "Tower 1", "THE APARKOST IPB", ir));
         return list;
     }
 

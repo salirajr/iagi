@@ -1,5 +1,7 @@
 package com.rj.sysinvest.akad;
 
+import java.util.List;
+import java.util.Map;
 import lombok.Data;
 
 /**
@@ -10,7 +12,7 @@ import lombok.Data;
 public class AkadFormData {
 
     private String pihakPertamaNama,
-            pihakPertamaJabatan1, pihakPertamaJabatan2,
+            pihakPertamaJabatan, pihakPertamaCompany,
             pihakPertamaAlamat,
             pihakPertamaKTP,
             pihakPertamaTTL;
@@ -27,10 +29,10 @@ public class AkadFormData {
             pihakKeduaKTP,
             pihakKeduaTTL;
 
-    private String lantaiTowerNomor;
-
+//    private Map<String, Map<String, List<String>>> towerFloorUnitMap;
     private String harga, hargaTerbilang, tglPemesanan, caraPembayaran;
+    private String tglJatuhTempo, tglJatuhTempoTerbilang;
 
-    private String tempatDanTanggal;
+    private String tempatDanTglAkad;
 
 }

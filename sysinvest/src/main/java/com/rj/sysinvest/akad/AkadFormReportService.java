@@ -19,13 +19,13 @@ public class AkadFormReportService {
     private PdfComponent pdfService;
     
     @Resource
-    private AkadFormDataService dataService;
+    private AkadFormDataMapper dataService;
     
     @Value("${AkadFormReportService.pdfFormPath}")
     private String formPath;
 
     public byte[] generatePdf(Acquisition acquisition) throws IOException {
-        AkadFormData data = dataService.generateAkadFormData(acquisition);
+        AkadFormData data = dataService.apply(acquisition);
         return pdfService.loadFillSaveToBytes(formPath, data);
     }
 
