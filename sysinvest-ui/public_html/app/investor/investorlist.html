@@ -27,7 +27,8 @@
                                     </tfoot>
                                     <tbody>
                                         <tr class="gradeX" ng-repeat="investor in list.investor">
-                                            <td class="dt-center"><input type="radio" value="" name="radioAparkost"></td>
+                                            <td class="dt-center">
+                                                <input type="radio" value="" name="radioAparkost" ng-model="temp.investorId" ng-value="investor.id"></td>
                                             <td>{{investor.accountId}}</td>
                                             <td>{{investor.fullName}}</td>
                                             <td>{{investor.nationalId}}</td>
@@ -42,11 +43,11 @@
                                     <div class="col-sm-4">
                                         <label class="font-noraml"><small>Operasi</small></label>
                                         <div class="input-group date">
-                                            <select class="form-control m-b" name="account">
-                                                <option>Ubah data</option>
-                                                <option>Lihat Detail</option>
+                                            <select class="form-control m-b" ng-model="temp.action" ng-init="temp.action = 'MODIFY_INVESTOR'">
+                                                <option value="MODIFY_INVESTOR">Ubah data</option>
+                                                <option value="DETAIL_INVESTOR">Lihat Detail</option>
                                             </select>
-                                            <span class="input-group-addon"><i class="fa fa-arrow-right"></i></span>
+                                            <span class="input-group-addon" ng-click="doAction()"><i class="fa fa-arrow-right"></i></span>
                                         </div>
                                     </div>
                                 </div>

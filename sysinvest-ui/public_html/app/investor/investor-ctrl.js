@@ -18,8 +18,13 @@
         $scope.temp = {};
         $scope.data.investor = {};
 
-        $rootScope.data = {};
-        $rootScope.data.investor = {};
+        if ($rootScope.data !== undefined && $rootScope.data.investor !== undefined) {
+            $scope.data.investor = $rootScope.data.investor;
+            $rootScope.data.investor = undefined;
+        } else {
+            $rootScope.data = {};
+            $rootScope.data.investor = {};
+        }
 
         $scope.data.accountType = 'INVESTASI';
 
