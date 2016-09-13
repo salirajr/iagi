@@ -17,4 +17,6 @@ public interface AparkostRepository extends CrudRepository<Aparkost, Long> {
 
     @Query("from Aparkost a where a.tower.id = :towerId and a.floor = :floor")
     List<Aparkost> findByTowerIdAndFloor(@Param("towerId") Long towerId, @Param("floor") String floor);
+    
+
 }

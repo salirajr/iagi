@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 
@@ -26,19 +26,23 @@ public class Investment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(optional = false)
+    @ManyToOne
     private Aparkost aparkost;
     public static final String PROP_APARKOST = "aparkost";
 
     @Column(length = 19)
     private Long marketRate;
+    
+    @Column(length=1)
+    private String state;
 
     @Column
     private Timestamp marketRateUpdate;
 
     @Column(length = 19)
     private Double soldRate;
+    
+    @Column(nullable = true)
+    private Timestamp soldTrx = null;
 
-    @Column
-    private Timestamp timestamp;
 }

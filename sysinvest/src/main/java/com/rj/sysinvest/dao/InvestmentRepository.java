@@ -12,7 +12,8 @@ import org.springframework.data.repository.query.Param;
  */
 public interface InvestmentRepository extends CrudRepository<Investment, Long> {
 
-    @Query("from Investment where aparkost.tower.id = :towerId")
+    @Query("from Investment where aparkost.tower.id = :towerId and state = 'ON_SALE'")
     public List<Investment> findOnSaleByTowerId(@Param("towerId") Long towerId);
+    
 
 }

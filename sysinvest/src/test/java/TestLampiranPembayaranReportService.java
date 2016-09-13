@@ -49,7 +49,7 @@ public class TestLampiranPembayaranReportService {
         // generate sample data
         Acquisition a = TestUtil.createAcquisition();
         a.setType("INSTALLMENT");
-        a.setNPeriod(27);
+//        a.setNPeriod(27);
         
         
         // generate pdf

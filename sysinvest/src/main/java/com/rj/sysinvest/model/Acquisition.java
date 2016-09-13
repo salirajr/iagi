@@ -1,7 +1,6 @@
 package com.rj.sysinvest.model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
 import javax.persistence.Column;
@@ -13,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Version;
 import lombok.Data;
 
 /**
@@ -32,13 +30,13 @@ public class Acquisition implements Serializable {
     private Long id;
 
     @Column
-    private Timestamp trxTimestamp;
+    private Timestamp auditTime;
 
     @OneToMany
     private Collection<Investment> investments;
 
     @ManyToOne
-    private Investor investor = null;
+    private Investor investor;
     public static final String PROP_INVESTOR = "investor";
 
     @ManyToOne
@@ -50,33 +48,18 @@ public class Acquisition implements Serializable {
 
     @Column
     private String type;
+    
+    @Column
+    private String reference;
 
     @Column
-    private long dpFee;
-
+    private long rate;
+    
     @Column
-    private long bookingFee;
-
-    @Column
-    private long totalFee;
-
-    @Column
-    private long nPeriod;
-
-    @Column
-    private Date startDate;
-
-    @Column
-    private Date endDate;
-
-    @Column
-    private double rate;
-
-    @Version
-    private int version;
+    private long marketRate;
 
     @PrePersist
     void prePersist() {
-        setTrxTimestamp(new Timestamp(System.currentTimeMillis()));
+        setAuditTime(new Timestamp(System.currentTimeMillis()));
     }
 }

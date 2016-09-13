@@ -44,7 +44,7 @@ public class AkadFormDataServiceImpl implements AkadFormDataService {
         d.setHarga("Rp. 75.900.000,00");
         d.setHargaTerbilang("(Tujuh Puluh Lima Juta Sembilan Ratus Ribu Rupiah) perunit");
         d.setCaraPembayaran("Bertahap yang jumlah angsuran (cicilan) dan waktu (tanggal) pembayaran angsuran berdasarkan daftar jadual pembayaran (payment schedule) dalam lampiran perjanjian ini.");
-        d.setTglPemesanan(dateFormat.format(a.getTrxTimestamp()));
+//        d.setTglPemesanan(dateFormat.format(a.getTrxTimestamp()));
 
         return d;
     }
