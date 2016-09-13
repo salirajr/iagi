@@ -44,5 +44,11 @@ public class InvestmentController {
             throws ServletException {
         return service.retById(value);
     }
+    
+     @RequestMapping(value = "/ret", method = RequestMethod.GET)
+    public Iterable<Investment> ret(HttpServletRequest request)
+            throws ServletException {
+        return repo.findAll();
+    }
 
 }

@@ -2,14 +2,12 @@ package com.rj.sysinvest.model;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Version;
 import lombok.Data;
 
 /**
@@ -108,7 +106,4 @@ public class Investor implements Serializable {
 
     @Column(length = 100)
     private String scannedNationalIdPath;
-
-    @Version
-    private Timestamp version;
 }

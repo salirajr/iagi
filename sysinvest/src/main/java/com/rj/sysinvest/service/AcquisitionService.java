@@ -7,6 +7,7 @@ package com.rj.sysinvest.service;
 
 import com.rj.sysinvest.dao.AcquisitionRepository;
 import com.rj.sysinvest.dao.AparkostRepository;
+import com.rj.sysinvest.dao.InvestmentRepository;
 import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Aparkost;
 import com.rj.sysinvest.model.Investor;
@@ -30,6 +31,9 @@ public class AcquisitionService {
     AparkostRepository repoAparkost;
     
     @Autowired
+    InvestmentRepository repoInvestment;
+    
+    @Autowired
     EntityManager manager;
     
     
@@ -42,6 +46,7 @@ public class AcquisitionService {
             Aparkost t = investment.getAparkost();
             t.setInvestor(investor);
             repoAparkost.save(t);
+            repoInvestment.save(investment);
         });
         return payload;
     }

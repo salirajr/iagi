@@ -7,6 +7,7 @@ package com.rj.sysinvest.rest.api;
 
 import com.rj.sysinvest.dao.InvestorRepository;
 import com.rj.sysinvest.model.Investor;
+import com.rj.sysinvest.service.InvestorService;
 import java.io.IOException;
 import java.util.Collection;
 import javax.annotation.Resource;
@@ -29,7 +30,11 @@ public class InvestorController {
 
     @Resource
     private InvestorRepository repo;
+    
+    @Resource
+    InvestorService service;
 
+    
     @RequestMapping(value = "/addnew", method = RequestMethod.POST)
     public Investor addNew(@RequestBody Investor payload, HttpServletRequest request)
             throws ServletException {
