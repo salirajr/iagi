@@ -55,10 +55,10 @@ public class AcquisitionController {
     }
 
     @RequestMapping(value = "/addnew", method = RequestMethod.POST)
-    public Long addnew(@RequestBody Acquisition payload, HttpServletRequest request)
+    public Acquisition addnew(@RequestBody Acquisition payload, HttpServletRequest request)
             throws ServletException {
-        service.save(payload);
-        return payload.getId();
+        service.addNew(payload);
+        return payload;
     }
     
     @ResponseBody

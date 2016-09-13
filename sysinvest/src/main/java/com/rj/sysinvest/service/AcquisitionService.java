@@ -8,6 +8,7 @@ package com.rj.sysinvest.service;
 import com.rj.sysinvest.dao.AcquisitionRepository;
 import com.rj.sysinvest.dao.AparkostRepository;
 import com.rj.sysinvest.dao.InvestmentRepository;
+import com.rj.sysinvest.dao.PaymentRepository;
 import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Aparkost;
 import com.rj.sysinvest.model.Investor;
@@ -34,16 +35,22 @@ public class AcquisitionService {
     InvestmentRepository repoInvestment;
     
     @Autowired
+    PaymentRepository repoPayment;
+    
+    @Autowired
     EntityManager manager;
     
     
     @Transactional
-    public Acquisition save(Acquisition payload){
+    public Acquisition addNew(Acquisition payload){
+        
+        repoPayment.save(payload.getPayments());
         
         repoAcquisition.save(payload);
         Investor investor = payload.getInvestor();
         payload.getInvestments().forEach(investment->{
             Aparkost t = investment.getAparkost();
+            investment.setState("SOLD");
             t.setInvestor(investor);
             repoAparkost.save(t);
             repoInvestment.save(investment);
