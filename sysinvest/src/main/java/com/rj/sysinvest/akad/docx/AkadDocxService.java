@@ -9,6 +9,7 @@ import com.rj.sysinvest.layout.LayoutImageService;
 import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Aparkost;
 import com.rj.sysinvest.model.Investment;
+import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.model.Tower;
 import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.Data;
@@ -54,6 +57,7 @@ public class AkadDocxService {
     private LampiranPembayaranDataService pembayaranDataMapper;
     //
     private String templatePath = "template/akad-form.docx";
+    private SimpleDateFormat tglJatuhTempoFormatter = new SimpleDateFormat("d");
     private NumberFormat moneyFormat = NumberFormat.getInstance();
 
     public byte[] generateAkadDocx(Acquisition acquisition) throws IOException {
@@ -101,7 +105,7 @@ public class AkadDocxService {
             row.add(d.getNomor().toString());
             row.add(d.getKeterangan());
             row.add(tglJatuhTempoFormatter.format(d.getTglJatuhTempo()));
-            row.add(jumlahFormatter.format(d.getJumlah()));
+            row.add(moneyFormat.format(d.getJumlah()));
             table.add(row);
             totalHarga = totalHarga.add(d.getJumlah());
         }
@@ -109,12 +113,10 @@ public class AkadDocxService {
         row.add("");
         row.add("");
         row.add("Harga");
-        row.add(jumlahFormatter.format(totalHarga));
+        row.add(moneyFormat.format(totalHarga));
         table.add(row);
         return table;
     }
-    private SimpleDateFormat tglJatuhTempoFormatter = new SimpleDateFormat("d");
-    private NumberFormat jumlahFormatter = NumberFormat.getInstance();
 
     private List<List<String>> generateTableDataForTowerFloorUnits(Acquisition a) {
         // aggregate data
@@ -180,10 +182,10 @@ public class AkadDocxService {
         List<LayoutImageData> layoutImageDataList = layoutImageService.getLayoutImages(aparkostList);
         int l = layoutImageDataList.size();
         for (int i = 0; i < l - 1; i++) {
-            addDenah(doc, layoutImageDataList.get(i));
+            addDenah(doc, layoutImageDataList.get(i), acquisition.getInvestor());
             addPageBreak(doc);
         }
-        addDenah(doc, layoutImageDataList.get(l - 1));
+        addDenah(doc, layoutImageDataList.get(l - 1), acquisition.getInvestor());
     }
 
     private XWPFParagraph addPageBreak(XWPFDocument doc) {
@@ -192,55 +194,48 @@ public class AkadDocxService {
         return p;
     }
 
-    private void addDenah(XWPFDocument doc, LayoutImageData layoutImageData) throws InvalidFormatException, IOException {
+    private XWPFTable addDenah(XWPFDocument doc, LayoutImageData layoutImageData, Investor investor) throws InvalidFormatException, IOException {
         String towerName = layoutImageData.getTowerName();
         String floor = layoutImageData.getFloor();
         InputStream imgStream = layoutImageData.getImageInputStream();
         int w = layoutImageData.getWidth();
         int h = layoutImageData.getHeight();
         String imgType = layoutImageData.getImageType();
-        addDenah(doc, towerName, floor, imgStream, w, h, imgType, null);
+        return addDenah(doc, towerName, floor, investor, imgStream, w, h, imgType, null);
     }
 
-    private void addDenah(XWPFDocument doc, String towerName, String floor, InputStream img, int width, int height, String imgType, String fileName) throws InvalidFormatException, IOException {
+    private XWPFTable addDenah(XWPFDocument doc, String towerName, String floor, Investor investor, InputStream img, int width, int height, String imgType, String fileName) throws InvalidFormatException, IOException {
+
+        // format the row and return the cell object
+        Function<XWPFTableRow, XWPFTableCell> formatRowAndGetCell = row -> {
+            row.setCantSplitRow(true);
+            XWPFTableCell cell = row.getCell(0);
+            XWPFParagraph par = cell.getParagraphs().get(0);
+            par.setSpacingAfter(0);
+            cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+            return cell;
+        };
+
         // create table
         XWPFTable table = doc.createTable();
-
-        // create first row
-        XWPFTableRow row = table.getRow(0);
-        row.setCantSplitRow(true);
-        XWPFTableCell cell = row.getCell(0);
-        XWPFParagraph par = cell.getParagraphs().get(0);
-        par.setSpacingAfter(0);
-        cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
-        cell.setText("Tower : " + towerName);
-
-        // create second row
-        row = table.createRow();
-        row.setCantSplitRow(true);
-        cell = row.getCell(0);
-        par = cell.getParagraphs().get(0);
-        par.setSpacingAfter(0);
-        cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
-        cell.setText("Lantai : " + floor);
-
-        // create third row
-        row = table.createRow();
-        row.setCantSplitRow(true);
-        cell = row.getCell(0);
-        par = cell.getParagraphs().get(0);
-        par.setSpacingAfter(0);
-        cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
-
-        // insert image into the third row
-        par = cell.getParagraphs().get(0);
+        // 1st row
+        formatRowAndGetCell.apply(table.getRow(0)).setText("Tower : " + towerName);
+        // 2nd row
+        formatRowAndGetCell.apply(table.createRow()).setText("Lantai : " + floor);
+        // 3rd row
+        formatRowAndGetCell.apply(table.createRow()).setText("Account Id : " + investor.getAccountId());
+        // 4th row
+        formatRowAndGetCell.apply(table.createRow()).setText("Investor : " + investor.getFullName());
+        // 5th row
+        XWPFParagraph par = formatRowAndGetCell.apply(table.createRow()).getParagraphs().get(0);
         par.setSpacingAfter(0);
         XWPFRun run = par.insertNewRun(0);
-
+        // scale image
         Dimension boundary = new Dimension(460, -1);
         Dimension dim = getScaledDimension(new Dimension(width, height), boundary);
-
+        // add layout image
         run.addPicture(img, docxComp.getImageFormat(imgType), fileName, Units.toEMU(dim.getWidth()), Units.toEMU(dim.getHeight()));
+        return table;
     }
 
     // http://stackoverflow.com/a/10245583
