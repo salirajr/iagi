@@ -220,7 +220,7 @@
             $http.post('/api/acquisition/generateakad?id=' + $scope.data.acquisition.id, {}, {responseType: 'arraybuffer'})
                     .success(function (response) {
                         $log.debug("generateakad success!");
-                        var file = new Blob([response], {type: 'application/pdf'});
+                        var file = new Blob([response], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
                         var fileURL = URL.createObjectURL(file);
                         $window.open(fileURL);
                     }).error(function (err) {
