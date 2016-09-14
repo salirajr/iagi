@@ -114,7 +114,7 @@ public class AkadDocxService {
         table.add(row);
         return table;
     }
-    private SimpleDateFormat tglJatuhTempoFormatter = new SimpleDateFormat("d");
+    private SimpleDateFormat tglJatuhTempoFormatter = new SimpleDateFormat("dd-MM-yyyy");
     private NumberFormat jumlahFormatter = NumberFormat.getInstance();
 
     private List<List<String>> generateTableDataForTowerFloorUnits(Acquisition a) {
