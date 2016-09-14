@@ -6,6 +6,7 @@
 package com.rj.sysinvest.rest.api;
 
 import com.rj.sysinvest.akad.AkadReportService;
+import com.rj.sysinvest.akad.docx.AkadDocxService;
 import com.rj.sysinvest.dao.AcquisitionRepository;
 import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.service.AcquisitionService;
@@ -40,7 +41,7 @@ public class AcquisitionController {
     private AcquisitionService service;
 
     @Resource
-    private AkadReportService akadReportService;
+    private AkadDocxService akadDocxService;
 
     @RequestMapping(value = "/ret/byid", method = RequestMethod.GET)
     public Acquisition retById(@RequestParam Long value, HttpServletRequest request)
@@ -69,14 +70,14 @@ public class AcquisitionController {
 
         byte[] result;
         try {
-            result = akadReportService.generateCompleteAkadPdf(t);
-        } catch (IOException | JRException ex) {
+            result = akadDocxService.generateAkadDocx(t);
+        } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
         return ResponseEntity.ok()
-                .header("Content-Disposition", "attachment; filename=" + t.getInvestor().getFullName() + ".pdf")
+                .header("Content-Disposition", "attachment; filename=" + t.getInvestor().getFullName() + ".docx")
+                .header("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
                 .contentLength(result.length)
-                .contentType(MediaType.parseMediaType(MediaType.APPLICATION_PDF_VALUE))
                 .body(new InputStreamResource(new ByteArrayInputStream(result)));
     }
 

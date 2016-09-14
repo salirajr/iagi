@@ -33,11 +33,13 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Rais <rais.gowa@gmail.com>
  */
+@Service
 @Data
 public class AkadDocxService {
 
@@ -45,7 +47,7 @@ public class AkadDocxService {
     private DocxComponent docxComp;
     @Resource
     private AkadFormDataMapper dataMapper;
-    @Resource
+    @Resource(name = "LayoutImageServiceImpl")
     private LayoutImageService layoutImageService;
     @Resource
     private LampiranPembayaranDataService pembayaranDataMapper;
