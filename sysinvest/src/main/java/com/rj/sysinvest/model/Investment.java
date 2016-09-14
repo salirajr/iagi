@@ -40,7 +40,7 @@ public class Investment implements Serializable {
     private Timestamp marketRateUpdate;
 
     @Column(length = 19)
-    private Double soldRate;
+    private Long soldRate;
     
     @Column(nullable = true)
     private Timestamp soldTrx = null;

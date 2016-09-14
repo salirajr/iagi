@@ -100,6 +100,7 @@ public class TestUtil {
     public static Investment createInvestment(Aparkost k) {
         Investment im = new Investment();
         im.setAparkost(k);
+        im.setSoldRate(90000000l);
         return im;
     }
 

@@ -2,13 +2,14 @@ package com.rj.sysinvest.akad.docx;
 
 import com.rj.sysinvest.akad.AkadFormData;
 import com.rj.sysinvest.akad.AkadFormDataMapper;
-import com.rj.sysinvest.akad.LampiranPembayaranData;
 import com.rj.sysinvest.akad.LampiranPembayaranData.Detail;
 import com.rj.sysinvest.akad.LampiranPembayaranDataService;
 import com.rj.sysinvest.layout.LayoutImageData;
 import com.rj.sysinvest.layout.LayoutImageService;
 import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Aparkost;
+import com.rj.sysinvest.model.Investment;
+import com.rj.sysinvest.model.Tower;
 import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -53,6 +54,7 @@ public class AkadDocxService {
     private LampiranPembayaranDataService pembayaranDataMapper;
     //
     private String templatePath = "template/akad-form.docx";
+    private NumberFormat moneyFormat = NumberFormat.getInstance();
 
     public byte[] generateAkadDocx(Acquisition acquisition) throws IOException {
         // load akad template
@@ -76,18 +78,15 @@ public class AkadDocxService {
         // lampiran pembayaran 
         docxComp.addToTable(doc, 2, generateTableDataForPembayaran(acquisition));
 
-        // generate layout
-        List<Aparkost> aparkostList = acquisition.getInvestments().stream()
-                .map(inv -> inv.getAparkost())
-                .collect(Collectors.toList());
-        layoutImageService.getLayoutImages(aparkostList)
-                .forEach(layoutImageData -> {
-                    try {
-                        addDenah(doc, layoutImageData);
-                    } catch (InvalidFormatException | IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                });
+        try {
+            // generate layout
+            generateLampiranDenah(doc, acquisition);
+        } catch (InvalidFormatException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        // generate lampiran ktp images
+        addLampiranKTP(doc, acquisition);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         doc.write(baos);
@@ -118,35 +117,38 @@ public class AkadDocxService {
     private NumberFormat jumlahFormatter = NumberFormat.getInstance();
 
     private List<List<String>> generateTableDataForTowerFloorUnits(Acquisition a) {
-        // Map<TowerName, Map<Floor, List<AparkostName>>>
-        Map<String, Map<String, List<String>>> towerFloorUnitMap = new HashMap();
+        // aggregate data
+        // Map<Tower, Map<Floor, List<Investment>>>
+        Map<Tower, Map<String, List<Investment>>> towerFloorUnitMap = new HashMap();
         a.getInvestments().stream()
-                .map(inv -> inv.getAparkost())
-                .forEach(aparkost -> {
-                    String towerName = aparkost.getTower().getName();
-                    Map<String, List<String>> floorUnitMap = towerFloorUnitMap.get(towerName);
+                .forEach(investment -> {
+                    Aparkost aparkost = investment.getAparkost();
+                    Tower tower = aparkost.getTower();
+                    Map<String, List<Investment>> floorUnitMap = towerFloorUnitMap.get(tower);
                     if (floorUnitMap == null) {
                         floorUnitMap = new HashMap();
-                        towerFloorUnitMap.put(towerName, floorUnitMap);
+                        towerFloorUnitMap.put(tower, floorUnitMap);
                     }
                     String floor = aparkost.getFloor();
-                    List<String> unitList = floorUnitMap.get(floor);
+                    List<Investment> unitList = floorUnitMap.get(floor);
                     if (unitList == null) {
                         unitList = new ArrayList();
                         floorUnitMap.put(floor, unitList);
                     }
-                    String unitName = aparkost.getName();
-                    unitList.add(unitName);
+                    unitList.add(investment);
                 });
+        // convert into matrix 2d
         List<List<String>> tableData = new ArrayList();
         towerFloorUnitMap
-                .forEach((towerName, floorUnitMap)
-                        -> floorUnitMap.forEach((floor, unitList) -> {
-                            String units = buildString(unitList, null, ",", null);
+                .forEach((tower, floorUnitMap)
+                        -> floorUnitMap.forEach((floor, investmentList) -> {
                             List<String> rowData = new ArrayList();
-                            rowData.add(towerName);
-                            rowData.add(floor);
-                            rowData.add(units);
+                            investmentList.forEach(investment -> {
+                                rowData.add(tower.getName());
+                                rowData.add(floor);
+                                rowData.add(investment.getAparkost().getName());
+                                rowData.add(moneyFormat.format(investment.getSoldRate()));
+                            });
                             tableData.add(rowData);
                         })
                 );
@@ -171,6 +173,25 @@ public class AkadDocxService {
         return sb.toString();
     }
 
+    private void generateLampiranDenah(XWPFDocument doc, Acquisition acquisition) throws InvalidFormatException, IOException {
+        List<Aparkost> aparkostList = acquisition.getInvestments().stream()
+                .map(inv -> inv.getAparkost())
+                .collect(Collectors.toList());
+        List<LayoutImageData> layoutImageDataList = layoutImageService.getLayoutImages(aparkostList);
+        int l = layoutImageDataList.size();
+        for (int i = 0; i < l - 1; i++) {
+            addDenah(doc, layoutImageDataList.get(i));
+            addPageBreak(doc);
+        }
+        addDenah(doc, layoutImageDataList.get(l - 1));
+    }
+
+    private XWPFParagraph addPageBreak(XWPFDocument doc) {
+        XWPFParagraph p = doc.createParagraph();
+        p.setPageBreak(true);
+        return p;
+    }
+
     private void addDenah(XWPFDocument doc, LayoutImageData layoutImageData) throws InvalidFormatException, IOException {
         String towerName = layoutImageData.getTowerName();
         String floor = layoutImageData.getFloor();
@@ -184,9 +205,6 @@ public class AkadDocxService {
     private void addDenah(XWPFDocument doc, String towerName, String floor, InputStream img, int width, int height, String imgType, String fileName) throws InvalidFormatException, IOException {
         // create table
         XWPFTable table = doc.createTable();
-        doc.createParagraph();
-        //.createRun();
-        //.addBreak();
 
         // create first row
         XWPFTableRow row = table.getRow(0);
@@ -252,5 +270,12 @@ public class AkadDocxService {
         }
 
         return new Dimension(new_width, new_height);
+    }
+
+    private void addLampiranKTP(XWPFDocument doc, Acquisition a) {
+        String imgPath1 = a.getStaff().getScannedNationalIdPath();
+        String imgPath2 = a.getInvestor().getScannedNationalIdPath();
+
+//        IMG
     }
 }
