@@ -77,7 +77,7 @@ public class TestLampiranPembayaranReportService {
                 List<Detail> l = new ArrayList();
                 for (int i = 1; i <= 30; i++) {
                     Detail d = new Detail();
-                    d.setNomor(1);
+                    d.setNomor(i);
                     d.setTglJatuhTempo(new Date(System.currentTimeMillis()));
                     d.setKeterangan("Angsuran " + i);
                     d.setJumlah(new BigDecimal(1000000 * i));
