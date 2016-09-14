@@ -1,5 +1,6 @@
 package com.rj.sysinvest.akad;
 
+import com.rj.sysinvest.akad.util.JavaTerbilang;
 import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.model.Payment;
@@ -27,6 +28,7 @@ public class AkadFormDataMapperImpl implements AkadFormDataMapper {
 
         Staff s = a.getStaff();
         d.setPihakPertamaNama(upper(s.getFullName()));
+        d.setPihakPertamaJabatan(upper(s.getRank().getName()));
         d.setPihakPertamaCompany("PT.IBNU AUF GLOBAL INVESTAMA");
         d.setPihakPertamaKTP(s.getNationalId());
         d.setPihakPertamaAlamat(upper(s.getAddress()));
@@ -46,15 +48,25 @@ public class AkadFormDataMapperImpl implements AkadFormDataMapper {
         d.setPihakKeduaTTL(upper(i.getBirthPlace()) + ", " + upper(shortDateFormat.format(i.getBirthDate())));
 
         d.setHarga(moneyFormatter.format(a.getRate()));
-//        d.setHargaTerbilang(String.valueOf(a.getTotalFee()));
-//        d.setCaraPembayaran("asdfg");
+        d.setHargaTerbilang(new JavaTerbilang(a.getRate()).toString());
+        switch (a.getType()) {
+            case "CASH":
+                d.setCaraPembayaran("Kontan yang telah dibayarkan sisa pembayarannya sebelum akad ini dilakukan.");
+                break;
+            case "INSTALLMENT":
+                d.setCaraPembayaran("Bertahap yang jumlah angsuran (cicilan) dan waktu (tanggal) pembayaran angsuran berdasarkan daftar jadual pembayaran (payment schedule) dalam lampiran perjanjian ini.");
+                break;
+            case "SOFT_INSTALLMENT":
+                d.setCaraPembayaran("Bertahap yang jumlah angsuran (cicilan) dan waktu (tanggal) telah disepakati bersama.");
+                break;
+        }
 
         d.setTglPemesanan(monthFormat.format(a.getAuditTime()));
         for (Payment p : a.getPayments()) {
             Date tglJatuhTempo = p.getPaydate();
             if (tglJatuhTempo != null) {
                 d.setTglJatuhTempo(dateOnlyFormat.format(tglJatuhTempo));
-//                d.setTglJatuhTempoTerbilang();
+                d.setTglJatuhTempoTerbilang(new JavaTerbilang(d.getTglJatuhTempo()).toString());
                 break;
             }
         }
