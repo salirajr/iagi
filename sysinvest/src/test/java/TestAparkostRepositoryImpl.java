@@ -1,6 +1,7 @@
 
 import com.rj.sysinvest.dao.AparkostRepository;
 import com.rj.sysinvest.model.Aparkost;
+import com.rj.sysinvest.model.Tower;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,6 +81,11 @@ public class TestAparkostRepositoryImpl implements AparkostRepository {
 
     @Override
     public void deleteAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Aparkost findByTowerAndName(Tower tower, String name) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

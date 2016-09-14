@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,12 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @author salirajr
  */
 @RestController
-@RequestMapping(ApiController.PREFIX+"/investment")
+@RequestMapping(ApiController.PREFIX + "/investment")
 public class InvestmentController {
 
     @Resource
     private InvestmentRepository repo;
-    
+
     @Autowired
     private InvestmentService service;
 
@@ -38,17 +39,31 @@ public class InvestmentController {
         List<Investment> result = repo.findOnSaleByTowerId(value);
         return result;
     }
-    
+
     @RequestMapping(value = "/ret/byid", method = RequestMethod.GET)
     public Investment retById(@RequestParam Long value, HttpServletRequest request)
             throws ServletException {
         return service.retById(value);
     }
-    
-     @RequestMapping(value = "/ret", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/ret", method = RequestMethod.GET)
     public Iterable<Investment> ret(HttpServletRequest request)
             throws ServletException {
         return repo.findAll();
+    }
+
+    @RequestMapping(value = "/ret/byflooroftower", method = RequestMethod.GET)
+    public List<Investment> retByAccountId(@RequestParam Long towerid, @RequestParam String floor, HttpServletRequest request)
+            throws ServletException {
+        List<Investment> result = repo.findOnByFloorOfTower(towerid, floor);
+        return result;
+    }
+    
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Investment save(@RequestBody Investment payload, HttpServletRequest request)
+            throws ServletException {
+        service.save(payload);
+        return payload;
     }
 
 }

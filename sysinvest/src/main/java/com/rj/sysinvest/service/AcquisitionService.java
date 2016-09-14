@@ -50,7 +50,7 @@ public class AcquisitionService {
         Investor investor = payload.getInvestor();
         payload.getInvestments().forEach(investment->{
             Aparkost t = investment.getAparkost();
-            investment.setState("SOLD");
+            investment.setFlag("1");
             t.setInvestor(investor);
             repoAparkost.save(t);
             repoInvestment.save(investment);

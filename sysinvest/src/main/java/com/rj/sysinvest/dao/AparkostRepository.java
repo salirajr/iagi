@@ -1,6 +1,7 @@
 package com.rj.sysinvest.dao;
 
 import com.rj.sysinvest.model.Aparkost;
+import com.rj.sysinvest.model.Tower;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -17,6 +18,8 @@ public interface AparkostRepository extends CrudRepository<Aparkost, Long> {
 
     @Query("from Aparkost a where a.tower.id = :towerId and a.floor = :floor")
     List<Aparkost> findByTowerIdAndFloor(@Param("towerId") Long towerId, @Param("floor") String floor);
+    
+    Aparkost findByTowerAndName(Tower tower, String name);
     
 
 }

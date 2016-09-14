@@ -34,7 +34,7 @@ public class Investment implements Serializable {
     private Long marketRate;
     
     @Column(length=1)
-    private String state;
+    private String flag;
 
     @Column
     private Timestamp marketRateUpdate;
