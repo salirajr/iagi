@@ -13,6 +13,8 @@ import java.util.Collection;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,10 +51,10 @@ public class InvestorController {
     }
 
     @RequestMapping(value = "/storeidentitycopy", method = RequestMethod.POST)
-    public Investor storeIdentityCopy(@RequestParam("file") MultipartFile file, @RequestParam String value, HttpServletRequest request)
+    public ResponseEntity storeIdentityCopy(@RequestParam("file") MultipartFile file, @RequestParam("id") String investorId, HttpServletRequest request)
             throws ServletException, IOException {
         byte[] baFile = file.getBytes();
-        return repo.findByAccountId(value);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/ret", method = RequestMethod.GET)
