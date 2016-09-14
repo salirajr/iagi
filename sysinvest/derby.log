@@ -1,4 +1,4 @@
-Fri Sep 09 18:59:58 WIB 2016 Thread[restartedMain,5,main] Cleanup action starting
+Wed Sep 14 14:09:10 WIB 2016 Thread[restartedMain,5,main] Cleanup action starting
 java.sql.SQLException: Database '/home/lost/sysinvest/db/dbsysinvest' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
@@ -34,11 +34,11 @@ java.sql.SQLException: Database '/home/lost/sysinvest/db/dbsysinvest' not found.
 	at org.springframework.boot.autoconfigure.orm.jpa.JpaProperties.getHibernateProperties(JpaProperties.java:126)
 	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration.getVendorProperties(HibernateJpaAutoConfiguration.java:100)
 	at org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration.entityManagerFactory(JpaBaseConfiguration.java:117)
-	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$9f7729b8.CGLIB$entityManagerFactory$4(<generated>)
-	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$9f7729b8$$FastClassBySpringCGLIB$$9876bc48.invoke(<generated>)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$4964c848.CGLIB$entityManagerFactory$5(<generated>)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$4964c848$$FastClassBySpringCGLIB$$42cf8f3a.invoke(<generated>)
 	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:228)
 	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:356)
-	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$9f7729b8.entityManagerFactory(<generated>)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$4964c848.entityManagerFactory(<generated>)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -110,11 +110,11 @@ ERROR XJ004: Database '/home/lost/sysinvest/db/dbsysinvest' not found.
 	at org.springframework.boot.autoconfigure.orm.jpa.JpaProperties.getHibernateProperties(JpaProperties.java:126)
 	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration.getVendorProperties(HibernateJpaAutoConfiguration.java:100)
 	at org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration.entityManagerFactory(JpaBaseConfiguration.java:117)
-	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$9f7729b8.CGLIB$entityManagerFactory$4(<generated>)
-	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$9f7729b8$$FastClassBySpringCGLIB$$9876bc48.invoke(<generated>)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$4964c848.CGLIB$entityManagerFactory$5(<generated>)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$4964c848$$FastClassBySpringCGLIB$$42cf8f3a.invoke(<generated>)
 	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:228)
 	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:356)
-	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$9f7729b8.entityManagerFactory(<generated>)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$$EnhancerBySpringCGLIB$$4964c848.entityManagerFactory(<generated>)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -146,7 +146,7 @@ ERROR XJ004: Database '/home/lost/sysinvest/db/dbsysinvest' not found.
 	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
 ============= end nested exception, level (1) ===========
 Cleanup action completed
-Fri Sep 09 18:59:59 WIB 2016 Thread[restartedMain,5,main] Cleanup action starting
+Wed Sep 14 14:09:13 WIB 2016 Thread[restartedMain,5,main] Cleanup action starting
 java.sql.SQLException: Database '/home/lost/sysinvest/db/dbsysinvest' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
@@ -290,7 +290,7 @@ ERROR XJ004: Database '/home/lost/sysinvest/db/dbsysinvest' not found.
 	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
 ============= end nested exception, level (1) ===========
 Cleanup action completed
-Fri Sep 09 18:59:59 WIB 2016 Thread[restartedMain,5,main] Cleanup action starting
+Wed Sep 14 14:09:13 WIB 2016 Thread[restartedMain,5,main] Cleanup action starting
 java.sql.SQLException: Database '/home/lost/sysinvest/db/dbsysinvest' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)

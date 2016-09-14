@@ -24,27 +24,15 @@
                                     <tfoot>
                                     </tfoot>
                                     <tbody>
-                                        <tr class="gradeX">
+                                        
+                                        <tr ng-repeat="acquisition in list.acquisition"  class="gradeX">
                                             <td class="dt-center"><input type="radio" value="" name="radioAparkost"></td>
-                                            <td ng-click="generateAkad(28)">IALKSN-KK90928-OO1</td>
-                                            <td>THE APARKOST IPB,Tower 1 lt. G no. 101,  Kp. Carang Pulang Kidul, RT
-                                                04. RW 06, Ds. Cikarawang, Kec Dramaga, Kab Bogor,
-                                                Prov Jawa Barat</td>
-                                            <td>IAGI0001</td>
-                                            <td>1 September 2016</td>
+                                            <td ng-click="generateAkad(acquisition.id)">IAGIAC-2016-{{acquisition.investor.accountId}}-{{acquisition.id}}</td>
+                                            <td>{{acquisition.investments[0].aparkost.tower.site.name}}, {{acquisition.investments[0].aparkost.tower.site.address}}, {{acquisition.investments[0].aparkost.tower.site.province}}</td>
+                                            <td>{{acquisition.investor.fullName}}</td>
+                                            <td>{{formatDate(acquisition.auditTime)}}</td>
                                             <td>Rp</td>
-                                            <td>85.000.000,00</td>
-                                        </tr>
-                                        <tr class="gradeX">
-                                            <td class="dt-center"><input type="radio" value="" name="radioAparkost"></td>
-                                            <td ng-click="generateAkad(29)">IALKSN-KK90928-OO1</td>
-                                            <td>THE APARKOST IPB,Tower 1 lt. G no. 102,  Kp. Carang Pulang Kidul, RT
-                                                04. RW 06, Ds. Cikarawang, Kec Dramaga, Kab Bogor,
-                                                Prov Jawa Barat</td>
-                                            <td>IAGI0001</td>
-                                            <td>9 September 2016</td>
-                                            <td>Rp</td>
-                                            <td>90.000.000,00</td>
+                                            <td>{{acquisition.rate|number:2}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
