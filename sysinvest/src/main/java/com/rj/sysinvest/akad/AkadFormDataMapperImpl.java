@@ -8,6 +8,8 @@ import com.rj.sysinvest.model.Staff;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,6 +24,14 @@ public class AkadFormDataMapperImpl implements AkadFormDataMapper {
     private SimpleDateFormat dateOnlyFormat = new SimpleDateFormat("d");
     private NumberFormat moneyFormatter = NumberFormat.getInstance();
 
+    private Map<String, String> acquisitionTypeTemplate = new HashMap();
+
+    public AkadFormDataMapperImpl() {
+        acquisitionTypeTemplate.put("CASH", "Kontan yang telah dibayarkan sisa pembayarannya sebelum akad ini dilakukan.");
+        acquisitionTypeTemplate.put("INSTALLMENT", "Bertahap yang jumlah angsuran (cicilan) dan waktu (tanggal) pembayaran angsuran berdasarkan daftar jadwal pembayaran (payment schedule) dalam lampiran perjanjian ini.");
+        acquisitionTypeTemplate.put("SOFT_INSTALLMENT", "Bertahap yang jumlah angsuran (cicilan) dan waktu (tanggal) telah disepakati bersama.");
+    }
+
     @Override
     public AkadFormData apply(Acquisition a) {
         AkadFormData d = new AkadFormData();
@@ -32,34 +42,27 @@ public class AkadFormDataMapperImpl implements AkadFormDataMapper {
         d.setPihakPertamaCompany("PT.IBNU AUF GLOBAL INVESTAMA");
         d.setPihakPertamaKTP(s.getNationalId());
         d.setPihakPertamaAlamat(upper(s.getAddress()));
-        d.setPihakPertamaTTL(upper(s.getBirthPlace()) + ", " + upper(shortDateFormat.format(s.getBirthDate())));
+        d.setPihakPertamaTempatLahir(upper(s.getBirthPlace()));
+        d.setPihakPertamaTglLahir(upper(shortDateFormat.format(s.getBirthDate())));
 
         d.setKuasaNama("ANDI TAUFIQ YUSUF");
         d.setKuasaAlamat("JL. PELANDUK NOMOR 56C, MAKASSAR");
         d.setKuasaJabatan("DIRUT PT.IBNU AUF GLOBAL INVESTAMA");
         d.setKuasaKTP("7371031701900005");
-        d.setKuasaTTL("UJUNG PANDANG, 17-01-1990");
+        d.setKuasaTempatLahir("UJUNG PANDANG");
+        d.setKuasaTglLahir("17-01-1990");
 
         Investor i = a.getInvestor();
         d.setPihakKeduaNama(upper(i.getFullName()));
         d.setPihakKeduaPekerjaan(upper(i.getOccupation()));
         d.setPihakKeduaAlamat(upper(i.getAddress()));
         d.setPihakKeduaKTP(i.getNationalId());
-        d.setPihakKeduaTTL(upper(i.getBirthPlace()) + ", " + upper(shortDateFormat.format(i.getBirthDate())));
+        d.setPihakKeduaTempatLahir(upper(i.getBirthPlace()));
+        d.setPihakKeduaTglLahir(upper(shortDateFormat.format(i.getBirthDate())));
 
         d.setHarga(moneyFormatter.format(a.getRate()));
         d.setHargaTerbilang(new JavaTerbilang(a.getRate()).toString());
-        switch (a.getType()) {
-            case "CASH":
-                d.setCaraPembayaran("Kontan yang telah dibayarkan sisa pembayarannya sebelum akad ini dilakukan.");
-                break;
-            case "INSTALLMENT":
-                d.setCaraPembayaran("Bertahap yang jumlah angsuran (cicilan) dan waktu (tanggal) pembayaran angsuran berdasarkan daftar jadual pembayaran (payment schedule) dalam lampiran perjanjian ini.");
-                break;
-            case "SOFT_INSTALLMENT":
-                d.setCaraPembayaran("Bertahap yang jumlah angsuran (cicilan) dan waktu (tanggal) telah disepakati bersama.");
-                break;
-        }
+        d.setCaraPembayaran(acquisitionTypeTemplate.get(a.getType()));
 
         d.setTglPemesanan(monthFormat.format(a.getAuditTime()));
         for (Payment p : a.getPayments()) {
@@ -70,7 +73,8 @@ public class AkadFormDataMapperImpl implements AkadFormDataMapper {
                 break;
             }
         }
-        d.setTempatAkad(null);
+//        a.getInvestments().iterator().next().getAparkost().getTower().getSite().getCity();
+        d.setTempatAkad("Jakarta");
         d.setTglAkad(shortDateFormat.format(a.getAuditTime()));
 
         return d;

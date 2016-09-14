@@ -13,20 +13,28 @@ import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.model.Tower;
 import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.FileImageInputStream;
+import javax.imageio.stream.ImageInputStream;
 import lombok.Data;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -88,8 +96,12 @@ public class AkadDocxService {
             throw new RuntimeException(ex);
         }
 
-        // generate lampiran ktp images
-        addLampiranKTP(doc, acquisition);
+        try {
+            // generate lampiran ktp images
+            generateLampiranKTP(doc, acquisition);
+        } catch (InvalidFormatException ex) {
+            throw new RuntimeException(ex);
+        }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         doc.write(baos);
@@ -206,38 +218,39 @@ public class AkadDocxService {
     }
 
     private XWPFTable addDenah(XWPFDocument doc, String towerName, String floor, Investor investor, InputStream img, int width, int height, String imgType, String fileName) throws InvalidFormatException, IOException {
-
-        // format the row and return the cell object
-        Function<XWPFTableRow, XWPFTableCell> formatRowAndGetCell = row -> {
-            row.setCantSplitRow(true);
-            XWPFTableCell cell = row.getCell(0);
-            XWPFParagraph par = cell.getParagraphs().get(0);
-            par.setSpacingAfter(0);
-            cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
-            return cell;
-        };
-
         // create table
         XWPFTable table = doc.createTable();
         // 1st row
-        formatRowAndGetCell.apply(table.getRow(0)).setText("Tower : " + towerName);
+        formatRowAndGetCell.apply(table.getRow(0))
+                .setText("Tower : " + towerName);
         // 2nd row
-        formatRowAndGetCell.apply(table.createRow()).setText("Lantai : " + floor);
+        formatRowAndGetCell.apply(table.createRow())
+                .setText("Lantai : " + floor);
         // 3rd row
-        formatRowAndGetCell.apply(table.createRow()).setText("Account Id : " + investor.getAccountId());
+        formatRowAndGetCell.apply(table.createRow())
+                .setText("Account Id : " + investor.getAccountId());
         // 4th row
-        formatRowAndGetCell.apply(table.createRow()).setText("Investor : " + investor.getFullName());
+        formatRowAndGetCell.apply(table.createRow())
+                .setText("Investor : " + investor.getFullName());
         // 5th row
-        XWPFParagraph par = formatRowAndGetCell.apply(table.createRow()).getParagraphs().get(0);
-        par.setSpacingAfter(0);
-        XWPFRun run = par.insertNewRun(0);
-        // scale image
-        Dimension boundary = new Dimension(460, -1);
-        Dimension dim = getScaledDimension(new Dimension(width, height), boundary);
-        // add layout image
-        run.addPicture(img, docxComp.getImageFormat(imgType), fileName, Units.toEMU(dim.getWidth()), Units.toEMU(dim.getHeight()));
+        Dimension dim = getScaledDimension(new Dimension(width, height), new Dimension(460, -1));
+        formatRowAndGetCell.apply(table.createRow())
+                .getParagraphs().get(0)
+                .insertNewRun(0)
+                .addPicture(img, docxComp.getImageFormat(imgType), fileName, Units.toEMU(dim.getWidth()), Units.toEMU(dim.getHeight()));
+
         return table;
     }
+
+    // format the row and return the cell object
+    Function<XWPFTableRow, XWPFTableCell> formatRowAndGetCell = row -> {
+        row.setCantSplitRow(true);
+        XWPFTableCell cell = row.getCell(0);
+        XWPFParagraph par = cell.getParagraphs().get(0);
+        par.setSpacingAfter(0);
+        cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+        return cell;
+    };
 
     // http://stackoverflow.com/a/10245583
     private Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
@@ -268,10 +281,51 @@ public class AkadDocxService {
         return new Dimension(new_width, new_height);
     }
 
-    private void addLampiranKTP(XWPFDocument doc, Acquisition a) {
-        String imgPath1 = a.getStaff().getScannedNationalIdPath();
-        String imgPath2 = a.getInvestor().getScannedNationalIdPath();
+    private void generateLampiranKTP(XWPFDocument doc, Acquisition a) throws IOException, InvalidFormatException {
 
-//        IMG
+//        Path imgPath2 = Paths.get(a.getInvestor().getScannedNationalIdPath());
+
+        addPageBreak(doc);
+        // create table
+        XWPFTable table = doc.createTable(2, 1);
+        XWPFParagraph par = formatRowAndGetCell.apply(table.getRow(0))
+                .getParagraphs().get(0);
+        XWPFRun run = par.insertNewRun(0);
+        run.setText("Pihak Pertama");
+        run.addBreak();
+        Path imgPath1 = Paths.get(a.getStaff().getScannedNationalIdPath());
+        InputStream inputStream = Files.newInputStream(imgPath1);
+        Dimension dim = getImageDimension(imgPath1.toFile());
+        int pictType = docxComp.getImageFormat(imgPath1.toString());
+        run.addPicture(inputStream, pictType, imgPath1.toString(), dim.width, dim.height);
+    }
+
+    /**
+     * Gets image dimensions for given file http://stackoverflow.com/a/12164026
+     *
+     * @param imgFile image file
+     * @return dimensions of image
+     * @throws IOException if the file is not a known image
+     */
+    public static Dimension getImageDimension(File imgFile) throws IOException {
+        int pos = imgFile.getName().lastIndexOf(".");
+        if (pos == -1) {
+            throw new IOException("No extension for file: " + imgFile.getAbsolutePath());
+        }
+        String suffix = imgFile.getName().substring(pos + 1);
+        Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(suffix);
+        if (iter.hasNext()) {
+            ImageReader reader = iter.next();
+            try {
+                ImageInputStream stream = new FileImageInputStream(imgFile);
+                reader.setInput(stream);
+                int width = reader.getWidth(reader.getMinIndex());
+                int height = reader.getHeight(reader.getMinIndex());
+                return new Dimension(width, height);
+            } finally {
+                reader.dispose();
+            }
+        }
+        throw new IOException("Not a known image file: " + imgFile.getAbsolutePath());
     }
 }

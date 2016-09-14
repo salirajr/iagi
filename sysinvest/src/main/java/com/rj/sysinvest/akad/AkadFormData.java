@@ -15,19 +15,22 @@ public class AkadFormData {
             pihakPertamaJabatan, pihakPertamaCompany,
             pihakPertamaAlamat,
             pihakPertamaKTP,
-            pihakPertamaTTL;
+            pihakPertamaTempatLahir,
+            pihakPertamaTglLahir;
 
     private String kuasaNama,
             kuasaJabatan,
             kuasaAlamat,
             kuasaKTP,
-            kuasaTTL;
+            kuasaTempatLahir,
+            kuasaTglLahir;
 
     private String pihakKeduaNama,
             pihakKeduaPekerjaan,
             pihakKeduaAlamat,
             pihakKeduaKTP,
-            pihakKeduaTTL;
+            pihakKeduaTempatLahir,
+            pihakKeduaTglLahir;
 
 //    private Map<String, Map<String, List<String>>> towerFloorUnitMap;
     private String harga, hargaTerbilang, tglPemesanan, caraPembayaran;

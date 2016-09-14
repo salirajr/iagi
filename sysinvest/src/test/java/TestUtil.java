@@ -4,6 +4,7 @@ import com.rj.sysinvest.model.Aparkost;
 import com.rj.sysinvest.model.Investment;
 import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.model.Payment;
+import com.rj.sysinvest.model.Rank;
 import com.rj.sysinvest.model.Site;
 import com.rj.sysinvest.model.Staff;
 import com.rj.sysinvest.model.Tower;
@@ -65,6 +66,10 @@ public class TestUtil {
         s.setNationalId("0987654321");
         s.setGender("M");
         s.setFullName("Nama lengkap nih");
+        s.setScannedNationalIdPath("template/images/header.jpg");
+        Rank rank = new Rank();
+        rank.setName("Marketing Manajer");
+        s.setRank(rank);
         return s;
     }
 

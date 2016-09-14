@@ -31,33 +31,63 @@ public class DocxComponent {
         replaceInParagraphs(doc.getParagraphs(), data, "${", "}");
     }
 
-    public int getImageFormat(String imgType) {
-        if ("emf".equalsIgnoreCase(imgType)) {
-            return XWPFDocument.PICTURE_TYPE_EMF;
-        } else if ("wmf".equalsIgnoreCase(imgType)) {
-            return XWPFDocument.PICTURE_TYPE_WMF;
-        } else if ("pict".equalsIgnoreCase(imgType)) {
-            return XWPFDocument.PICTURE_TYPE_PICT;
-        } else if ("jpeg".equalsIgnoreCase(imgType) || "jpg".equalsIgnoreCase(imgType)) {
-            return XWPFDocument.PICTURE_TYPE_JPEG;
-        } else if ("png".equalsIgnoreCase(imgType)) {
-            return XWPFDocument.PICTURE_TYPE_PNG;
-        } else if ("dib".equalsIgnoreCase(imgType)) {
-            return XWPFDocument.PICTURE_TYPE_DIB;
-        } else if ("gif".equalsIgnoreCase(imgType)) {
-            return XWPFDocument.PICTURE_TYPE_GIF;
-        } else if ("tiff".equalsIgnoreCase(imgType)) {
-            return XWPFDocument.PICTURE_TYPE_TIFF;
-        } else if ("eps".equalsIgnoreCase(imgType)) {
-            return XWPFDocument.PICTURE_TYPE_EPS;
-        } else if ("bmp".equalsIgnoreCase(imgType)) {
-            return XWPFDocument.PICTURE_TYPE_BMP;
-        } else if ("wpg".equalsIgnoreCase(imgType)) {
-            return XWPFDocument.PICTURE_TYPE_WPG;
+//    public int getImageFormat(String imgType) {
+//        if ("emf".equalsIgnoreCase(imgType)) {
+//            return XWPFDocument.PICTURE_TYPE_EMF;
+//        } else if ("wmf".equalsIgnoreCase(imgType)) {
+//            return XWPFDocument.PICTURE_TYPE_WMF;
+//        } else if ("pict".equalsIgnoreCase(imgType)) {
+//            return XWPFDocument.PICTURE_TYPE_PICT;
+//        } else if ("jpeg".equalsIgnoreCase(imgType) || "jpg".equalsIgnoreCase(imgType)) {
+//            return XWPFDocument.PICTURE_TYPE_JPEG;
+//        } else if ("png".equalsIgnoreCase(imgType)) {
+//            return XWPFDocument.PICTURE_TYPE_PNG;
+//        } else if ("dib".equalsIgnoreCase(imgType)) {
+//            return XWPFDocument.PICTURE_TYPE_DIB;
+//        } else if ("gif".equalsIgnoreCase(imgType)) {
+//            return XWPFDocument.PICTURE_TYPE_GIF;
+//        } else if ("tiff".equalsIgnoreCase(imgType)) {
+//            return XWPFDocument.PICTURE_TYPE_TIFF;
+//        } else if ("eps".equalsIgnoreCase(imgType)) {
+//            return XWPFDocument.PICTURE_TYPE_EPS;
+//        } else if ("bmp".equalsIgnoreCase(imgType)) {
+//            return XWPFDocument.PICTURE_TYPE_BMP;
+//        } else if ("wpg".equalsIgnoreCase(imgType)) {
+//            return XWPFDocument.PICTURE_TYPE_WPG;
+//        } else {
+//            throw new RuntimeException("Unsupported picture: " + imgType
+//                    + ". Expected emf|wmf|pict|jpeg|png|dib|gif|tiff|eps|bmp|wpg");
+//        }
+//    }
+    public int getImageFormat(String imgFile) {
+        int format;
+        if (imgFile.endsWith("emf")) {
+            format = XWPFDocument.PICTURE_TYPE_EMF;
+        } else if (imgFile.endsWith("wmf")) {
+            format = XWPFDocument.PICTURE_TYPE_WMF;
+        } else if (imgFile.endsWith("pict")) {
+            format = XWPFDocument.PICTURE_TYPE_PICT;
+        } else if (imgFile.endsWith("jpeg") || imgFile.endsWith(".jpg")) {
+            format = XWPFDocument.PICTURE_TYPE_JPEG;
+        } else if (imgFile.endsWith("png")) {
+            format = XWPFDocument.PICTURE_TYPE_PNG;
+        } else if (imgFile.endsWith("dib")) {
+            format = XWPFDocument.PICTURE_TYPE_DIB;
+        } else if (imgFile.endsWith("gif")) {
+            format = XWPFDocument.PICTURE_TYPE_GIF;
+        } else if (imgFile.endsWith("tiff")) {
+            format = XWPFDocument.PICTURE_TYPE_TIFF;
+        } else if (imgFile.endsWith("eps")) {
+            format = XWPFDocument.PICTURE_TYPE_EPS;
+        } else if (imgFile.endsWith("bmp")) {
+            format = XWPFDocument.PICTURE_TYPE_BMP;
+        } else if (imgFile.endsWith("wpg")) {
+            format = XWPFDocument.PICTURE_TYPE_WPG;
         } else {
-            throw new RuntimeException("Unsupported picture: " + imgType
+            throw new RuntimeException("Unsupported picture: " + imgFile
                     + ". Expected emf|wmf|pict|jpeg|png|dib|gif|tiff|eps|bmp|wpg");
         }
+        return format;
     }
 
     public void addToTable(XWPFDocument doc, int tablePosition, String[][] dataList) {
