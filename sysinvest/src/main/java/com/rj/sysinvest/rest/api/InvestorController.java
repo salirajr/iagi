@@ -5,22 +5,28 @@
  */
 package com.rj.sysinvest.rest.api;
 
+import com.rj.sysinvest.akad.util.CopyNationalIdentityFileStore;
 import com.rj.sysinvest.dao.InvestorRepository;
 import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.service.InvestorService;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Iterator;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -32,11 +38,13 @@ public class InvestorController {
 
     @Resource
     private InvestorRepository repo;
-    
+
     @Resource
     InvestorService service;
 
-    
+    @Resource
+    CopyNationalIdentityFileStore fileStore;
+
     @RequestMapping(value = "/addnew", method = RequestMethod.POST)
     public Investor addNew(@RequestBody Investor payload, HttpServletRequest request)
             throws ServletException {
@@ -51,10 +59,11 @@ public class InvestorController {
     }
 
     @RequestMapping(value = "/storeidentitycopy", method = RequestMethod.POST)
-    public ResponseEntity storeIdentityCopy(@RequestParam("file") MultipartFile file, @RequestParam("id") String investorId, HttpServletRequest request)
+    public String storeIdentityCopy(@RequestPart("file") MultipartFile file, @RequestParam("nationalId") String nationalId)
             throws ServletException, IOException {
         byte[] baFile = file.getBytes();
-        return new ResponseEntity(HttpStatus.OK);
+        return fileStore.store(baFile, nationalId);
+
     }
 
     @RequestMapping(value = "/ret", method = RequestMethod.GET)
