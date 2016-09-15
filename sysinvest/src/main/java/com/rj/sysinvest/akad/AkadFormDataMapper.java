@@ -1,6 +1,5 @@
 package com.rj.sysinvest.akad;
 
-import com.rj.sysinvest.akad.AkadFormData;
 import com.rj.sysinvest.model.Acquisition;
 import java.util.function.Function;
 

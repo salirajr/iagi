@@ -2,8 +2,6 @@ package com.rj.sysinvest.akad.docx;
 
 import com.rj.sysinvest.akad.AkadFormData;
 import com.rj.sysinvest.akad.AkadFormDataMapper;
-import com.rj.sysinvest.akad.LampiranPembayaranData.Detail;
-import com.rj.sysinvest.akad.LampiranPembayaranDataService;
 import com.rj.sysinvest.layout.LayoutImageData;
 import com.rj.sysinvest.layout.LayoutImageService;
 import com.rj.sysinvest.model.Acquisition;
@@ -47,6 +45,8 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.springframework.stereotype.Service;
+import com.rj.sysinvest.akad.LampiranPembayaranDataMapper;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  *
@@ -63,7 +63,7 @@ public class AkadDocxService {
     @Resource(name = "LayoutImageServiceImpl")
     private LayoutImageService layoutImageService;
     @Resource
-    private LampiranPembayaranDataService pembayaranDataMapper;
+    private LampiranPembayaranDataMapper pembayaranDataMapper;
     //
     private String templatePath = "template/akad-form.docx";
     private NumberFormat moneyFormat = NumberFormat.getInstance();
@@ -111,21 +111,23 @@ public class AkadDocxService {
 
     private List<List<String>> generateTableDataForPembayaran(Acquisition a) {
         List<List<String>> table = new ArrayList();
-        BigDecimal totalHarga = BigDecimal.ZERO;
-        for (Detail d : pembayaranDataMapper.generateDetails(a)) {
-            List<String> row = new ArrayList();
-            row.add(d.getNomor().toString());
-            row.add(d.getKeterangan());
-            row.add(tglJatuhTempoFormatter.format(d.getTglJatuhTempo()));
-            row.add(moneyFormat.format(d.getJumlah()));
-            table.add(row);
-            totalHarga = totalHarga.add(d.getJumlah());
-        }
+        AtomicReference<BigDecimal> total = new AtomicReference(BigDecimal.ZERO);
+        a.getPayments().stream().map(pembayaranDataMapper)
+                .forEach(d -> {
+                    List<String> row = new ArrayList();
+                    row.add(d.getNomor().toString());
+                    row.add(d.getKeterangan());
+                    row.add(tglJatuhTempoFormatter.format(d.getTglJatuhTempo()));
+                    row.add(moneyFormat.format(d.getJumlah()));
+                    table.add(row);
+                    total.set(total.get().add(d.getJumlah()));
+                });
+
         List<String> row = new ArrayList();
         row.add("");
         row.add("");
         row.add("Harga");
-        row.add(moneyFormat.format(totalHarga));
+        row.add(moneyFormat.format(total.get()));
         table.add(row);
         return table;
     }
