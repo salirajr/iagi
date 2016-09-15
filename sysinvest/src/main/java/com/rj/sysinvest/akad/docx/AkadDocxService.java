@@ -291,6 +291,7 @@ public class AkadDocxService {
         run.setText("LAMPIRAN KTP");
 
         // pihak pertama
+        System.out.println(a.getStaff());
         Path imgPath = Paths.get(a.getStaff().getScannedNationalIdPath());
         InputStream inputStream = Files.newInputStream(imgPath);
         Dimension dim = getImageDimension(imgPath.toFile());

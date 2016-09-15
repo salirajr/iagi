@@ -10,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 
 
-public interface InvestorRepository extends CrudRepository<Investor, String> {
+public interface InvestorRepository extends CrudRepository<Investor, Long> {
     
     public Investor findByAccountId(String accountId);
 

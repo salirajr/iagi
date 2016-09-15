@@ -10,14 +10,9 @@ import com.rj.sysinvest.dao.InvestorRepository;
 import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.service.InvestorService;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -59,11 +52,13 @@ public class InvestorController {
     }
 
     @RequestMapping(value = "/storeidentitycopy", method = RequestMethod.POST)
-    public String storeIdentityCopy(@RequestPart("file") MultipartFile file, @RequestParam("nationalId") String nationalId)
+    public void storeIdentityCopy(@RequestPart("file") MultipartFile file, @RequestParam("nationalId") String nationalId, @RequestParam("id") Long id)
             throws ServletException, IOException {
         byte[] baFile = file.getBytes();
-        return fileStore.store(baFile, nationalId);
-
+        String fLoc = fileStore.store(baFile, nationalId);
+        Investor t = repo.findOne(id);
+        t.setScannedNationalIdPath(fLoc);
+        repo.save(t);
     }
 
     @RequestMapping(value = "/ret", method = RequestMethod.GET)

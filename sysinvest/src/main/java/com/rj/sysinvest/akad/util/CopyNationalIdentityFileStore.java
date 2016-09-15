@@ -25,12 +25,13 @@ public class CopyNationalIdentityFileStore {
     private String fileStoreageDirectory;
 
     public String store(byte[] bytes, String socialId) throws IOException {
-        Path path = Paths.get(socialId);
+        String tPath = fileStoreageDirectory + "/" + socialId;
+        Path path = Paths.get(tPath);
         if (!Files.exists(path.getParent())) {
             Files.createDirectories(path.getParent());
         }
         Files.write(path, bytes);
-        return fileStoreageDirectory + "/" + socialId;
+        return tPath;
     }
 
 }
