@@ -5,7 +5,6 @@
  */
 package com.rj.sysinvest.rest.api;
 
-import com.rj.sysinvest.akad.AkadReportService;
 import com.rj.sysinvest.akad.docx.AkadDocxService;
 import com.rj.sysinvest.dao.AcquisitionRepository;
 import com.rj.sysinvest.model.Acquisition;
@@ -15,9 +14,7 @@ import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import net.sf.jasperreports.engine.JRException;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

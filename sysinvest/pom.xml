@@ -41,7 +41,7 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         
-         <dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
@@ -55,16 +55,16 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
         </dependency>
-        <dependency>
+        <!--        <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId> 
             <version>10.12.1.1</version>
-        </dependency>
-        <dependency>
+        </dependency>-->
+        <!--        <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
             <version>6.3.0</version>
-        </dependency>
+        </dependency>-->
         
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,28 +72,33 @@
             <optional>true</optional>
         </dependency>
          
-        <dependency>
+        <!--        <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>batik-svggen</artifactId>
             <version>1.8</version>
-        </dependency>
+        </dependency>-->
         
-        <dependency>
+        <!--        <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>batik-dom</artifactId>
             <version>1.8</version>
-        </dependency> 
+        </dependency> -->
 
-        <dependency>
+        <!--        <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>2.0.2</version>
-        </dependency>
+        </dependency>-->
         
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>3.14</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
         </dependency>
 
     </dependencies>
