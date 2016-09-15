@@ -39,10 +39,12 @@
                 payload.birthDate = new Date(payload.birthDate);
                 $http.post('/api/investor/addnew', payload)
                         .success(function (response) {
+                            $log.debug(response);
                             $scope.data.investor = response;
                             $rootScope.data.investor.id = response.id;
                             fnUploadNationalId();
                             alert("Account id dengan [" + $scope.data.investor.accountId + "] telah disimpan!");
+                            $scope.getAccount();
                         }).error(function (err) {
                     alert("Account id dengan [" + $scope.data.investor.accountId + "] gagal tersimpan!");
                     $log.debug(err);
@@ -84,12 +86,12 @@
                     });
 
         };
-        $scope.temp.file = null;
+        $scope.temp = {};
         $scope.addFile = function (element) {
-            var file = element.files[0];
-            $scope.temp.fileName = file.name;
-            $log.debug(file.name);
-        }
+            $scope.temp.file = element.files[0];
+            $scope.temp.fileName = element.files[0].name;
+            $log.debug($scope.temp.fileName);
+        };
 
         $scope.clearForm = function () {
             $scope.data.investor = {};
@@ -98,27 +100,26 @@
             $scope.data.investor.nationality = "INDONESIA";
             $scope.data.investor.jobSector = "PROFESSIONAL";
             $scope.data.investor.bankAccount = "BCA";
-        }
+            $scope.data.investor.birthDate = "1981-01-01";
+            $scope.temp = {};
+        };
 
         function fnUploadNationalId() {
-            var fd = new FormData();
-            //Take the first selected file
-            fd.append("file", $scope.temp.file, $scope.temp.fileName);
-            fd.append("nationalId", $scope.data.investor.nationalId);
-            
-            $log.debug(fd);
+            console.log($scope.temp.file);
+            if ($scope.temp.file !== undefined) {
+                var fd = new FormData();
+                var fileName = $scope.data.investor.nationalId + "." + $scope.temp.fileName.split('.').pop();
+                //Take the first selected file
+                fd.append("file", $scope.temp.file, $scope.temp.fileName);
+                fd.append("nationalId", fileName);
+                fd.append("id", $scope.data.investor.id);
 
-            $http.post("/api/investor/storeidentitycopy", fd, {
-            withCredentials: true,
-                    headers: {'Content-Type':  'application/x-www-form-urlencoded' },
+                $http.post("/api/investor/storeidentitycopy", fd, {
+                    withCredentials: true,
+                    headers: {'Content-Type': undefined},
                     transformRequest: angular.identity
-            }).success(function(response){
-                $log.debug("SUCCESS");
-                $log.debug(response);
-            }).error(function(err){
-                $log.debug("ERROR");
-                $log.debug(err);
-            });
+                });
+            }
         }
 
     }

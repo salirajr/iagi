@@ -4,7 +4,7 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>Investor <small>.Aparkost</small></h5>
-                   
+
                 </div>
                 <div class="ibox-content">
                     <form class="form-horizontal" name="investorForm">
@@ -110,7 +110,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group"><label class="col-lg-2 control-label">Kopian Identitas</label>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Kopian Identitas</label>
+                            
                             <div class="col-lg-6">
                                 <div class="input-group">
                                     <label class="input-group-btn">
@@ -118,11 +120,19 @@
                                             Browse&hellip; <input type="file" style="display: none;" multiple onchange="angular.element(this).scope().addFile(this)">
                                         </span>
                                     </label>
-                                    <input type="text" class="form-control" ng-model="temp.fileName">
+                                    <input type="text" class="form-control" ng-model="temp.fileName" readonly="">
                                 </div>
                                 <span class="help-block m-b-none"><small>.jpg maximum 1024kB</small></span>
                             </div>
+                           
                         </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"></label>
+                            <div class="col-lg-6" >
+                                <span class="help-block m-b-none">{{data.investor.scannedNationalIdPath}}</span>
+                            </div>
+                        </div>
+                       
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Pekerjaan</label>
@@ -135,9 +145,9 @@
 
                             <div class="col-sm-3">
                                 <select class="form-control m-b" name="account" ng-model="data.investor.jobSector" ng-init="data.investor.jobSector = data.investor.jobSector || 'PROFESSIONAL'">
-                                    <option>PEMERINTAHAN</option>
-                                    <option>SWASTA</option>
-                                    <option>PENDIDIKAN</option>
+                                    <option value="PEMERINTAHAN">PEMERINTAHAN</option>
+                                    <option value="SWASTA">SWASTA</option>
+                                    <option value="PENDIDIKAN">PENDIDIKAN</option>
                                     <option value="PROFESSIONAL">PROFESSIONAL</option>
                                 </select>
                             </div>
@@ -162,11 +172,11 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Akun Bank</label>
                             <div class="col-sm-2"><select class="form-control m-b" name="account" ng-model="data.investor.bankAccount" ng-init="data.investor.bankAccount = data.investor.bankAccount || 'BCA'">
-                                    <option>Danamon</option>
-                                    <option>BSM</option>
+                                    <option value="Danamon">Danamon</option>
+                                    <option value="BSM">BSM</option>
                                     <option value="BCA">BCA</option>
-                                    <option>BNI</option>
-                                    <option>BRI</option>
+                                    <option value="BNI">BNI</option>
+                                    <option value="BRI">BRI</option>
                                 </select>
                             </div>
                             <div class="col-lg-2"><input type="text" class="form-control"  ng-model="data.investor.bankAccountNo"  name="bankAccountNo" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('No. Akun Bank adalah mandatory')" required=""><span class="help-block m-b-none"><small>Rekening</small></span></div>
@@ -188,7 +198,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
     <!--
     <div class="modal inmodal fade" id="saveDialog" role="dialog" data-backdrop="static" aria-hidden="true">    
