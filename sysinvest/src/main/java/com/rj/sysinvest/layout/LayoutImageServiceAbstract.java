@@ -52,7 +52,9 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
     }
 
     /**
-     * Draw investor name and polygon on selected aparkosts, and draw name for all 
+     * Draw investor account id and polygon on selected aparkosts, and draw name
+     * for all
+     *
      * @param g is Graphics2D
      * @param layout
      * @param listOfAparkost
@@ -77,14 +79,14 @@ public abstract class LayoutImageServiceAbstract implements LayoutImageService {
                         Polygon polygon = layoutRoom.get().toPolygon();
                         g.setColor(getHighlightedAparkostColor());
                         g.fill(polygon);
-                        // Draw string investor.name
+                        // Draw string investor.accountId
                         int[][] points = layoutRoom.get().getArea();
                         if (points.length > 0) {
                             Point p = createPoint(points[0]);
                             p.translate(3, 3 + 12 + 3 + 10);
                             g.setColor(investorNameColor);
                             g.setFont(investorNameFont);
-                            g.drawString(aparkost.getInvestor().getNickName(), p.x, p.y);
+                            g.drawString(aparkost.getInvestor().getAccountId(), p.x, p.y);
                         } else {
                             throw new RuntimeException("No coordinates defined for aparkost " + aparkost.getName());
                         }
