@@ -176,6 +176,19 @@
             angular.copy(payments, $scope.temp.payments);
         };
 
+        $scope.addInstallment = function () {
+            if ($scope.data.acquisition.type === 'SOFT_INSTALLMENT') {
+                var i = $scope.temp.payments.length;
+                var d = new Date($scope.temp.repaymentDate);
+                var tD = new Date(new Date(d.getFullYear(), d.getMonth(), 2).setMonth(d.getMonth()));
+                var t = createPayment(i+2, $scope.temp.installmentNominal, "Tahapan ke "+(i+1), tD.toISOString().slice(0, 10));
+                $scope.temp.payments.push(t);
+                $log.debug("SOFT_INSTALLMENT ADD!"+i);
+                $log.debug($scope.temp.payments);
+            }
+        };
+
+
         function createPayment(i, installment, type, paydate) {
             var temp = {};
             temp.index = i;

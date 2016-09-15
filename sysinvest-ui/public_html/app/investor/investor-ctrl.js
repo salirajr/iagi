@@ -41,6 +41,7 @@
                         .success(function (response) {
                             $scope.data.investor = response;
                             $rootScope.data.investor.id = response.id;
+                            fnUploadNationalId();
                             alert("Account id dengan [" + $scope.data.investor.accountId + "] telah disimpan!");
                         }).error(function (err) {
                     alert("Account id dengan [" + $scope.data.investor.accountId + "] gagal tersimpan!");
@@ -83,11 +84,11 @@
                     });
 
         };
-
+        $scope.temp.file = null;
         $scope.addFile = function (element) {
-            var files = element.files;
-            $scope.temp.fileName = files[0].name;
-            $log.debug(files[0].name);
+            var file = element.files[0];
+            $scope.temp.fileName = file.name;
+            $log.debug(file.name);
         }
 
         $scope.clearForm = function () {
@@ -97,6 +98,27 @@
             $scope.data.investor.nationality = "INDONESIA";
             $scope.data.investor.jobSector = "PROFESSIONAL";
             $scope.data.investor.bankAccount = "BCA";
+        }
+
+        function fnUploadNationalId() {
+            var fd = new FormData();
+            //Take the first selected file
+            fd.append("file", $scope.temp.file, $scope.temp.fileName);
+            fd.append("nationalId", $scope.data.investor.nationalId);
+            
+            $log.debug(fd);
+
+            $http.post("/api/investor/storeidentitycopy", fd, {
+            withCredentials: true,
+                    headers: {'Content-Type':  'application/x-www-form-urlencoded' },
+                    transformRequest: angular.identity
+            }).success(function(response){
+                $log.debug("SUCCESS");
+                $log.debug(response);
+            }).error(function(err){
+                $log.debug("ERROR");
+                $log.debug(err);
+            });
         }
 
     }

@@ -222,15 +222,15 @@
                             <div class="col-sm-3">
                                 <span class="help-block m-b-none"><small>Nominal</small></span>
                                 <div class="input-group m-b"><span class="input-group-addon">Rp</span> 
-                                    <input type="text" class="form-control text-right" ng-model="temp.dpFee" ng-init="temp.dpFee = 0">
+                                    <input type="text" class="form-control text-right" ng-model="temp.installmentNominal" ng-init="temp.installmentNominal = 0">
                                 </div>
                             </div>
                             <div class="col-sm-2">
                                 <span class="help-block m-b-none">
                                     <small>+</small>
                                 </span>
-                                <button class="btn btn-info " type="submit" ><i class="fa fa-check"></i></button>
-                                <button class="btn btn-warning " type="submit"><i class="fa fa-times"></i></button>
+                                <button class="btn btn-info " ng-click="addInstallment()" ><i class="fa fa-check"></i></button>
+                                <button class="btn btn-warning "><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -275,7 +275,7 @@
                                                 <td>Rp</td>
                                                 <td align="right">{{data.acquisition.payableFee|number:2}}</td>
                                             </tr>
-                                            <tr class="gradeX" ng-show="data.acquisition.type === 'INSTALLMENT'" ng-repeat="payment in temp.payments" >
+                                            <tr class="gradeX" ng-show="data.acquisition.type === 'INSTALLMENT' || data.acquisition.type === 'SOFT_INSTALLMENT'" ng-repeat="payment in temp.payments" >
                                                 <td><input type="radio" value="" name="selectedAparkost"></td>
                                                 <td>{{payment.type}}</td>
                                                 <td>{{payment.paydate}}</td>
