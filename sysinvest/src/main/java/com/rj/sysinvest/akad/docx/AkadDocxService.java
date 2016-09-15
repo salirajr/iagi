@@ -39,6 +39,7 @@ import lombok.Data;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -283,10 +284,15 @@ public class AkadDocxService {
     }
 
     private void generateLampiranKTP(XWPFDocument doc, Acquisition a) throws IOException, InvalidFormatException {
-        addPageBreak(doc);
+        XWPFParagraph par = addPageBreak(doc);
+        par.setAlignment(ParagraphAlignment.CENTER);
+        XWPFRun run = par.createRun();
+        run.setBold(true);
+        run.setText("LAMPIRAN KTP");
+
         // pihak pertama
         Path imgPath = Paths.get(a.getStaff().getScannedNationalIdPath());
-          InputStream inputStream = Files.newInputStream(imgPath);
+        InputStream inputStream = Files.newInputStream(imgPath);
         Dimension dim = getImageDimension(imgPath.toFile());
         dim = getScaledDimension(dim, new Dimension(460, -1));
         int pictType = docxComp.getImageFormat(imgPath.toString());
