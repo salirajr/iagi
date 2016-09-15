@@ -233,7 +233,8 @@ public class AkadDocxService {
         formatRowAndGetCell.apply(table.createRow())
                 .setText("Investor : " + investor.getFullName());
         // 5th row
-        Dimension dim = getScaledDimension(new Dimension(width, height), new Dimension(460, -1));
+        Dimension dim = new Dimension(width, height);
+        dim = getScaledDimension(dim, new Dimension(460, -1));
         formatRowAndGetCell.apply(table.createRow())
                 .getParagraphs().get(0)
                 .insertNewRun(0)
@@ -282,22 +283,35 @@ public class AkadDocxService {
     }
 
     private void generateLampiranKTP(XWPFDocument doc, Acquisition a) throws IOException, InvalidFormatException {
-
-//        Path imgPath2 = Paths.get(a.getInvestor().getScannedNationalIdPath());
-
         addPageBreak(doc);
-        // create table
-        XWPFTable table = doc.createTable(2, 1);
-        XWPFParagraph par = formatRowAndGetCell.apply(table.getRow(0))
-                .getParagraphs().get(0);
-        XWPFRun run = par.insertNewRun(0);
-        run.setText("Pihak Pertama");
-        run.addBreak();
-        Path imgPath1 = Paths.get(a.getStaff().getScannedNationalIdPath());
-        InputStream inputStream = Files.newInputStream(imgPath1);
-        Dimension dim = getImageDimension(imgPath1.toFile());
-        int pictType = docxComp.getImageFormat(imgPath1.toString());
-        run.addPicture(inputStream, pictType, imgPath1.toString(), dim.width, dim.height);
+        // pihak pertama
+        Path imgPath = Paths.get(a.getStaff().getScannedNationalIdPath());
+          InputStream inputStream = Files.newInputStream(imgPath);
+        Dimension dim = getImageDimension(imgPath.toFile());
+        dim = getScaledDimension(dim, new Dimension(460, -1));
+        int pictType = docxComp.getImageFormat(imgPath.toString());
+        XWPFTable table = doc.createTable();
+        formatRowAndGetCell.apply(table.getRow(0))
+                .setText("Pihak Pertama");
+        formatRowAndGetCell.apply(table.createRow())
+                .getParagraphs().get(0)
+                .createRun()
+                .addPicture(inputStream, pictType, imgPath.toString(), Units.toEMU(dim.width), Units.toEMU(dim.height));
+        // add space break
+        doc.createParagraph();
+        // pihak kedua
+        imgPath = Paths.get(a.getInvestor().getScannedNationalIdPath());
+        inputStream = Files.newInputStream(imgPath);
+        dim = getImageDimension(imgPath.toFile());
+        dim = getScaledDimension(dim, new Dimension(460, -1));
+        pictType = docxComp.getImageFormat(imgPath.toString());
+        table = doc.createTable();
+        formatRowAndGetCell.apply(table.getRow(0))
+                .setText("Pihak Kedua");
+        formatRowAndGetCell.apply(table.createRow())
+                .getParagraphs().get(0)
+                .createRun()
+                .addPicture(inputStream, pictType, imgPath.toString(), Units.toEMU(dim.width), Units.toEMU(dim.height));
     }
 
     /**

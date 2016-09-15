@@ -66,7 +66,7 @@ public class TestUtil {
         s.setNationalId("0987654321");
         s.setGender("M");
         s.setFullName("Nama lengkap nih");
-        s.setScannedNationalIdPath("template/images/header.jpg");
+        s.setScannedNationalIdPath("template/layout/THE APARKOST DMY_Tower 0.jpg");
         Rank rank = new Rank();
         rank.setName("Marketing Manajer");
         s.setRank(rank);
@@ -90,6 +90,7 @@ public class TestUtil {
         ir.setAddress("JL MALANGBONG 4 NO 2 RT/RW 003/003 KEL ANTAPANI WETAN KEC ANTAPANI BANDUNG");
         ir.setBirthDate(new Date(System.currentTimeMillis()));
         ir.setOccupation("KARYAWAN SWASTA");
+        ir.setScannedNationalIdPath("template/layout/THE APARKOST DMY_Tower 0.jpg");
         return ir;
     }
 
