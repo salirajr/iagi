@@ -91,6 +91,7 @@ public class TestUtil {
         ir.setBirthDate(new Date(System.currentTimeMillis()));
         ir.setOccupation("KARYAWAN SWASTA");
         ir.setScannedNationalIdPath("template/layout/THE APARKOST DMY_Tower 0.jpg");
+        ir.setAccountId("12345");
         return ir;
     }
 
