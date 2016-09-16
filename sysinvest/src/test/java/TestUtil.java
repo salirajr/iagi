@@ -129,6 +129,15 @@ public class TestUtil {
 
     public static List<Payment> createPaymentList() {
         List<Payment> list = new ArrayList();
+        for (int i = 1; i < 27; i++) {
+            Payment p = new Payment();
+            p.setId(new Long(i));
+            p.setIndex(i);
+            p.setNominal(90000000);
+            p.setPaydate(new Date(System.currentTimeMillis()));
+//            p.setType();
+            list.add(p);
+        }
         return list;
     }
 }

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  * @author Rais <rais.gowa@gmail.com>
  */
 @Service
+@Data
 public class AkadFormDataMapperImpl implements AkadFormDataMapper {
 
     @Resource

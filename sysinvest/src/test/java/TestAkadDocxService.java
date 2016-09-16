@@ -4,6 +4,7 @@ import com.rj.sysinvest.akad.AkadFormDataMapperImpl;
 import com.rj.sysinvest.akad.docx.AkadDocxService;
 import com.rj.sysinvest.akad.docx.DocxComponent;
 import com.rj.sysinvest.akad.LampiranPembayaranDataMapperImpl;
+import com.rj.sysinvest.akad.util.Terbilang;
 
 /**
  *
@@ -27,7 +28,9 @@ public class TestAkadDocxService {
     }
 
     public static AkadFormDataMapper createAkadFormDataService() {
-        return new AkadFormDataMapperImpl();
+        AkadFormDataMapperImpl m = new AkadFormDataMapperImpl();
+        m.setTerbilang(new Terbilang());
+        return m;
     }
 
 }
