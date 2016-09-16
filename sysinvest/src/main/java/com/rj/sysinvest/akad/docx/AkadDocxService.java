@@ -46,7 +46,9 @@ import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.springframework.stereotype.Service;
 import com.rj.sysinvest.akad.LampiranPembayaranDataMapper;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiFunction;
 
 /**
  *
@@ -110,35 +112,32 @@ public class AkadDocxService {
     }
 
     private List<List<String>> generateTableDataForPembayaran(Acquisition a) {
-        List<List<String>> table = new ArrayList();
         AtomicReference<BigDecimal> total = new AtomicReference(BigDecimal.ZERO);
-        a.getPayments().stream().map(pembayaranDataMapper)
-                .forEach(d -> {
-                    List<String> row = new ArrayList();
-                    row.add(d.getNomor().toString());
-                    row.add(d.getKeterangan());
-                    row.add(tglJatuhTempoFormatter.format(d.getTglJatuhTempo()));
-                    row.add(moneyFormat.format(d.getJumlah()));
-                    table.add(row);
-                    total.set(total.get().add(d.getJumlah()));
-                });
-
-        List<String> row = new ArrayList();
-        row.add("");
-        row.add("");
-        row.add("Harga");
-        row.add(moneyFormat.format(total.get()));
-        table.add(row);
+        List<List<String>> table = a.getPayments().stream()
+                .map(pembayaranDataMapper)
+                .map(d -> {
+                    total.getAndUpdate(t -> t.add(d.getJumlah()));
+                    return Arrays.asList(new String[]{
+                        d.getNomor().toString(),
+                        d.getKeterangan(),
+                        tglJatuhTempoFormatter.format(d.getTglJatuhTempo()),
+                        moneyFormat.format(d.getJumlah())
+                    });
+                })
+                .collect(Collectors.toList());
+        table.add(Arrays.asList(new String[]{
+            "", "", "Harga", moneyFormat.format(total.get())
+        }));
         return table;
     }
-    private SimpleDateFormat tglJatuhTempoFormatter = new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat tglJatuhTempoFormatter = new SimpleDateFormat("d");
     private NumberFormat jumlahFormatter = NumberFormat.getInstance();
 
     private List<List<String>> generateTableDataForTowerFloorUnits(Acquisition a) {
         // aggregate data
         // Map<Tower, Map<Floor, List<Investment>>>
         Map<Tower, Map<String, List<Investment>>> towerFloorUnitMap = new HashMap();
-        a.getInvestments().stream()
+        a.getInvestments()
                 .forEach(investment -> {
                     Aparkost aparkost = investment.getAparkost();
                     Tower tower = aparkost.getTower();
@@ -156,41 +155,45 @@ public class AkadDocxService {
                     unitList.add(investment);
                 });
         // convert into matrix 2d
-        List<List<String>> tableData = new ArrayList();
+        List<List<String>> tableData = new ArrayList(a.getInvestments().size());
         towerFloorUnitMap
                 .forEach((tower, floorUnitMap)
-                        -> floorUnitMap.forEach((floor, investmentList) -> {
-                            List<String> rowData = new ArrayList();
-                            investmentList.forEach(investment -> {
-                                rowData.add(tower.getName());
-                                rowData.add(floor);
-                                rowData.add(investment.getAparkost().getName());
-                                rowData.add(moneyFormat.format(investment.getSoldRate()));
-                            });
-                            tableData.add(rowData);
-                        })
+                        -> floorUnitMap.forEach((floor, investmentList)
+                                -> tableData.addAll(
+                                        investmentList.stream()
+                                        .map(investment
+                                                -> Arrays.asList(
+                                                        new String[]{
+                                                            tower.getName(),
+                                                            floor,
+                                                            investment.getAparkost().getName(),
+                                                            moneyFormat.format(investment.getSoldRate())
+                                                        })
+                                        )
+                                        .collect(Collectors.toList())
+                                )
+                        )
                 );
         return tableData;
     }
 
-    private String buildString(List<String> list, String prefix, String infix, String suffix) {
-        StringBuilder sb = new StringBuilder();
-        if (prefix != null) {
-            sb.append(prefix);
-        }
-        for (int i = 0; i < list.size() - 1; i++) {
-            sb.append(list.get(i));
-            if (infix != null) {
-                sb.append(infix);
-            }
-        }
-        sb.append(list.get(list.size() - 1));
-        if (suffix != null) {
-            sb.append(suffix);
-        }
-        return sb.toString();
-    }
-
+//    private String buildString(List<String> list, String prefix, String infix, String suffix) {
+//        StringBuilder sb = new StringBuilder();
+//        if (prefix != null) {
+//            sb.append(prefix);
+//        }
+//        for (int i = 0; i < list.size() - 1; i++) {
+//            sb.append(list.get(i));
+//            if (infix != null) {
+//                sb.append(infix);
+//            }
+//        }
+//        sb.append(list.get(list.size() - 1));
+//        if (suffix != null) {
+//            sb.append(suffix);
+//        }
+//        return sb.toString();
+//    }
     private void generateLampiranDenah(XWPFDocument doc, Acquisition acquisition) throws InvalidFormatException, IOException {
         List<Aparkost> aparkostList = acquisition.getInvestments().stream()
                 .map(Investment::getAparkost)
@@ -286,41 +289,43 @@ public class AkadDocxService {
     }
 
     private void generateLampiranKTP(XWPFDocument doc, Acquisition a) throws IOException, InvalidFormatException {
+        // page title
         XWPFParagraph par = addPageBreak(doc);
         par.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun run = par.createRun();
         run.setBold(true);
         run.setText("LAMPIRAN KTP");
 
+        BiFunction<String, String, XWPFTable> createTableKtp = (caption, imgPath) -> {
+            try {
+                Path path = Paths.get(imgPath);
+                Dimension dim = getImageDimension(path.toFile());
+                dim = getScaledDimension(dim, new Dimension(460, -1));
+                XWPFTable table = doc.createTable();
+                formatRowAndGetCell.apply(table.getRow(0))
+                        .setText(caption);
+                formatRowAndGetCell.apply(table.createRow())
+                        .getParagraphs().get(0)
+                        .createRun()
+                        .addPicture(
+                                Files.newInputStream(path),
+                                docxComp.getImageFormat(path.toString()),
+                                path.toString(),
+                                Units.toEMU(dim.width),
+                                Units.toEMU(dim.height)
+                        );
+                return table;
+            } catch (IOException | InvalidFormatException ex) {
+                throw new RuntimeException(ex);
+            }
+        };
+
         // pihak pertama
-        System.out.println(a.getStaff());
-        Path imgPath = Paths.get(a.getStaff().getScannedNationalIdPath());
-        InputStream inputStream = Files.newInputStream(imgPath);
-        Dimension dim = getImageDimension(imgPath.toFile());
-        dim = getScaledDimension(dim, new Dimension(460, -1));
-        int pictType = docxComp.getImageFormat(imgPath.toString());
-        XWPFTable table = doc.createTable();
-        formatRowAndGetCell.apply(table.getRow(0))
-                .setText("Pihak Pertama");
-        formatRowAndGetCell.apply(table.createRow())
-                .getParagraphs().get(0)
-                .createRun()
-                .addPicture(inputStream, pictType, imgPath.toString(), Units.toEMU(dim.width), Units.toEMU(dim.height));
+        createTableKtp.apply("Pihak Pertama", a.getStaff().getScannedNationalIdPath());
         // add space break
         doc.createParagraph();
         // pihak kedua
-        imgPath = Paths.get(a.getInvestor().getScannedNationalIdPath());
-        inputStream = Files.newInputStream(imgPath);
-        dim = getImageDimension(imgPath.toFile());
-        dim = getScaledDimension(dim, new Dimension(460, -1));
-        pictType = docxComp.getImageFormat(imgPath.toString());
-        table = doc.createTable();
-        formatRowAndGetCell.apply(table.getRow(0))
-                .setText("Pihak Kedua");
-        formatRowAndGetCell.apply(table.createRow())
-                .getParagraphs().get(0)
-                .createRun()
-                .addPicture(inputStream, pictType, imgPath.toString(), Units.toEMU(dim.width), Units.toEMU(dim.height));
+        createTableKtp.apply("Pihak Kedua", a.getInvestor().getScannedNationalIdPath());
     }
 
     /**
