@@ -27,7 +27,6 @@ public class AkadFormDataMapperImpl implements AkadFormDataMapper {
 
     private SimpleDateFormat shortDateFormat = new SimpleDateFormat("dd-MM-yyyy");
     private SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM-yyyy");
-    private SimpleDateFormat dateOnlyFormat = new SimpleDateFormat("d");
     private NumberFormat moneyFormatter = NumberFormat.getInstance();
 
     private Map<String, String> acquisitionTypeTemplate = new HashMap();
@@ -74,7 +73,7 @@ public class AkadFormDataMapperImpl implements AkadFormDataMapper {
         for (Payment p : a.getPayments()) {
             Date tglJatuhTempo = p.getPaydate();
             if (tglJatuhTempo != null) {
-                d.setTglJatuhTempo(dateOnlyFormat.format(tglJatuhTempo));
+                d.setTglJatuhTempo(shortDateFormat.format(tglJatuhTempo));
                 d.setTglJatuhTempoTerbilang(terbilang.getTerbilang(Integer.parseInt(d.getTglJatuhTempo())));
                 break;
             }

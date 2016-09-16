@@ -9,16 +9,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author salirajr
  */
-@Service
-@Data
+@Component
 public class CopyNationalIdentityFileStore {
 
     @Value("${fileStoreageDirectory}")
