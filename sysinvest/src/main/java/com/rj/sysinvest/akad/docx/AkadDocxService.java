@@ -193,7 +193,7 @@ public class AkadDocxService {
 
     private void generateLampiranDenah(XWPFDocument doc, Acquisition acquisition) throws InvalidFormatException, IOException {
         List<Aparkost> aparkostList = acquisition.getInvestments().stream()
-                .map(inv -> inv.getAparkost())
+                .map(Investment::getAparkost)
                 .collect(Collectors.toList());
         List<LayoutImageData> layoutImageDataList = layoutImageService.getLayoutImages(aparkostList);
         int l = layoutImageDataList.size();

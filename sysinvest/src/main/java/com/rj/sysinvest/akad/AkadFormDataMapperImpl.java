@@ -1,6 +1,6 @@
 package com.rj.sysinvest.akad;
 
-import com.rj.sysinvest.akad.util.JavaTerbilang;
+import com.rj.sysinvest.akad.util.Terbilang;
 import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.model.Payment;
@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,6 +19,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AkadFormDataMapperImpl implements AkadFormDataMapper {
+
+    @Resource
+    private Terbilang terbilang;
 
     private SimpleDateFormat shortDateFormat = new SimpleDateFormat("dd-MM-yyyy");
     private SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM-yyyy");
@@ -61,7 +65,7 @@ public class AkadFormDataMapperImpl implements AkadFormDataMapper {
         d.setPihakKeduaTglLahir(upper(shortDateFormat.format(i.getBirthDate())));
 
         d.setHarga(moneyFormatter.format(a.getRate()));
-        d.setHargaTerbilang(new JavaTerbilang(a.getRate()).toString());
+        d.setHargaTerbilang(terbilang.getTerbilang(a.getRate()));
         d.setCaraPembayaran(acquisitionTypeTemplate.get(a.getType()));
 
         d.setTglPemesanan(monthFormat.format(a.getAuditTime()));
@@ -69,7 +73,7 @@ public class AkadFormDataMapperImpl implements AkadFormDataMapper {
             Date tglJatuhTempo = p.getPaydate();
             if (tglJatuhTempo != null) {
                 d.setTglJatuhTempo(dateOnlyFormat.format(tglJatuhTempo));
-                d.setTglJatuhTempoTerbilang(new JavaTerbilang(d.getTglJatuhTempo()).toString());
+                d.setTglJatuhTempoTerbilang(terbilang.getTerbilang(Integer.parseInt(d.getTglJatuhTempo())));
                 break;
             }
         }

@@ -51,7 +51,7 @@ public class LayoutImageServiceImpl extends LayoutImageServiceAbstract {
             layoutData.setTowerName(selectedTower.getName());
             layoutData.setSiteName(selectedTower.getSite().getName());
             layoutData.setSelectedAparkostNames(selectedAparkosts.stream()
-                    .map(aparkost -> aparkost.getName())
+                    .map(Aparkost::getName)
                     .collect(Collectors.toList()));
             layoutData.setWidth(img.getWidth());
             layoutData.setHeight(img.getHeight());
