@@ -1,9 +1,9 @@
 
 import com.rj.sysinvest.akad.AkadFormDataMapper;
 import com.rj.sysinvest.akad.AkadFormDataMapperImpl;
+import com.rj.sysinvest.akad.LampiranPembayaranDataMapper;
 import com.rj.sysinvest.akad.docx.AkadDocxService;
 import com.rj.sysinvest.akad.docx.DocxComponent;
-import com.rj.sysinvest.akad.LampiranPembayaranDataMapperImpl;
 import com.rj.sysinvest.akad.util.Terbilang;
 
 /**
@@ -23,7 +23,7 @@ public class TestAkadDocxService {
         ads.setDocxComp(new DocxComponent());
         ads.setDataMapper(createAkadFormDataService());
         ads.setLayoutImageService(TestLayoutImageService.createLayoutImageService());
-        ads.setPembayaranDataMapper(new LampiranPembayaranDataMapperImpl());
+        ads.setPembayaranDataMapper(new LampiranPembayaranDataMapper());
         return ads;
     }
 

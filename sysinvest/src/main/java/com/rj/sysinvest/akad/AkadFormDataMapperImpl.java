@@ -3,10 +3,10 @@ package com.rj.sysinvest.akad;
 import com.rj.sysinvest.akad.util.Terbilang;
 import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Investor;
-import com.rj.sysinvest.model.Payment;
 import com.rj.sysinvest.model.Staff;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,14 +70,16 @@ public class AkadFormDataMapperImpl implements AkadFormDataMapper {
         d.setCaraPembayaran(acquisitionTypeTemplate.get(a.getType()));
 
         d.setTglPemesanan(monthFormat.format(a.getAuditTime()));
-        for (Payment p : a.getPayments()) {
+        a.getPayments().stream().findFirst().ifPresent(p -> {
             Date tglJatuhTempo = p.getPaydate();
             if (tglJatuhTempo != null) {
-                d.setTglJatuhTempo(shortDateFormat.format(tglJatuhTempo));
-                d.setTglJatuhTempoTerbilang(terbilang.getTerbilang(Integer.parseInt(d.getTglJatuhTempo())));
-                break;
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(tglJatuhTempo);
+                int tgl = cal.get(Calendar.DAY_OF_MONTH);
+                d.setTglJatuhTempo(String.valueOf(tgl));
+                d.setTglJatuhTempoTerbilang(terbilang.getTerbilang(tgl));
             }
-        }
+        });
 //        a.getInvestments().iterator().next().getAparkost().getTower().getSite().getCity();
         d.setTempatAkad("Jakarta");
         d.setTglAkad(shortDateFormat.format(a.getAuditTime()));

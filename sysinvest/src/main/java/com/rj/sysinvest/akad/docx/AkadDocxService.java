@@ -11,16 +11,13 @@ import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.model.Tower;
 import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,7 +29,6 @@ import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.FileImageInputStream;
-import javax.imageio.stream.ImageInputStream;
 import lombok.Data;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -47,7 +43,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.springframework.stereotype.Service;
 import com.rj.sysinvest.akad.LampiranPembayaranDataMapper;
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiFunction;
 
 /**
@@ -112,26 +108,17 @@ public class AkadDocxService {
     }
 
     private List<List<String>> generateTableDataForPembayaran(Acquisition a) {
-        AtomicReference<BigDecimal> total = new AtomicReference(BigDecimal.ZERO);
         List<List<String>> table = a.getPayments().stream()
                 .map(pembayaranDataMapper)
-                .map(d -> {
-                    total.getAndUpdate(t -> t.add(d.getJumlah()));
-                    return Arrays.asList(new String[]{
-                        d.getNomor().toString(),
-                        d.getKeterangan(),
-                        tglJatuhTempoFormatter.format(d.getTglJatuhTempo()),
-                        moneyFormat.format(d.getJumlah())
-                    });
-                })
                 .collect(Collectors.toList());
+        // count total
+        AtomicLong total = new AtomicLong();
+        a.getPayments().forEach(p -> total.getAndUpdate(t -> t + p.getNominal()));
         table.add(Arrays.asList(new String[]{
             "", "", "Harga", moneyFormat.format(total.get())
         }));
         return table;
     }
-    private SimpleDateFormat tglJatuhTempoFormatter = new SimpleDateFormat("d");
-    private NumberFormat jumlahFormatter = NumberFormat.getInstance();
 
     private List<List<String>> generateTableDataForTowerFloorUnits(Acquisition a) {
         // aggregate data
@@ -220,10 +207,10 @@ public class AkadDocxService {
         int w = layoutImageData.getWidth();
         int h = layoutImageData.getHeight();
         String imgType = layoutImageData.getImageType();
-        return addDenah(doc, towerName, floor, investor, imgStream, w, h, imgType, null);
+        return addDenah(doc, towerName, floor, investor, imgStream, imgType, w, h);
     }
 
-    private XWPFTable addDenah(XWPFDocument doc, String towerName, String floor, Investor investor, InputStream img, int width, int height, String imgType, String fileName) throws InvalidFormatException, IOException {
+    private XWPFTable addDenah(XWPFDocument doc, String towerName, String floor, Investor investor, InputStream img, String imgType, int width, int height) throws InvalidFormatException, IOException {
         // create table
         XWPFTable table = doc.createTable();
         // 1st row
@@ -241,10 +228,12 @@ public class AkadDocxService {
         // 5th row
         Dimension dim = new Dimension(width, height);
         dim = getScaledDimension(dim, new Dimension(460, -1));
+        int w = Units.toEMU(dim.getWidth());
+        int h = Units.toEMU(dim.getHeight());
         formatRowAndGetCell.apply(table.createRow())
                 .getParagraphs().get(0)
                 .insertNewRun(0)
-                .addPicture(img, docxComp.getImageFormat(imgType), fileName, Units.toEMU(dim.getWidth()), Units.toEMU(dim.getHeight()));
+                .addPicture(img, docxComp.getImageFormat(imgType), null, w, h);
 
         return table;
     }
@@ -299,7 +288,9 @@ public class AkadDocxService {
         BiFunction<String, String, XWPFTable> createTableKtp = (caption, imgPath) -> {
             try {
                 Path path = Paths.get(imgPath);
-                Dimension dim = getImageDimension(path.toFile());
+                // TODO : dimensi image sebaiknya telah diukur saat  upload, 
+                // sehingga bisa mempercepat proses ini
+                Dimension dim = getImageDimension(path);
                 dim = getScaledDimension(dim, new Dimension(460, -1));
                 XWPFTable table = doc.createTable();
                 formatRowAndGetCell.apply(table.getRow(0))
@@ -331,29 +322,27 @@ public class AkadDocxService {
     /**
      * Gets image dimensions for given file http://stackoverflow.com/a/12164026
      *
-     * @param imgFile image file
+     * @param imgPath image file
      * @return dimensions of image
      * @throws IOException if the file is not a known image
      */
-    public static Dimension getImageDimension(File imgFile) throws IOException {
-        int pos = imgFile.getName().lastIndexOf(".");
+    private Dimension getImageDimension(Path imgPath) throws IOException {
+        String fileName = imgPath.getFileName().toString();
+        int pos = fileName.lastIndexOf(".");
         if (pos == -1) {
-            throw new IOException("No extension for file: " + imgFile.getAbsolutePath());
+            throw new IOException("No extension for file: " + imgPath);
         }
-        String suffix = imgFile.getName().substring(pos + 1);
-        Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(suffix);
-        if (iter.hasNext()) {
-            ImageReader reader = iter.next();
-            try {
-                ImageInputStream stream = new FileImageInputStream(imgFile);
-                reader.setInput(stream);
-                int width = reader.getWidth(reader.getMinIndex());
-                int height = reader.getHeight(reader.getMinIndex());
-                return new Dimension(width, height);
-            } finally {
-                reader.dispose();
-            }
+        String suffix = fileName.substring(pos + 1);
+        Iterator<ImageReader> i = ImageIO.getImageReadersBySuffix(suffix);
+        if (i.hasNext()) {
+            ImageReader reader = i.next();
+            reader.setInput(new FileImageInputStream(imgPath.toFile()));
+            int width = reader.getWidth(reader.getMinIndex());
+            int height = reader.getHeight(reader.getMinIndex());
+            reader.dispose();
+            return new Dimension(width, height);
+        } else {
+            throw new IOException("Unknown image file: " + imgPath);
         }
-        throw new IOException("Not a known image file: " + imgFile.getAbsolutePath());
     }
 }
