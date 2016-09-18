@@ -3,6 +3,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rj.sysinvest.layout.LayoutImageData;
 import com.rj.sysinvest.layout.LayoutImageService;
 import com.rj.sysinvest.layout.LayoutImageServiceImpl;
+import com.rj.sysinvest.layout.LayoutTemplateInfoRepository;
+import com.rj.sysinvest.layout.StringUtil;
 import com.rj.sysinvest.model.Aparkost;
 import java.io.IOException;
 import java.util.List;
@@ -24,21 +26,17 @@ public class TestLayoutImageService {
 
         // write to file
         for (LayoutImageData d : result) {
-            String filepath = "result-test/"
-                    + d.getSiteName()
-                    + "_"
-                    + d.getTowerName()
-                    + "_"
-                    + d.getFloor()
-                    + "." + d.getImageType();
+            String filepath = StringUtil.buildString("result-test/", "_", "." + d.getImageType(), d.getSiteName(), d.getTowerName(), d.getFloor());
             TestUtil.writeToFile(filepath, d.getImageRaw());
         }
     }
 
     public static LayoutImageService createLayoutImageService() {
+        LayoutTemplateInfoRepository layoutRepo = new LayoutTemplateInfoRepository();
+        layoutRepo.setLayoutTemplateDirectory("template/layout");
+        layoutRepo.setObjectMapper(new ObjectMapper());
         LayoutImageServiceImpl impl = new LayoutImageServiceImpl();
-        impl.setLayoutTemplateDirectory("template/layout");
-        impl.setObjectMapper(new ObjectMapper());
+        impl.setLayoutRepo(layoutRepo);
         impl.setAparkostRepository(new TestAparkostRepositoryImpl());
         return impl;
     }

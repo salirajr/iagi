@@ -1,8 +1,8 @@
 package com.rj.sysinvest.layout;
 
+import java.awt.Point;
 import java.awt.Polygon;
 import java.util.List;
-import java.util.Optional;
 import lombok.Data;
 
 /**
@@ -33,10 +33,11 @@ public class LayoutTemplateInfo {
 
     private List<LayoutRoom> rooms;
 
-    public Optional<LayoutRoom> findLayoutRoomByIndex(long index) {
+    public LayoutRoom findLayoutRoomByIndex(long index) {
         return getRooms().stream()
                 .filter(roomArea -> roomArea.getIndex() == index)
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No area defined for room index " + index));
     }
 
     @Data
@@ -44,6 +45,11 @@ public class LayoutTemplateInfo {
 
         private long index;
         private int[][] area;
+
+        public Point getPoint(int indexOfPoint) {
+            int[] p = area[indexOfPoint];
+            return new Point(p[0], p[1]);
+        }
 
         public Polygon toPolygon() {
             Polygon polygon = new Polygon();

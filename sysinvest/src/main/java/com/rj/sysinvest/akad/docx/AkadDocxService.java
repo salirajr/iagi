@@ -164,23 +164,6 @@ public class AkadDocxService {
         return tableData;
     }
 
-//    private String buildString(List<String> list, String prefix, String infix, String suffix) {
-//        StringBuilder sb = new StringBuilder();
-//        if (prefix != null) {
-//            sb.append(prefix);
-//        }
-//        for (int i = 0; i < list.size() - 1; i++) {
-//            sb.append(list.get(i));
-//            if (infix != null) {
-//                sb.append(infix);
-//            }
-//        }
-//        sb.append(list.get(list.size() - 1));
-//        if (suffix != null) {
-//            sb.append(suffix);
-//        }
-//        return sb.toString();
-//    }
     private void generateLampiranDenah(XWPFDocument doc, Acquisition acquisition) throws InvalidFormatException, IOException {
         List<Aparkost> aparkostList = acquisition.getInvestments().stream()
                 .map(Investment::getAparkost)
