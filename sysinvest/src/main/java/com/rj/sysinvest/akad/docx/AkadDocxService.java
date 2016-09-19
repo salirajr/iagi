@@ -20,15 +20,11 @@ import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.FileImageInputStream;
 import lombok.Data;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -42,6 +38,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.springframework.stereotype.Service;
 import com.rj.sysinvest.akad.LampiranPembayaranDataMapper;
+import com.rj.sysinvest.util.ImageUtil;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiFunction;
@@ -209,8 +206,7 @@ public class AkadDocxService {
         formatRowAndGetCell.apply(table.createRow())
                 .setText("Investor : " + investor.getFullName());
         // 5th row
-        Dimension dim = new Dimension(width, height);
-        dim = getScaledDimension(dim, new Dimension(460, -1));
+        Dimension dim = ImageUtil.getScaledDimension(width, height, 460, -1);
         int w = Units.toEMU(dim.getWidth());
         int h = Units.toEMU(dim.getHeight());
         formatRowAndGetCell.apply(table.createRow())
@@ -231,35 +227,6 @@ public class AkadDocxService {
         return cell;
     };
 
-    // http://stackoverflow.com/a/10245583
-    private Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
-
-        int original_width = imgSize.width;
-        int original_height = imgSize.height;
-        int bound_width = boundary.width;
-        int bound_height = boundary.height;
-        int new_width = original_width;
-        int new_height = original_height;
-
-        // first check if we need to scale width
-        if (original_width > bound_width && bound_width > 0) {
-            //scale width to fit
-            new_width = bound_width;
-            //scale height to maintain aspect ratio
-            new_height = (new_width * original_height) / original_width;
-        }
-
-        // then check if we need to scale even with the new height
-        if (new_height > bound_height && bound_height > 0) {
-            //scale height to fit instead
-            new_height = bound_height;
-            //scale width to maintain aspect ratio
-            new_width = (new_height * original_width) / original_height;
-        }
-
-        return new Dimension(new_width, new_height);
-    }
-
     private void generateLampiranKTP(XWPFDocument doc, Acquisition a) throws IOException, InvalidFormatException {
         // page title
         XWPFParagraph par = addPageBreak(doc);
@@ -273,8 +240,8 @@ public class AkadDocxService {
                 Path path = Paths.get(imgPath);
                 // TODO : dimensi image sebaiknya telah diukur saat  upload, 
                 // sehingga bisa mempercepat proses ini
-                Dimension dim = getImageDimension(path);
-                dim = getScaledDimension(dim, new Dimension(460, -1));
+                Dimension dim = ImageUtil.getImageDimension(path);
+                dim = ImageUtil.getScaledDimension(dim, new Dimension(460, -1));
                 XWPFTable table = doc.createTable();
                 formatRowAndGetCell.apply(table.getRow(0))
                         .setText(caption);
@@ -302,30 +269,4 @@ public class AkadDocxService {
         createTableKtp.apply("Pihak Kedua", a.getInvestor().getScannedNationalIdPath());
     }
 
-    /**
-     * Gets image dimensions for given file http://stackoverflow.com/a/12164026
-     *
-     * @param imgPath image file
-     * @return dimensions of image
-     * @throws IOException if the file is not a known image
-     */
-    private Dimension getImageDimension(Path imgPath) throws IOException {
-        String fileName = imgPath.getFileName().toString();
-        int pos = fileName.lastIndexOf(".");
-        if (pos == -1) {
-            throw new IOException("No extension for file: " + imgPath);
-        }
-        String suffix = fileName.substring(pos + 1);
-        Iterator<ImageReader> i = ImageIO.getImageReadersBySuffix(suffix);
-        if (i.hasNext()) {
-            ImageReader reader = i.next();
-            reader.setInput(new FileImageInputStream(imgPath.toFile()));
-            int width = reader.getWidth(reader.getMinIndex());
-            int height = reader.getHeight(reader.getMinIndex());
-            reader.dispose();
-            return new Dimension(width, height);
-        } else {
-            throw new IOException("Unknown image file: " + imgPath);
-        }
-    }
 }

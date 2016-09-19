@@ -47,7 +47,12 @@ public class LayoutImageServiceImpl implements LayoutImageService {
     @Override
     public LayoutImageData getLayoutImage(List<Aparkost> selectedAparkosts, Tower selectedTower, String selectedFloor) {
 
-        LayoutTemplateInfo layoutTemplateInfo = layoutRepo.get(selectedTower, selectedFloor);
+        LayoutTemplateInfo layoutTemplateInfo;
+        try {
+            layoutTemplateInfo = layoutRepo.get(selectedTower, selectedFloor);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
 
         BufferedImage img;
         try {

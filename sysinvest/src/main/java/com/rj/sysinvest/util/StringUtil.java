@@ -1,4 +1,4 @@
-package com.rj.sysinvest.layout;
+package com.rj.sysinvest.util;
 
 /**
  *
