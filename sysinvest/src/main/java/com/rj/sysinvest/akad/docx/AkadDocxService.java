@@ -8,7 +8,6 @@ import com.rj.sysinvest.model.Acquisition;
 import com.rj.sysinvest.model.Aparkost;
 import com.rj.sysinvest.model.Investment;
 import com.rj.sysinvest.model.Investor;
-import com.rj.sysinvest.model.Tower;
 import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -40,6 +38,7 @@ import org.springframework.stereotype.Service;
 import com.rj.sysinvest.akad.LampiranPembayaranDataMapper;
 import com.rj.sysinvest.util.ImageUtil;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiFunction;
 
@@ -118,47 +117,37 @@ public class AkadDocxService {
     }
 
     private List<List<String>> generateTableDataForTowerFloorUnits(Acquisition a) {
-        // aggregate data
-        // Map<Tower, Map<Floor, List<Investment>>>
-        Map<Tower, Map<String, List<Investment>>> towerFloorUnitMap = new HashMap();
-        a.getInvestments()
-                .forEach(investment -> {
-                    Aparkost aparkost = investment.getAparkost();
-                    Tower tower = aparkost.getTower();
-                    Map<String, List<Investment>> floorUnitMap = towerFloorUnitMap.get(tower);
-                    if (floorUnitMap == null) {
-                        floorUnitMap = new HashMap();
-                        towerFloorUnitMap.put(tower, floorUnitMap);
-                    }
-                    String floor = aparkost.getFloor();
-                    List<Investment> unitList = floorUnitMap.get(floor);
-                    if (unitList == null) {
-                        unitList = new ArrayList();
-                        floorUnitMap.put(floor, unitList);
-                    }
-                    unitList.add(investment);
-                });
-        // convert into matrix 2d
-        List<List<String>> tableData = new ArrayList(a.getInvestments().size());
-        towerFloorUnitMap
-                .forEach((tower, floorUnitMap)
-                        -> floorUnitMap.forEach((floor, investmentList)
-                                -> tableData.addAll(
-                                        investmentList.stream()
-                                        .map(investment
-                                                -> Arrays.asList(
-                                                        new String[]{
-                                                            tower.getName(),
-                                                            floor,
-                                                            investment.getAparkost().getName(),
-                                                            moneyFormat.format(investment.getSoldRate())
-                                                        })
-                                        )
-                                        .collect(Collectors.toList())
-                                )
-                        )
-                );
-        return tableData;
+        List<List<String>> list = new ArrayList(a.getInvestments().size());
+        a.getInvestments().forEach(investment -> {
+            Aparkost aparkost = investment.getAparkost();
+            String[] array = new String[]{
+                aparkost.getTower().getName(),
+                aparkost.getFloor(),
+                aparkost.getName(),
+                moneyFormat.format(investment.getSoldRate())
+            };
+            list.add(Arrays.asList(array));
+        });
+        // sort
+        Collections.sort(list, (row1, row2) -> {
+            // compare tower
+            String t1 = row1.get(0), t2 = row2.get(0);
+            int ct = t1.compareTo(t2);
+            if (ct != 0) {
+                return ct;
+            }
+            // compare floor
+            String f1 = row1.get(1), f2 = row2.get(1);
+            int cf = f1.compareTo(f2);
+            if (cf != 0) {
+                return cf;
+            }
+            // compare unit
+            String u1 = row1.get(2), u2 = row2.get(2);
+            int cu = u1.compareTo(u2);
+            return cu;
+        });
+        return list;
     }
 
     private void generateLampiranDenah(XWPFDocument doc, Acquisition acquisition) throws InvalidFormatException, IOException {

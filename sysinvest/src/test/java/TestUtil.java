@@ -75,8 +75,8 @@ public class TestUtil {
     public static List<Aparkost> createAparkostList(Investor ir) {
         List<Aparkost> list = new ArrayList();
         list.add(createAparkost(1, "001", "G", "Tower 1", "THE APARKOST IPB", ir));
-        list.add(createAparkost(3, "003", "G", "Tower 1", "THE APARKOST IPB", ir));
-        list.add(createAparkost(1, "201", "2", "Tower 1", "THE APARKOST IPB", ir));
+        list.add(createAparkost(3, "103", "1", "Tower 1", "THE APARKOST IPB", ir));
+        list.add(createAparkost(1, "201", "2", "Tower 7", "THE APARKOST IPB", ir));
         list.add(createAparkost(5, "205", "2", "Tower 1", "THE APARKOST IPB", ir));
         return list;
     }
