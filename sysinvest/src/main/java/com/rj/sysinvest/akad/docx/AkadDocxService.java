@@ -36,6 +36,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.springframework.stereotype.Service;
 import com.rj.sysinvest.akad.LampiranPembayaranDataMapper;
 import com.rj.sysinvest.util.ImageUtil;
+import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiFunction;
@@ -167,13 +168,14 @@ public class AkadDocxService {
     }
 
     private XWPFTable addDenah(XWPFDocument doc, LayoutImageData layoutImageData, Investor investor) throws InvalidFormatException, IOException {
-        String towerName = layoutImageData.getTowerName();
-        String floor = layoutImageData.getFloor();
-        InputStream imgStream = layoutImageData.getImageInputStream();
-        int w = layoutImageData.getWidth();
-        int h = layoutImageData.getHeight();
-        String imgType = layoutImageData.getImageType();
-        return addDenah(doc, towerName, floor, investor, imgStream, imgType, w, h);
+        try (InputStream imgStream = new ByteArrayInputStream(layoutImageData.getImageRaw());) {
+            String towerName = layoutImageData.getTowerName();
+            String floor = layoutImageData.getFloor();
+            int w = layoutImageData.getWidth();
+            int h = layoutImageData.getHeight();
+            String imgType = layoutImageData.getImageType();
+            return addDenah(doc, towerName, floor, investor, imgStream, imgType, w, h);
+        }
     }
 
     private XWPFTable addDenah(XWPFDocument doc, String towerName, String floor, Investor investor, InputStream img, String imgType, int width, int height) throws InvalidFormatException, IOException {
@@ -222,12 +224,15 @@ public class AkadDocxService {
         run.setText("LAMPIRAN KTP");
 
         BiFunction<String, String, XWPFTable> createTableKtp = (caption, imgPath) -> {
-            try {
-                Path path = Paths.get(imgPath);
-                // TODO : dimensi image sebaiknya telah diukur saat  upload, 
-                // sehingga bisa mempercepat proses ini
-                Dimension dim = ImageUtil.getImageDimension(path);
+            Path path = Paths.get(imgPath);
+            Dimension dim;
+            try (InputStream in = Files.newInputStream(path);) {
+                dim = ImageUtil.getImageDimension(in);
                 dim = ImageUtil.getScaledDimension(dim, new Dimension(460, -1));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            try (InputStream in = Files.newInputStream(path);) {
                 XWPFTable table = doc.createTable();
                 formatRowAndGetCell.apply(table.getRow(0))
                         .setText(caption);
@@ -235,7 +240,7 @@ public class AkadDocxService {
                         .getParagraphs().get(0)
                         .createRun()
                         .addPicture(
-                                Files.newInputStream(path),
+                                in,
                                 docxComp.getImageFormat(path.toString()),
                                 path.toString(),
                                 Units.toEMU(dim.width),
@@ -246,7 +251,6 @@ public class AkadDocxService {
                 throw new RuntimeException(ex);
             }
         };
-
         // pihak pertama
         createTableKtp.apply("Pihak Pertama", a.getStaff().getScannedNationalIdPath());
         // add space break

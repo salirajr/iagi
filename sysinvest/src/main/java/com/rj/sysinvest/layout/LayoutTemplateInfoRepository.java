@@ -46,12 +46,4 @@ public class LayoutTemplateInfoRepository {
         return Paths.get(layoutTemplateDirectory, layoutTemplateInfo.getTemplatePath());
     }
 
-    public InputStream getImageInputStream(LayoutTemplateInfo layoutTemplateInfo) throws IOException {
-        return Files.newInputStream(getImagePath(layoutTemplateInfo));
-    }
-
-    public byte[] getImageBytes(LayoutTemplateInfo layoutTemplateInfo) throws IOException {
-        return Files.readAllBytes(getImagePath(layoutTemplateInfo));
-    }
-
 }

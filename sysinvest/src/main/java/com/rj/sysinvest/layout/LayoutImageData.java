@@ -18,8 +18,4 @@ public class LayoutImageData {
     private byte[] imageRaw;
     private int width, height;
     private List<String> selectedAparkostNames;
-
-    public ByteArrayInputStream getImageInputStream() {
-        return new ByteArrayInputStream(imageRaw);
-    }
 }

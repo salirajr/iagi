@@ -12,6 +12,8 @@ import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,8 +57,8 @@ public class LayoutImageServiceImpl implements LayoutImageService {
         }
 
         BufferedImage img;
-        try {
-            img = ImageIO.read(layoutRepo.getImageInputStream(layoutTemplateInfo));
+        try (InputStream in = Files.newInputStream(layoutRepo.getImagePath(layoutTemplateInfo))) {
+            img = ImageIO.read(in);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import javax.imageio.ImageIO;
 
@@ -60,9 +62,13 @@ public class ImageUtil {
 //            throw new IOException("Unknown image file: " + imgPath);
 //        }
 //    }
-    public static Dimension getImageDimension(Path imgPath) throws IOException {
-        SimpleImageInfo imageInfo = new SimpleImageInfo(imgPath.toFile());
+    public static Dimension getImageDimension(InputStream imageInputStream) throws IOException {
+        SimpleImageInfo imageInfo = new SimpleImageInfo(imageInputStream);
         return new Dimension(imageInfo.getWidth(), imageInfo.getHeight());
+    }
+
+    public static Dimension getImageDimension(Path imgPath) throws IOException {
+        return getImageDimension(Files.newInputStream(imgPath));
     }
 
     public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
