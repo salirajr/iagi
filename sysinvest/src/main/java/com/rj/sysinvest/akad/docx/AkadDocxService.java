@@ -17,7 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -38,7 +37,6 @@ import org.springframework.stereotype.Service;
 import com.rj.sysinvest.akad.LampiranPembayaranDataMapper;
 import com.rj.sysinvest.util.ImageUtil;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiFunction;
 
@@ -117,37 +115,36 @@ public class AkadDocxService {
     }
 
     private List<List<String>> generateTableDataForTowerFloorUnits(Acquisition a) {
-        List<List<String>> list = new ArrayList(a.getInvestments().size());
-        a.getInvestments().forEach(investment -> {
-            Aparkost aparkost = investment.getAparkost();
-            String[] array = new String[]{
-                aparkost.getTower().getName(),
-                aparkost.getFloor(),
-                aparkost.getName(),
-                moneyFormat.format(investment.getSoldRate())
-            };
-            list.add(Arrays.asList(array));
-        });
-        // sort
-        Collections.sort(list, (row1, row2) -> {
-            // compare tower
-            String t1 = row1.get(0), t2 = row2.get(0);
-            int ct = t1.compareTo(t2);
-            if (ct != 0) {
-                return ct;
-            }
-            // compare floor
-            String f1 = row1.get(1), f2 = row2.get(1);
-            int cf = f1.compareTo(f2);
-            if (cf != 0) {
-                return cf;
-            }
-            // compare unit
-            String u1 = row1.get(2), u2 = row2.get(2);
-            int cu = u1.compareTo(u2);
-            return cu;
-        });
-        return list;
+        return a.getInvestments().stream()
+                .map(investment -> {
+                    Aparkost aparkost = investment.getAparkost();
+                    String[] array = new String[]{
+                        aparkost.getTower().getName(),
+                        aparkost.getFloor(),
+                        aparkost.getName(),
+                        moneyFormat.format(investment.getSoldRate())
+                    };
+                    return Arrays.asList(array);
+                })
+                .sorted((row1, row2) -> {
+                    // compare tower
+                    String t1 = row1.get(0), t2 = row2.get(0);
+                    int ct = t1.compareTo(t2);
+                    if (ct != 0) {
+                        return ct;
+                    }
+                    // compare floor
+                    String f1 = row1.get(1), f2 = row2.get(1);
+                    int cf = f1.compareTo(f2);
+                    if (cf != 0) {
+                        return cf;
+                    }
+                    // compare unit
+                    String u1 = row1.get(2), u2 = row2.get(2);
+                    int cu = u1.compareTo(u2);
+                    return cu;
+                })
+                .collect(Collectors.toList());
     }
 
     private void generateLampiranDenah(XWPFDocument doc, Acquisition acquisition) throws InvalidFormatException, IOException {
