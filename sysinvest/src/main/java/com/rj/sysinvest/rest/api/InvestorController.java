@@ -9,6 +9,7 @@ import com.rj.sysinvest.akad.util.CopyNationalIdentityFileStore;
 import com.rj.sysinvest.dao.InvestorRepository;
 import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.service.InvestorService;
+import com.rj.sysinvest.util.ImageUtil;
 import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -55,6 +56,7 @@ public class InvestorController {
     public void storeIdentityCopy(@RequestPart("file") MultipartFile file, @RequestParam("nationalId") String nationalId, @RequestParam("id") Long id)
             throws ServletException, IOException {
         byte[] baFile = file.getBytes();
+        baFile = ImageUtil.scale("jpg", baFile, 460, -1);
         String fLoc = fileStore.store(baFile, nationalId);
         Investor t = repo.findOne(id);
         t.setScannedNationalIdPath(fLoc);

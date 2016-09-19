@@ -5,14 +5,24 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author Rais <rais.gowa@gmail.com>
  */
 public class ImageUtil {
+
+    public static byte[] scale(String formatName, byte[] bytes, int scaleToWidth, int scaleToHeight) throws IOException {
+        BufferedImage img = scale(ImageIO.read(new ByteArrayInputStream(bytes)), scaleToWidth, scaleToHeight);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(img, formatName, baos);
+        return baos.toByteArray();
+    }
 
     public static BufferedImage scale(BufferedImage img, int scaleToWidth, int scaleToHeight) {
         Dimension d = getScaledDimension(img.getWidth(), img.getHeight(), scaleToWidth, scaleToHeight);
