@@ -1,6 +1,5 @@
 package com.rj.sysinvest.model;
 
-import com.rj.sysinvest.model.Staff;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -17,7 +16,7 @@ import lombok.Data;
  */
 @Entity
 @Data
-public class User implements Serializable {
+public class UserStaff implements Serializable {
 
     @Id
     @Column(length = 100)

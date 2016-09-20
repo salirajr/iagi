@@ -1,7 +1,7 @@
 package com.rj.sysinvest.login;
 
 import com.rj.sysinvest.model.Role;
-import com.rj.sysinvest.model.User;
+import com.rj.sysinvest.model.UserStaff;
 import java.util.List;
 import javax.annotation.Resource;
 import lombok.Data;
@@ -27,7 +27,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public List<String> findRolesByUsername(String name) {
-        User user = userRepo.findOne(name);
+        UserStaff user = userRepo.findOne(name);
         if (user == null) {
             throw new RuntimeException("User '" + name + "' does not exist");
         }
@@ -38,7 +38,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public boolean authenticate(String name, String password) {
-        User user = userRepo.findOne(name);
+        UserStaff user = userRepo.findOne(name);
         return password.equals(user.getPassword());
     }
 
