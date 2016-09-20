@@ -1,5 +1,6 @@
 package com.rj.sysinvest.rest.user;
 
+import com.rj.sysinvest.login.LoginService;
 import com.rj.sysinvest.jwt.JwtService;
 import java.util.List;
 
@@ -12,13 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/login-api")
 public class LoginController {
 
-    @Resource
-    private UserService userService;
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
+//    @Resource(name = "LoginServiceTestImpl")
+    @Resource(name = "LoginServiceImpl")
+    private LoginService loginService;
 
     @Resource
     private JwtService jwtService;
@@ -27,23 +33,23 @@ public class LoginController {
     public LoginResponse post(@RequestBody UserLogin userLogin)
             throws ServletException {
         LoginResponse loginResponse = new LoginResponse();
-        
-        System.out.println("Service called by "+userLogin.username);
+
+        logger.debug("Service called by {}", userLogin.username);
 
         if (userLogin.getUsername() == null || userLogin.getPassword() == null
-                || !userService.isValidUsername(userLogin.getUsername())
-                || !userService.authenticate(userLogin.getUsername(), userLogin.getPassword())) {
+                || !loginService.isValidUsername(userLogin.getUsername())
+                || !loginService.authenticate(userLogin.getUsername(), userLogin.getPassword())) {
             loginResponse.setMessage("Invalid login");
             loginResponse.setStatus("FAIL");
             return loginResponse;
         }
         String subject = userLogin.getUsername();
-        List<String> roles = userService.findRolesByUsername(subject);
+        List<String> roles = loginService.findRolesByUsername(subject);
         LoginClaims claims = new LoginClaims();
         claims.setSubject(subject);
         claims.setRoles(roles);
         String token = jwtService.buildJwt(claims);
-        
+
         loginResponse.setRoles(roles);
         loginResponse.setMessage("Successfully login");
         loginResponse.setStatus("SUCCESS");
@@ -66,6 +72,6 @@ public class LoginController {
 
         private String username;
         private String password;
-        
+
     }
 }

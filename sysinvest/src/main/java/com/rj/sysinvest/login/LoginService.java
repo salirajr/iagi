@@ -1,4 +1,4 @@
-package com.rj.sysinvest.rest.user;
+package com.rj.sysinvest.login;
 
 
 
@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author Rais <rais.gowa@gmail.com>
  */
-public interface UserService {
+public interface LoginService {
 
     boolean isValidUsername(String name);
 

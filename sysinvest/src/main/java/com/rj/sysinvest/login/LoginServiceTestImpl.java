@@ -1,4 +1,4 @@
-package com.rj.sysinvest.rest.user;
+package com.rj.sysinvest.login;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
  *
  * @author Rais <rais.gowa@gmail.com>
  */
-@Service
-public class UserServiceImpl implements UserService {
+@Service("LoginServiceTestImpl")
+public class LoginServiceTestImpl implements LoginService {
 
     private final Map<String, Map<String, Object>> userDb = new HashMap<>();
 
-    public UserServiceImpl() {
+    public LoginServiceTestImpl() {
 
         Map userData = new HashMap();
         userData.put("password", "12345");
