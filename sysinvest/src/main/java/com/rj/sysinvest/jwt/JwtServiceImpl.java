@@ -11,13 +11,13 @@ import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 import lombok.Data;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Rais <rais.gowa@gmail.com>
  */
-@Service
+@Component
 @Data
 public class JwtServiceImpl implements JwtService {
 
@@ -48,12 +48,8 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public Map<String, Object> parseJwt(String jwt) {
-        String claimsJws = jwt;
-        if (claimsJws.startsWith("Bearer ")) {
-            claimsJws = claimsJws.substring(7);
-        }
         JwtParser jwtParser = Jwts.parser().setSigningKey(secretKey);
-        Jws<Claims> jws = jwtParser.parseClaimsJws(claimsJws);
+        Jws<Claims> jws = jwtParser.parseClaimsJws(jwt);
         return jws.getBody();
     }
 

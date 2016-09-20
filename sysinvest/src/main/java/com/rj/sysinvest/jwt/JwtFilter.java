@@ -11,15 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.filter.GenericFilterBean;
 
-import java.util.Map;
+import javax.annotation.Resource;
+import lombok.Data;
+import org.springframework.stereotype.Component;
 
+@Component
+@Data
 public class JwtFilter extends GenericFilterBean {
 
-    private final JwtService jwtService;
+    @Resource
+    private JwtService jwtService;
 
-    public JwtFilter(JwtService jwtService) {
-        this.jwtService = jwtService;
-    }
+    public static final String AUTHORIZATION = "Authorization", BEARER = "Bearer ",
+            CLAIMS = "claims";
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -27,14 +31,14 @@ public class JwtFilter extends GenericFilterBean {
 
         HttpServletRequest httpReq = (HttpServletRequest) req;
 
-        String authHeader = httpReq.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        String authHeader = httpReq.getHeader(AUTHORIZATION);
+        if (authHeader == null || !authHeader.startsWith(BEARER)) {
             throw new ServletException("Missing or invalid Authorization header.");
         }
 
         try {
-            Map<String, Object> claims = jwtService.parseJwt(authHeader);
-            httpReq.setAttribute("claims", claims);
+            String jwt = authHeader.substring(BEARER.length());
+            httpReq.setAttribute(CLAIMS, jwtService.parseJwt(jwt));
         } catch (JwtException e) {
             throw new ServletException("Invalid token.", e);
         }
