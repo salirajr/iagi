@@ -12,6 +12,8 @@
 
     function run($rootScope, $http, $location, $localStorage, $log, $state, AuthenticationService) {
 
+        // used by pageTitle directive
+        $rootScope.appTitle = "IAGI";
         //$rootScope.$state = $state;
 
         $rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState, fromParams) {
@@ -54,7 +56,7 @@
                 AuthenticationService.doLogout();
                 $state.go('login');
             }
-        }
+        };
     }
 
     function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {

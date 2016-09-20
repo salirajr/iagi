@@ -22,10 +22,10 @@
             link: function (scope, element) {
                 var listener = function (event, toState, toParams, fromState, fromParams) {
                     // Default title - load on Dashboard 1
-                    var title = 'INSPINIA | Responsive Admin Theme';
+                    var title = $rootScope.appTitle;
                     // Create your own title pattern
                     if (toState.data && toState.data.pageTitle)
-                        title = 'INSPINIA | ' + toState.data.pageTitle;
+                        title = $rootScope.appTitle + ' | ' + toState.data.pageTitle;
                     $timeout(function () {
                         element.text(title);
                     });
@@ -167,31 +167,31 @@
                     var value = attr.value;
 
                     /* function update(checked) {
-                        if (attr.type === 'radio') {
-                            ngModel.$setViewValue(value);
-                        } else {
-                            ngModel.$setViewValue(checked);
-                        }
-                    } */
+                     if (attr.type === 'radio') {
+                     ngModel.$setViewValue(value);
+                     } else {
+                     ngModel.$setViewValue(checked);
+                     }
+                     } */
 
                     $(element).iCheck({
                         checkboxClass: attr.checkboxClass || 'icheckbox_square-green',
                         radioClass: attr.radioClass || 'iradio_square-green'
                     })/*.on('ifChanged', function (e) {
-                        scope.$apply(function () {
-                            update(e.target.checked);
-                        });
-                    })*/;
+                     scope.$apply(function () {
+                     update(e.target.checked);
+                     });
+                     })*/;
 
                     /*scope.$watch(attr.ngChecked, function (checked) {
-                        if (typeof checked === 'undefined')
-                            checked = !!ngModel.$viewValue;
-                        update(checked)
-                    }, true);
-
-                    scope.$watch(attr.ngModel, function (model) {
-                        $(element).iCheck('update');
-                    }, true);*/
+                     if (typeof checked === 'undefined')
+                     checked = !!ngModel.$viewValue;
+                     update(checked)
+                     }, true);
+                     
+                     scope.$watch(attr.ngModel, function (model) {
+                     $(element).iCheck('update');
+                     }, true);*/
 
                 })
             }
