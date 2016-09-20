@@ -1,4 +1,4 @@
-package com.rj.sysinvest.model;
+package com.rj.sysinvest.security.repo;
 
 import java.io.Serializable;
 import java.util.List;
@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import lombok.Data;
 
 /**
@@ -16,15 +15,13 @@ import lombok.Data;
  */
 @Entity
 @Data
-public class UserStaff implements Serializable {
+public class SecurityUser implements Serializable {
 
     @Id
-    @Column(length = 100)
+    @Column(length = 50)
     private String userName;
     @Column
     private String password;
-    @OneToOne(fetch = FetchType.LAZY)
-    private Staff staff;
     @OneToMany(fetch = FetchType.LAZY)
-    private List<Role> roles;
+    private List<SecurityRole> roles;
 }

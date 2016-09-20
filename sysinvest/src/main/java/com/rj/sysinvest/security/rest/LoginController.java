@@ -1,16 +1,13 @@
-package com.rj.sysinvest.rest.user;
+package com.rj.sysinvest.security.rest;
 
-import com.rj.sysinvest.login.LoginService;
-import com.rj.sysinvest.jwt.JwtService;
+import com.rj.sysinvest.security.login.LoginService;
+import com.rj.sysinvest.security.jwt.JwtService;
 import java.util.List;
-
 import javax.servlet.ServletException;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.annotation.Resource;
 import lombok.Data;
 import org.slf4j.Logger;
@@ -43,12 +40,9 @@ public class LoginController {
             loginResponse.setStatus("FAIL");
             return loginResponse;
         }
-        String subject = userLogin.getUsername();
-        List<String> roles = loginService.findRolesByUsername(subject);
-        LoginClaims claims = new LoginClaims();
-        claims.setSubject(subject);
-        claims.setRoles(roles);
-        String token = jwtService.buildJwt(claims);
+        String userName = userLogin.getUsername();
+        List<String> roles = loginService.findRolesByUsername(userName);
+        String token = jwtService.buildJwt(userName, roles);
 
         loginResponse.setRoles(roles);
         loginResponse.setMessage("Successfully login");

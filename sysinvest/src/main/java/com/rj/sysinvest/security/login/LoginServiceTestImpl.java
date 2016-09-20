@@ -1,4 +1,4 @@
-package com.rj.sysinvest.login;
+package com.rj.sysinvest.security.login;
 
 import java.util.Arrays;
 import java.util.HashMap;

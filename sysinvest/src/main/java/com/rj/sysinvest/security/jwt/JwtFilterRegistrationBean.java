@@ -1,4 +1,4 @@
-package com.rj.sysinvest.jwt;
+package com.rj.sysinvest.security.jwt;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;

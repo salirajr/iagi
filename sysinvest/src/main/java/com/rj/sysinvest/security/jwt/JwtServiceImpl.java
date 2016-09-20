@@ -1,4 +1,4 @@
-package com.rj.sysinvest.jwt;
+package com.rj.sysinvest.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -9,6 +9,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -27,21 +28,17 @@ public class JwtServiceImpl implements JwtService {
     private Integer expiresInMinutes = 60 * 8; // 8 hours 
 
     @Override
-    public String buildJwt(Map<String, Object> claims) {
+    public String buildJwt(String userName, List<String> roles) {
         long now = System.currentTimeMillis();
         SignatureAlgorithm alg = SignatureAlgorithm.forName(signatureAlgorithm);
         JwtBuilder jwtBuilder = Jwts.builder()
                 .setIssuedAt(new Date(now))
                 .setIssuer(issuer)
-                // .setSubject(subject)
+                .setSubject(userName)
+                .claim("roles", roles)
                 .signWith(alg, secretKey);
         if (expiresInMinutes != null || expiresInMinutes > 0) {
             jwtBuilder.setExpiration(new Date(now + (expiresInMinutes * 60 * 1000)));
-        }
-        if (claims != null) {
-            claims.forEach((String k, Object v) -> {
-                jwtBuilder.claim(k, v);
-            });
         }
         return jwtBuilder.compact();
     }

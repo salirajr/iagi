@@ -1,13 +1,13 @@
-package com.rj.sysinvest.login;
+package com.rj.sysinvest.security.login;
 
-import com.rj.sysinvest.model.Role;
-import com.rj.sysinvest.model.UserStaff;
+import com.rj.sysinvest.security.repo.SecurityRole;
+import com.rj.sysinvest.security.repo.SecurityUser;
 import java.util.List;
 import javax.annotation.Resource;
 import lombok.Data;
 import org.springframework.stereotype.Service;
-import com.rj.sysinvest.dao.UserRepository;
 import java.util.stream.Collectors;
+import com.rj.sysinvest.security.repo.SecurityUserRepository;
 
 /**
  *
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class LoginServiceImpl implements LoginService {
 
     @Resource
-    private UserRepository userRepo;
+    private SecurityUserRepository userRepo;
 
     @Override
     public boolean isValidUsername(String name) {
@@ -27,18 +27,18 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public List<String> findRolesByUsername(String name) {
-        UserStaff user = userRepo.findOne(name);
+        SecurityUser user = userRepo.findOne(name);
         if (user == null) {
             throw new RuntimeException("User '" + name + "' does not exist");
         }
         return user.getRoles().stream()
-                .map(Role::getRoleName)
+                .map(SecurityRole::getRoleName)
                 .collect(Collectors.toList());
     }
 
     @Override
     public boolean authenticate(String name, String password) {
-        UserStaff user = userRepo.findOne(name);
+        SecurityUser user = userRepo.findOne(name);
         return password.equals(user.getPassword());
     }
 

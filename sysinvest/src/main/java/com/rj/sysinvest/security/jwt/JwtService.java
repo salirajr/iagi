@@ -1,5 +1,6 @@
-package com.rj.sysinvest.jwt;
+package com.rj.sysinvest.security.jwt;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Map;
  */
 public interface JwtService {
 
-    String buildJwt(Map<String, Object> claims);
+    String buildJwt(String userName, List<String> roles);
 
     Map<String, Object> parseJwt(String jwt);
 }

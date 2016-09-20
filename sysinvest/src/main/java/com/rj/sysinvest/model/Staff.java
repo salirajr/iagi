@@ -1,22 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rj.sysinvest.model;
 
 /**
  *
  * @author salirajr
  */
+import com.rj.sysinvest.security.repo.SecurityUser;
 import java.io.Serializable;
 import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
 
@@ -57,15 +55,17 @@ public class Staff implements Serializable {
 
     @Column(length = 100)
     private String scannedNationalIdPath;
-    
-    @Column(length = 100)
-    private String userName;
-    
-    @Column
-    private String password;
+
+//    @Column(length = 100)
+//    private String userName;
+//    
+//    @Column
+//    private String password;
+    @OneToOne(fetch = FetchType.LAZY)
+    private SecurityUser userLogin;
 
     @ManyToOne
     private Rank rank;
     public static final String PROP_RANK = "rank";
-    
+
 }
