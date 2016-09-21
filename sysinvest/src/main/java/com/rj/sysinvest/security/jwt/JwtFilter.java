@@ -1,5 +1,9 @@
 package com.rj.sysinvest.security.jwt;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rj.sysinvest.security.exception.AppSecurityException;
+import com.rj.sysinvest.security.exception.AppSecurityExceptionBean;
 import io.jsonwebtoken.JwtException;
 import java.io.IOException;
 
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import com.rj.sysinvest.security.login.RoleUriAuthenticationService;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 
 @Component
 @Data
@@ -26,6 +31,8 @@ public class JwtFilter extends GenericFilterBean {
     private JwtService jwtService;
     @Resource
     private RoleUriAuthenticationService roleAccessService;
+    @Resource
+    private ObjectMapper mapper;
 
     public static final String AUTHORIZATION = "Authorization", BEARER = "Bearer ",
             CLAIMS = "claims";
@@ -35,31 +42,47 @@ public class JwtFilter extends GenericFilterBean {
             throws IOException, ServletException {
 
         HttpServletRequest httpReq = (HttpServletRequest) req;
+        HttpServletResponse httpRes = (HttpServletResponse) res;
 
-        String authHeader = httpReq.getHeader(AUTHORIZATION);
-        if (authHeader == null || !authHeader.startsWith(BEARER)) {
-            throw new ServletException("Missing or invalid Authorization header.");
-        }
-
-        Map<String, Object> claims;
         try {
-            String jwt = authHeader.substring(BEARER.length());
-            claims = jwtService.parseJwt(jwt);
-            httpReq.setAttribute(CLAIMS, claims);
-        } catch (JwtException e) {
-            throw new ServletException("Invalid token.", e);
-        }
-
-        String uri = httpReq.getRequestURI();
-        List<String> roles = (List<String>) claims.get("roles");
-        for (String role : roles) {
-            boolean hasAccess = roleAccessService.hasAccess(role, uri);
-            if (!hasAccess) {
-                throw new ServletException("User has no role access to URI " + uri);
+            String authHeader = httpReq.getHeader(AUTHORIZATION);
+            if (authHeader == null || !authHeader.startsWith(BEARER)) {
+                throw new AppSecurityException(500, "Missing or invalid Authorization header.");
             }
-        }
 
-        chain.doFilter(req, res);
+            Map<String, Object> claims;
+            try {
+                String jwt = authHeader.substring(BEARER.length());
+                claims = jwtService.parseJwt(jwt);
+                httpReq.setAttribute(CLAIMS, claims);
+            } catch (JwtException e) {
+                throw new AppSecurityException(500, "Invalid token.", e);
+            }
+
+            String uri = httpReq.getRequestURI();
+            List<String> roles = (List<String>) claims.get("roles");
+            for (String role : roles) {
+                boolean hasAccess = roleAccessService.hasAccess(role, uri);
+                if (!hasAccess) {
+                    throw new AppSecurityException(500, "User has no role access to URI " + uri);
+                }
+            }
+            chain.doFilter(req, res);
+        } catch (AppSecurityException sce) {
+            httpRes.sendError(sce.getCode(), toJson(sce));
+        }
+    }
+
+    private String toJson(AppSecurityException sce) {
+        try {
+            AppSecurityExceptionBean en = new AppSecurityExceptionBean();
+            en.setCode(sce.getCode());
+            en.setMessage(sce.getMessage());
+            en.setType(sce.getClass().getName());
+            return mapper.writeValueAsString(en);
+        } catch (JsonProcessingException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
 }
