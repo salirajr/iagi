@@ -53,10 +53,10 @@ public class Acquisition implements Serializable {
     private String reference;
 
     @Column
-    private long rate;
+    private Long rate;
     
     @Column
-    private long marketRate;
+    private Long marketRate;
 
     @PrePersist
     void prePersist() {

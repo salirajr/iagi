@@ -50,7 +50,7 @@ public class TestUtil {
         a.setInvestor(TestUtil.createInvestor());
         a.setType("INSTALLMENT");
 //        a.setNPeriod(27);
-        a.setRate(1000000);
+        a.setRate(1000000l);
 //        a.setStartDate(new Date(System.currentTimeMillis()));
         a.setAuditTime(new Timestamp(System.currentTimeMillis()));
         a.setPayments(createPaymentList());
