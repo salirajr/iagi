@@ -14,6 +14,7 @@
         $scope.descriptionText = 'It is an application skeleton for a typical AngularJS web app. You can use it to quickly bootstrap your angular webapp projects and dev environment for these projects.';
 
         $scope.data = {};
+        $scope.data.aparkost = {};
 
         $scope.dInput = {};
 
@@ -62,27 +63,16 @@
 
             switch ($scope.dInput.selectedFloor) {
                 case "G" :
-                    $scope.dInput.prefix = 100;
+                    $scope.dInput.prefix = "0";
                     break;
-                case "1" :
-                    $scope.dInput.prefix = 200;
-                    break;
-                case "2" :
-                    $scope.dInput.prefix = 300;
-                    break;
-                case "3" :
-                    $scope.dInput.prefix = 400;
+                default :
+                    $scope.dInput.prefix = $scope.dInput.selectedFloor;
                     break;
             }
         };
-
-        $scope.toInt = function (n) {
-            return parseInt(n);
-
-        }
+        
         $scope.selectInvestment = function () {
-            $scope.data.selectedInvestment = {};
-
+            $scope.data.selectedInvestment = {}
             for (var i = 0; i < $scope.data.investment.length; i++) {
                 if ($scope.data.investment[i].id === $scope.dInput.selectedInvestmentId) {
                     angular.copy($scope.data.investment[i], $scope.data.selectedInvestment);
@@ -96,7 +86,7 @@
             payload.aparkost = {};
             payload.aparkost.tower = $scope.data.selectedTower;
             payload.aparkost.index = $scope.dInput.index;
-            payload.aparkost.name = $scope.dInput.prefix + $scope.toInt($scope.dInput.index) ;
+            payload.aparkost.name = $scope.dInput.prefix + $scope.dInput.name ;
             payload.aparkost.floor = $scope.dInput.selectedFloor;
             payload.marketRate = $scope.dInput.rate;
             payload.flag = 1;
