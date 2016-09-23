@@ -24,7 +24,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = Aparkost.TABLE_NAME, uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"name", "tower_id"})
+    @UniqueConstraint(columnNames = {"name","floor","tower_id"})
 })
 public class Aparkost implements Serializable {
 

@@ -15,8 +15,6 @@ public interface InvestmentRepository extends CrudRepository<Investment, Long> {
     @Query("from Investment where aparkost.tower.id = :towerId and flag = '1'")
     public List<Investment> findOnSaleByTowerId(@Param("towerId") Long towerId);
     
-    @Query("from Investment where aparkost.tower.id = :towerId and floor = :floor")
+    @Query("from Investment where aparkost.tower.id = :towerId and floor = :floor and flag != '3'")
     public List<Investment> findOnByFloorOfTower(@Param("towerId") Long towerId, @Param("floor") String floor);
-    
-
 }

@@ -11,7 +11,7 @@
         </goals>
         <properties>
             <!--spring.profiles.active=js-->
-            <exec.args>-classpath %classpath com.rj.sysinvest.Application</exec.args>
+            <exec.args>-classpath %classpath com.rj.sysinvest.Application --spring.profiles.active=js</exec.args>
             <exec.executable>java</exec.executable>
         </properties>
     </action>  

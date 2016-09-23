@@ -50,6 +50,7 @@ public class InvestmentService {
             }
             
         }
+        
         repo.save(payload);
         return payload;
     }
