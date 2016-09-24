@@ -4,8 +4,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 import lombok.Data;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Component;
 @Data
 public class JwtFilterRegistrationBean extends FilterRegistrationBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtFilterRegistrationBean.class);
     @Resource
     private JwtFilter jwtFilter;
     /* 

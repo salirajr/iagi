@@ -18,19 +18,18 @@ import org.springframework.web.filter.GenericFilterBean;
 import javax.annotation.Resource;
 import lombok.Data;
 import org.springframework.stereotype.Component;
-import java.util.Map;
-import com.rj.sysinvest.security.login.RoleUriAuthenticationService;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+import com.rj.sysinvest.security.login.SecurityRoleService;
 
 @Component
 @Data
 public class JwtFilter extends GenericFilterBean {
 
     @Resource
-    private JwtService jwtService;
+    private SecurityJwtService jwtService;
     @Resource
-    private RoleUriAuthenticationService roleAccessService;
+    private SecurityRoleService roleAccessService;
     @Resource
     private ObjectMapper mapper;
 
@@ -50,7 +49,7 @@ public class JwtFilter extends GenericFilterBean {
                 throw new AppSecurityException(500, "Missing or invalid Authorization header.");
             }
 
-            Map<String, Object> claims;
+            SecurityClaims claims;
             try {
                 String jwt = authHeader.substring(BEARER.length());
                 claims = jwtService.parseJwt(jwt);
@@ -60,9 +59,9 @@ public class JwtFilter extends GenericFilterBean {
             }
 
             String uri = httpReq.getRequestURI();
-            List<String> roles = (List<String>) claims.get("roles");
+            List<String> roles = (List<String>) claims.getRoles();
             for (String role : roles) {
-                boolean hasAccess = roleAccessService.hasAccess(role, uri);
+                boolean hasAccess = roleAccessService.hasResourceAccess(role, uri);
                 if (!hasAccess) {
                     throw new AppSecurityException(500, "User has no role access to URI " + uri);
                 }

@@ -12,19 +12,23 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Data
-public class RoleUriAuthenticationServiceImpl implements RoleUriAuthenticationService {
+public class SecurityRoleServiceImpl implements SecurityRoleService {
 
     @Autowired
     private SecurityRoleRepository roleRepo;
 
     @Override
-    public boolean hasAccess(String roleName, String uri) {
+    public boolean hasResourceAccess(String roleName, String uri) {
         SecurityRole role = roleRepo.findOne(roleName);
         return role.getResources().stream()
-                .map(rsc -> rsc.getUriPattern())
-                .filter(uriPattern -> uri.startsWith(uriPattern))
+                .map(resource -> resource.getUriPattern())
+                .filter(uriPattern -> matchUri(uriPattern, uri))
                 .findFirst()
                 .isPresent();
+    }
+
+    private boolean matchUri(String uriPattern, String uri) {
+        return uri.startsWith(uriPattern);
     }
 
 }

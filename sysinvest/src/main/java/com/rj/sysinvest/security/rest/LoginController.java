@@ -1,7 +1,7 @@
 package com.rj.sysinvest.security.rest;
 
+import com.rj.sysinvest.security.jwt.SecurityClaims;
 import com.rj.sysinvest.security.login.LoginService;
-import com.rj.sysinvest.security.jwt.JwtService;
 import java.util.List;
 import javax.servlet.ServletException;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.rj.sysinvest.security.jwt.SecurityJwtService;
 
 @RestController
 @RequestMapping("/login-api")
@@ -24,7 +25,7 @@ public class LoginController {
     private LoginService loginService;
 
     @Resource
-    private JwtService jwtService;
+    private SecurityJwtService jwtService;
 
     @RequestMapping(method = RequestMethod.POST)
     public LoginResponse post(@RequestBody UserLogin userLogin)
@@ -42,7 +43,7 @@ public class LoginController {
         }
         String userName = userLogin.getUsername();
         List<String> roles = loginService.findRolesByUsername(userName);
-        String token = jwtService.buildJwt(userName, roles);
+        String token = jwtService.buildJwt(new SecurityClaims(userName, roles));
 
         loginResponse.setRoles(roles);
         loginResponse.setMessage("Successfully login");
