@@ -27,9 +27,9 @@ import com.rj.sysinvest.security.login.SecurityRoleService;
 public class JwtFilter extends GenericFilterBean {
 
     @Resource
-    private SecurityJwtService jwtService;
+    private SecurityJwtComponent jwtComp;
     @Resource
-    private SecurityRoleService roleAccessService;
+    private SecurityRoleService roleService;
     @Resource
     private ObjectMapper mapper;
 
@@ -52,7 +52,7 @@ public class JwtFilter extends GenericFilterBean {
             SecurityClaims claims;
             try {
                 String jwt = authHeader.substring(BEARER.length());
-                claims = jwtService.parseJwt(jwt);
+                claims = jwtComp.parseJwt(jwt);
                 httpReq.setAttribute(CLAIMS, claims);
             } catch (JwtException e) {
                 throw new AppSecurityException(500, "Invalid token.", e);
@@ -61,7 +61,7 @@ public class JwtFilter extends GenericFilterBean {
             String uri = httpReq.getRequestURI();
             List<String> roles = (List<String>) claims.getRoles();
             for (String role : roles) {
-                boolean hasAccess = roleAccessService.hasResourceAccess(role, uri);
+                boolean hasAccess = roleService.hasResourceAccess(role, uri);
                 if (!hasAccess) {
                     throw new AppSecurityException(500, "User has no role access to URI " + uri);
                 }

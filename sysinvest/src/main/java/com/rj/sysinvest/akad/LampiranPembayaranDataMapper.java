@@ -22,11 +22,11 @@ public class LampiranPembayaranDataMapper implements Function<Payment, List<Stri
 
     @Override
     public List<String> apply(Payment payment) {
-        return Arrays.asList(new String[]{
-            String.valueOf(payment.getIndex() + 1),
-            payment.getType(),
-            shortDateFormat.format(payment.getPaydate()),
-            jumlahFormatter.format(payment.getNominal())
-        });
+        return Arrays.asList(
+                String.valueOf(payment.getIndex() + 1),
+                payment.getType(),
+                shortDateFormat.format(payment.getPaydate()),
+                jumlahFormatter.format(payment.getNominal())
+        );
     }
 }

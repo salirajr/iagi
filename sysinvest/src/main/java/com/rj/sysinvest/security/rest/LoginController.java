@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.rj.sysinvest.security.jwt.SecurityJwtService;
+import com.rj.sysinvest.security.jwt.SecurityJwtComponent;
 
 @RestController
 @RequestMapping("/login-api")
@@ -25,7 +25,7 @@ public class LoginController {
     private LoginService loginService;
 
     @Resource
-    private SecurityJwtService jwtService;
+    private SecurityJwtComponent jwtService;
 
     @RequestMapping(method = RequestMethod.POST)
     public LoginResponse post(@RequestBody UserLogin userLogin)

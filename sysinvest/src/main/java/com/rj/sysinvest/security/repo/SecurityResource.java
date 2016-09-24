@@ -14,5 +14,5 @@ import lombok.Data;
 public class SecurityResource implements Serializable {
 
     @Id
-    private String uriPattern;
+    private String uriPrefix;
 }

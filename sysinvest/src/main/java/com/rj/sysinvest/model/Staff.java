@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -56,12 +57,8 @@ public class Staff implements Serializable {
     @Column(length = 100)
     private String scannedNationalIdPath;
 
-//    @Column(length = 100)
-//    private String userName;
-//    
-//    @Column
-//    private String password;
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = SecurityUser.PROP_USERNAME, unique = true)
     private SecurityUser userLogin;
 
     @ManyToOne

@@ -109,9 +109,7 @@ public class AkadDocxService {
         // count total
         AtomicLong total = new AtomicLong();
         a.getPayments().forEach(p -> total.getAndUpdate(t -> t + p.getNominal()));
-        table.add(Arrays.asList(new String[]{
-            "", "", "Harga", moneyFormat.format(total.get())
-        }));
+        table.add(Arrays.asList("", "", "Harga", moneyFormat.format(total.get())));
         return table;
     }
 
@@ -119,13 +117,12 @@ public class AkadDocxService {
         return a.getInvestments().stream()
                 .map(investment -> {
                     Aparkost aparkost = investment.getAparkost();
-                    String[] array = new String[]{
-                        aparkost.getTower().getName(),
-                        aparkost.getFloor(),
-                        aparkost.getName(),
-                        moneyFormat.format(investment.getSoldRate())
-                    };
-                    return Arrays.asList(array);
+                    return Arrays.asList(
+                            aparkost.getTower().getName(),
+                            aparkost.getFloor(),
+                            aparkost.getName(),
+                            moneyFormat.format(investment.getSoldRate())
+                    );
                 })
                 .sorted((row1, row2) -> {
                     // compare tower

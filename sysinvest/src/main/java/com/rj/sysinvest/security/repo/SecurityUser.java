@@ -18,8 +18,8 @@ import lombok.Data;
 public class SecurityUser implements Serializable {
 
     @Id
-    @Column(length = 50)
     private String userName;
+    public static final String PROP_USERNAME = "userName";
     @Column
     private String password;
     @OneToMany(fetch = FetchType.LAZY)

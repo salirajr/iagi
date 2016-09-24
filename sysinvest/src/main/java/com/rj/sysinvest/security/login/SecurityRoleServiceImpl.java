@@ -21,14 +21,14 @@ public class SecurityRoleServiceImpl implements SecurityRoleService {
     public boolean hasResourceAccess(String roleName, String uri) {
         SecurityRole role = roleRepo.findOne(roleName);
         return role.getResources().stream()
-                .map(resource -> resource.getUriPattern())
-                .filter(uriPattern -> matchUri(uriPattern, uri))
+                .map(resource -> resource.getUriPrefix())
+                .filter(uriPrefix -> matchUri(uriPrefix, uri))
                 .findFirst()
                 .isPresent();
     }
 
-    private boolean matchUri(String uriPattern, String uri) {
-        return uri.startsWith(uriPattern);
+    private boolean matchUri(String uriPrefix, String uri) {
+        return uri.startsWith(uriPrefix);
     }
 
 }
