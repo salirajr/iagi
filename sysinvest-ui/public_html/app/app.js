@@ -1,6 +1,7 @@
 
 (function () {
-    var app = angular.module('my-spa-client', ['ui.router', 'oc.lazyLoad', 'ui.bootstrap', 'ngStorage', 'ui.mask']);
+    var app = angular.module('my-spa-client', ['ui.router', 'oc.lazyLoad',
+        'ui.bootstrap', 'ngStorage', 'ui.mask', 'toaster', 'ngAnimate']);
 
     app.config(config);
     app.run(run);
@@ -10,7 +11,7 @@
     };
 
 
-    function run($rootScope, $http, $location, $localStorage, $log, $state, AuthenticationService) {
+    function run($rootScope, $http, $location, $localStorage, $log, $state, AuthenticationService, toaster) {
 
         // used by pageTitle directive
         $rootScope.appTitle = "IAGI";
@@ -56,6 +57,24 @@
                 AuthenticationService.doLogout();
                 $state.go('login');
             }
+        };
+
+        $rootScope.pop = function (type, title, body, timeout) {
+            toaster.pop({
+                type: type,
+                title: title,
+                body: body,
+                timeout: timeout ? timeout : 3000
+            });
+        };
+        $rootScope.popError = function (title, body, timeout) {
+            $rootScope.pop('error', title, body, timeout);
+        };
+        $rootScope.popSuccess = function (title, body, timeout) {
+            $rootScope.pop('success', title, body, timeout);
+        };
+        $rootScope.popInfo = function (title, body, timeout) {
+            $rootScope.pop('info', title, body, timeout);
         };
     }
 
