@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Rais <rais.gowa@gmail.com>
  */
-public interface SecurityResourceRepository extends CrudRepository<SecurityResource, String> {
+public interface SecurityResourceRepository {//extends CrudRepository<SecurityResource, String> {
 
 }

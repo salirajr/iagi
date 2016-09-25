@@ -6,7 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.UniqueConstraint;
 import lombok.Data;
 
 /**
@@ -22,6 +25,11 @@ public class SecurityUser implements Serializable {
     public static final String PROP_USERNAME = "userName";
     @Column
     private String password;
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            joinColumns = @JoinColumn(name = "USER_NAME"),
+            inverseJoinColumns = @JoinColumn(name = "ROLE_NAME"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"USER_NAME", "ROLE_NAME"})
+    )
     private List<SecurityRole> roles;
 }

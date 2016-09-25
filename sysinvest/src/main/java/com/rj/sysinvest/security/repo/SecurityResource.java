@@ -9,7 +9,7 @@ import lombok.Data;
  *
  * @author Rais <rais.gowa@gmail.com>
  */
-@Entity
+//@Entity
 @Data
 public class SecurityResource implements Serializable {
 
