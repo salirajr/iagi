@@ -49,14 +49,15 @@
 
                             setupHttpHeader();
                             // execute callback with true to indicate successful login
-                            callback(true);
+                            callback(true, response);
                         } else {
                             // execute callback with false to indicate failed login
-                            callback(false);
+                            callback(false, response);
                         }
-                    }).error(function (err) {
-                $log.debug(err);
-            });
+                    })
+                    .error(function (err) {
+                        $log.debug(err);
+                    });
         }
 
         function Logout() {
