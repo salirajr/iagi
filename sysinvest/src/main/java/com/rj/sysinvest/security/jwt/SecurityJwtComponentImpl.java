@@ -25,7 +25,7 @@ public class SecurityJwtComponentImpl implements SecurityJwtComponent {
     private String signatureAlgorithm = "HS512";
     private Key secretKey = MacProvider.generateKey();
     private String issuer = getClass().getName();
-    private Integer expiresInMinutes = -1;//60 * 8; // 8 hours 
+    private Integer expiresInMinutes = 60 * 8; // 8 hours 
     private CompressionCodec compressionCodec = null;
 
     @Override

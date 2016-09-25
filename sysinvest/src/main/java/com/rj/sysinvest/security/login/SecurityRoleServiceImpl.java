@@ -5,6 +5,7 @@ import com.rj.sysinvest.security.repo.SecurityRoleRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -17,6 +18,7 @@ public class SecurityRoleServiceImpl implements SecurityRoleService {
     @Autowired
     private SecurityRoleRepository roleRepo;
 
+    @Transactional
     @Override
     public boolean hasResourceAccess(String roleName, String uri) {
         SecurityRole role = roleRepo.findOne(roleName);
