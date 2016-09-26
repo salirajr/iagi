@@ -21,12 +21,13 @@ public class SecurityRoleServiceImpl implements SecurityRoleService {
     @Transactional
     @Override
     public boolean hasResourceAccess(String roleName, String uri) {
-        SecurityRole role = roleRepo.findOne(roleName);
-        return role.getResources().stream()
-                // .map(resource -> resource.getUriPrefix())
-                .filter(uriPrefix -> matchUri(uriPrefix, uri))
-                .findFirst()
-                .isPresent();
+        return true;
+//        SecurityRole role = roleRepo.findOne(roleName);
+//        return role.getResources().stream()
+//                // .map(resource -> resource.getUriPrefix())
+//                .filter(uriPrefix -> matchUri(uriPrefix, uri))
+//                .findFirst()
+//                .isPresent();
     }
 
     private boolean matchUri(String uriPrefix, String uri) {
