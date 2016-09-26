@@ -76,6 +76,10 @@
         $rootScope.popInfo = function (title, body, timeout) {
             $rootScope.pop('info', title, body, timeout);
         };
+        
+        $rootScope.todayDate = function () {
+            return new Date().toISOString().slice(0, 10);
+        };
     }
 
     function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {

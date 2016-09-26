@@ -26,6 +26,35 @@
             $rootScope.data.investor = {};
         }
 
+
+        function initiate() {
+            $scope.lookup = {};
+            $http.get("/api/lookup/ret/findByGroupName?value=COUNTRY")
+                    .then(function (response) {
+                        $log.debug(response);
+                        $scope.lookup.countries = response.data;
+                    });
+
+            $http.get("/api/lookup/ret/findByGroupName?value=PROVINCE")
+                    .then(function (response) {
+                        $log.debug(response);
+                        $scope.lookup.provinces = response.data;
+                    });
+
+            $http.get("/api/lookup/ret/findByGroupName?value=JOBSECTOR")
+                    .then(function (response) {
+                        $log.debug(response);
+                        $scope.lookup.jobsectors = response.data;
+                    });
+            $http.get("/api/lookup/ret/findByGroupName?value=BANK")
+                    .then(function (response) {
+                        $log.debug(response);
+                        $scope.lookup.banks = response.data;
+                    });
+        }
+        initiate();
+
+
         $scope.data.accountType = 'INVESTASI';
 
         $scope.saveInvestor = function () {
@@ -86,6 +115,7 @@
                     });
 
         };
+
         $scope.temp = {};
         $scope.addFile = function (element) {
             $scope.temp.file = element.files[0];
