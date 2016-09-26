@@ -20,11 +20,11 @@
         $scope.data.acquisition.investor = {};
         $scope.data.acquisition.staff = {};
 
-        $scope.temp.dpDate = new Date().toISOString().slice(0, 10);
-        $scope.temp.bookDate = new Date().toISOString().slice(0, 10);
-        $scope.temp.todayDate = new Date().toISOString().slice(0, 10);
-        $scope.temp.repaymentDate = new Date().toISOString().slice(0, 10);
-        $scope.temp.startDate = new Date().toISOString().slice(0, 10);
+        $scope.temp.dpDate = $rootScope.todayDate();
+        $scope.temp.bookDate = $rootScope.todayDate();
+        $scope.temp.todayDate = $rootScope.todayDate();
+        $scope.temp.repaymentDate = $rootScope.todayDate();
+        $scope.temp.startDate = $rootScope.todayDate();
 
 
         if ($rootScope.data !== undefined && $rootScope.data.investor !== undefined) {
@@ -151,6 +151,37 @@
             }
         };
 
+        $scope.selectCInvestment = function () {
+            $log.debug("i=" + $scope.dInput.selectedInvestmentId);
+            var i = 0;
+            for (i = 0; i < $scope.data.acquisition.investments.length; i++) {
+                if ($scope.data.acquisition.investments[i].id === $scope.dInput.selectedInvestmentId) {
+                    angular.copy($scope.data.acquisition.investments[i], $scope.data.selectedInvestment);
+                    break;
+                }
+            }
+        };
+
+        $scope.removeCInvestment = function () {
+            var isConfirm = confirm("Apakah anda akan menbatalkan pembelian aparkost " + $scope.data.selectedInvestment.aparkost.name + " lt. " + $scope.data.selectedInvestment.aparkost.floor);
+            if (isConfirm) {
+                for (i = 0; i < $scope.data.acquisition.investments.length; i++) {
+                    if ($scope.data.acquisition.investments[i].id === $scope.dInput.selectedInvestmentId) {
+                        $scope.data.acquisition.investments.splice(i, 1);
+                        break;
+                    }
+                }
+                if ($scope.data.acquisition.investments.length >= 0) {
+                    $scope.dInput.selectedInvestmentId = $scope.data.acquisition.investments[0].id;
+                    $scope.selectInvestment();
+                } else {
+                    $scope.dInput.selectedInvestmentId = null;
+                }
+
+            }
+
+        };
+
         $scope.temp.payments = [];
         $scope.paymentActivation = function () {
             $scope.temp.payments = [];
@@ -181,9 +212,9 @@
                 var i = $scope.temp.payments.length;
                 var d = new Date($scope.temp.repaymentDate);
                 var tD = new Date(new Date(d.getFullYear(), d.getMonth(), 2).setMonth(d.getMonth()));
-                var t = createPayment(i+2, $scope.temp.installmentNominal, "Tahapan ke "+(i+1), tD.toISOString().slice(0, 10));
+                var t = createPayment(i + 2, $scope.temp.installmentNominal, "Tahapan ke " + (i + 1), tD.toISOString().slice(0, 10));
                 $scope.temp.payments.push(t);
-                $log.debug("SOFT_INSTALLMENT ADD!"+i);
+                $log.debug("SOFT_INSTALLMENT ADD!" + i);
                 $log.debug($scope.temp.payments);
             }
         };

@@ -91,10 +91,7 @@
                                 <span class="help-block m-b-none"><small>Kode Pos</small></span>
                             </div>
                             <div class="col-sm-3">
-                                <select class="form-control" name="account" ng-model="data.investor.province" ng-init="data.investor.province = data.investor.province || 'jakarta-selatan,-dki'">
-                                    <option value="jakarta-selatan,-dki">Jakarta Selatan, DKI</option>
-                                    <option value="jakarta-timur,-dki">Jakarta Timur, DKI</option>
-                                </select>
+                                <select class="form-control m-b" ng-options="province.keyName as province.keyName for province in lookup.provinces" ng-model="data.investor.province" ng-init="data.investor.province = data.investor.province || 'JAKARTA'"></select>
                                 <span class="help-block m-b-none"><small>Provinsi</small></span>
                             </div>
                         </div>
@@ -102,12 +99,8 @@
                             <div class="col-lg-4"><input type="text" class="form-control" ng-model="data.investor.nationalId"  name="nationalId" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('NIK/Passport adalah mandatory')" required=""></div>
                         </div>
                         <div class="form-group"><label class="col-lg-2 control-label">Kewarganegaraan</label>
-                            <div class="col-sm-3"><select class="form-control m-b" name="account" ng-model="data.investor.nationality"  ng-init="data.investor.nationality = data.investor.nationality || 'INDONESIA'">
-                                    <option value="INDONESIA">INDONESIA</option>
-                                    <option>MALAYSIA</option>
-                                    <option>BRUNEI DARUSSALAM</option>
-                                    <option>LAINNYA</option>
-                                </select>
+                            <div class="col-sm-3">
+                                <select class="form-control m-b" ng-options="country.keyName as country.keyName for country in lookup.countries" ng-model="data.investor.nationality"  ng-init="data.investor.nationality = data.investor.nationality || 'INDONESIA'"></select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -144,12 +137,7 @@
                             <label class="col-sm-2 control-label">Sektor Pekerjaan</label>
 
                             <div class="col-sm-3">
-                                <select class="form-control m-b" name="account" ng-model="data.investor.jobSector" ng-init="data.investor.jobSector = data.investor.jobSector || 'PROFESSIONAL'">
-                                    <option value="PEMERINTAHAN">PEMERINTAHAN</option>
-                                    <option value="SWASTA">SWASTA</option>
-                                    <option value="PENDIDIKAN">PENDIDIKAN</option>
-                                    <option value="PROFESSIONAL">PROFESSIONAL</option>
-                                </select>
+                                <select class="form-control m-b" ng-options="jobsector.keyName as jobsector.keyName for jobsector in lookup.jobsectors" ng-model="data.investor.jobSector" ng-init="data.investor.jobSector = data.investor.jobSector || 'PROFESSIONAL'"></select>
                             </div>
                             <div class="col-lg-3"><input type="text" class="form-control" ng-model="data.investor.jobSectorDetail"></div>
                         </div>
@@ -171,13 +159,8 @@
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Akun Bank</label>
-                            <div class="col-sm-2"><select class="form-control m-b" name="account" ng-model="data.investor.bankAccount" ng-init="data.investor.bankAccount = data.investor.bankAccount || 'BCA'">
-                                    <option value="Danamon">Danamon</option>
-                                    <option value="BSM">BSM</option>
-                                    <option value="BCA">BCA</option>
-                                    <option value="BNI">BNI</option>
-                                    <option value="BRI">BRI</option>
-                                </select>
+                            <div class="col-sm-2">
+                                <select class="form-control m-b" ng-options="bank.keyName as bank.keyName for bank in lookup.banks" ng-model="data.investor.bankAccount" ng-init="data.investor.bankAccount = data.investor.bankAccount || 'BCA'"></select>
                             </div>
                             <div class="col-lg-2"><input type="text" class="form-control"  ng-model="data.investor.bankAccountNo"  name="bankAccountNo" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('No. Akun Bank adalah mandatory')" required=""><span class="help-block m-b-none"><small>Rekening</small></span></div>
                             <div class="col-lg-4"><input type="text" class="form-control"  ng-model="data.investor.bankAccountReference"  name="bankAccountReference" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Referensi Akun Bank adalah mandatory')" required=""><span class="help-block m-b-none"><small>Referensi Akun</small></span></div>

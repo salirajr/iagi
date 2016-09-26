@@ -49,16 +49,18 @@
                                                 <th></th>
                                                 <th>Unit</th>
                                                 <th colspan="2">Harga</th>
+                                                <th colspan="1">Kepemilikan</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                         </tfoot>
                                         <tbody>
                                             <tr ng-repeat="investment in data.investment"  class="gradeX">
-                                                <td class="dt-center"><input type="radio" value="" name="radioAparkost"></td>
+                                                <td class="dt-center"><input type="radio" ng-value="" name="radioAparkost"></td>
                                                 <td>{{investment.aparkost.name}}</td>
                                                 <td  align="center">Rp</td>
                                                 <td  align="right">{{investment.marketRate|number:2}}</td>
+                                                <td>{{investment.flag === '2'? "INVESTOR" : "SCC"}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -76,21 +78,21 @@
                                 <label class="col-sm-1 control-label"></label>
                                 <div class="col-sm-2">
                                     <span class="help-block m-b-none"><small>Unit</small></span>
-                                    <div class="input-group m-b"><span class="input-group-addon"><i class="fa fa-building"></i></span> <input type="text"  ng-value="dInput.prefix + toInt(dInput.index)" class="form-control" ng-model="dInput.name" readonly=""></div>
+                                    <div class="input-group m-b"><span class="input-group-addon"><i class="fa fa-building"></i></span> <input type="text"  ng-value="dInput.prefix + dInput.index" class="form-control" ng-model="dInput.name" readonly=""></div>
                                 </div>
                                 <div class="col-sm-2">
                                     <span class="help-block m-b-none"><small>Index</small></span>
                                     <div class="input-group date">
-                                        <select class="form-control m-b" ng-model="dInput.index" ng-init="dInput.index = '1'">
-                                            <option value="1">01</option>
-                                            <option value="2">02</option>
-                                            <option value="3">03</option>
-                                            <option value="4">04</option>
-                                            <option value="5">05</option>
-                                            <option value="6">06</option>
-                                            <option value="7">07</option>
-                                            <option value="8">08</option>
-                                            <option value="9">09</option>
+                                        <select class="form-control m-b" ng-model="dInput.index" ng-init="dInput.index = '01'">
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
                                             <option value="10">10</option>
                                             <option value="11">11</option>
                                             <option value="12">12</option>

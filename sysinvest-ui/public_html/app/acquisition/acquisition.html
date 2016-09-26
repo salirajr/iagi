@@ -7,7 +7,26 @@
                 </div>
                 <div class="ibox-content">
                     <form method="get" class="form-horizontal">
+                        <div class="form-group">
+                            <span class="col-sm-1 control-label">Pencarian</span>
+                            <div class="col-sm-3">
+                                <select class="form-control m-b" name="account">
+                                    <option>Nomor Akad</option>
+                                    <option>Akun Id</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <input type="text" class="form-control"> 
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info" ><i class="fa fa-search"></i></button> 
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
                         <div class="form-group  m-b-none">
+
                             <div class="col-lg-12">
                                 <span class="help-block m-b-none"><small>Aparkost</small></span>
                                 <table class="table table-striped table-bordered table-hover dataTables-example" style="font-size: 85% !important;">
@@ -17,42 +36,38 @@
                                             <th>Nomor Akad</th>
                                             <th>Asset</th>
                                             <th>Pemilik</th>
-                                            <th>Tanggal Pembelian</th>
-                                            <th colspan="2">Nominal Pembelian</th>
+
+                                            <th>Waktu</th>
+                                            <th>Kuasa</th>
+                                            <th>Lokasi Akad</th>
+                                            <th>Nominal Unit</th>
+                                            <th colspan="2">Nilai Pembelian</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                     </tfoot>
                                     <tbody>
-                                        
+
                                         <tr ng-repeat="acquisition in list.acquisition"  class="gradeX">
-                                            <td class="dt-center"><input type="radio" value="" name="radioAparkost"></td>
-                                            <td ng-click="generateAkad(acquisition.id)">IAGIAC-2016-{{acquisition.investor.accountId}}-{{acquisition.id}}</td>
-                                            <td>{{acquisition.investments[0].aparkost.tower.site.name}}, {{acquisition.investments[0].aparkost.tower.site.address}}, {{acquisition.investments[0].aparkost.tower.site.province}}</td>
-                                            <td>{{acquisition.investor.fullName}}</td>
+                                            <td  align="center"><a><i class="fa fa-legal"></i></a></td>
+                                            <td>IAGIAC-2016-{{acquisition.investor.accountId}}-{{acquisition.id}}</td>
+                                            <td>{{acquisition.investments[0].aparkost.tower.site.name}}, {{acquisition.investments[0].aparkost.tower.site.province}}</td>
+                                            <td>{{acquisition.investor.fullName}} ({{acquisition.investor.accountId}})</td>
                                             <td>{{formatDate(acquisition.auditTime)}}</td>
+                                            <td>{{acquisition.staff.fullName}}</td>
+                                            <td>Jakarta Pusat</td>
+                                            <td align="center">{{acquisition.investments.length}}</td>
                                             <td>Rp</td>
                                             <td>{{acquisition.rate|number:2}}</td>
+
+                                            <td align="center" title="Generate Akad"><a ng-click="generateAkad(acquisition.id)" class="fa fa-print"></a></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="form-group">
-                                <span class="col-sm-1 control-label"></span>
-                                <div class="col-sm-3">
-                                    <span class="help-block m-b-none"><small>Transaksi</small></span>
-                                    <select class="form-control m-b" name="account">
-                                        <option>Tukar Kepemilikan</option>
-                                        <option>Ambil Alih</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-1 control-label"></label>
-                                <div class="col-sm-11">
-                                    <button class="btn btn-primary" type="submit">Simpan</button>
-                                </div>
-                            </div>
+
+
                         </div>
                     </form>
                 </div>

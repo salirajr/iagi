@@ -21,11 +21,14 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import com.rj.sysinvest.security.login.SecurityRoleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 @Data
 public class JwtFilter extends GenericFilterBean {
 
+    private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
     @Resource
     private SecurityJwtComponent jwtComp;
     @Resource
@@ -68,6 +71,7 @@ public class JwtFilter extends GenericFilterBean {
             }
             chain.doFilter(req, res);
         } catch (AppSecurityException sce) {
+            logger.error(sce.getMessage(), sce);
             httpRes.sendError(sce.getCode(), toJson(sce));
         }
     }

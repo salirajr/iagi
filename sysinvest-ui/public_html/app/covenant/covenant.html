@@ -88,7 +88,7 @@
                                     </tfoot>
                                     <tbody>
                                         <tr ng-repeat="cInvestment in data.acquisition.investments"  class="gradeX">
-                                            <td class="dt-center"><input type="radio" value="" name="selectedAparkost"></td>
+                                            <td class="dt-center"><input type="radio" ng-model="dInput.selectedInvestmentId" ng-value="cInvestment.id" name="selectedAparkost" ng-change="selectCInvestment()"></td>
                                             <td>{{cInvestment.aparkost.tower.name}} lt. {{cInvestment.aparkost.floor}} no. {{cInvestment.aparkost.name}}</td>
 
                                             <td align="center">Rp</td>
@@ -106,7 +106,7 @@
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-4">
                                 <span class="help-block m-b-none"><small>Tambahkan</small></span>
-                                <select class="form-control m-b" ng-init="site.id === dInput.selectedSiteId" ng-change="selectSite()" ng-model="dInput.selectedSiteId" ng-options="site.id as site.name for site in data.site"></select>
+                                <select class="form-control m-b" ng-init="site.id === dInput.selectedSiteId" ng-disabled="data.acquisition.investments.length" ng-change="selectSite()" ng-model="dInput.selectedSiteId" ng-options="site.id as site.name for site in data.site"></select>
                             </div>
                             <div class="col-sm-3">
                                 <span class="help-block m-b-none"><small>Tower</small></span>
@@ -131,15 +131,15 @@
                             <div class="col-sm-3">
                                 <span class="help-block m-b-none"><small>Harga</small></span>
                                 <div class="input-group m-b">
-                                    <span class="input-group-addon">Rp</span> <input type="text" class="form-control text-right" ng-model="data.selectedInvestment.soldRate" ng-value="data.selectedInvestment.soldRate = data.selectedInvestment.soldRate > 0 ? data.selectedInvestment.soldRate : data.selectedInvestment.marketRate ">
+                                    <span class="input-group-addon">Rp</span> <input type="text" class="form-control text-right" ng-disabled="!data.acquisition.investor.id || !data.selectedInvestment.aparkost.floor" ng-model="data.selectedInvestment.soldRate" ng-value="data.selectedInvestment.soldRate = data.selectedInvestment.soldRate > 0 ? data.selectedInvestment.soldRate : data.selectedInvestment.marketRate ">
                                 </div>
                             </div>
                             <div class="col-sm-2">
                                 <span class="help-block m-b-none">
                                     <small>*</small>
                                 </span>
-                                <button class="btn btn-info " type="submit" ng-click="covenantForm.$valid && addCInvestment()"><i class="fa fa-check"></i></button>
-                                <button class="btn btn-warning " type="submit"><i class="fa fa-times"></i></button>
+                                <button class="btn btn-info " ng-disabled="!data.acquisition.investor.id" ng-click="addCInvestment()"><i class="fa fa-check"></i></button>
+                                <button class="btn btn-warning " ng-disabled="!data.acquisition.investor.id" ng-click="removeCInvestment()"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                         <div class="form-group">
@@ -147,7 +147,7 @@
                             <div class="col-sm-3">
                                 <span class="help-block m-b-none"><small>Tanda Jadi</small></span>
                                 <div class="input-group m-b"><span class="input-group-addon">Rp</span> 
-                                    <input type="text" class="form-control text-right" ng-model="temp.bookFee" ng-init="temp.bookFee = 0">
+                                    <input type="text" class="form-control text-right" ng-disabled="!data.acquisition.investments.length && data.acquisition.investments.length <= 1" ng-model="temp.bookFee" ng-init="temp.bookFee = 0">
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -164,14 +164,14 @@
                             <div class="col-sm-3">
                                 <span class="help-block m-b-none"><small>Uang Muka</small></span>
                                 <div class="input-group m-b"><span class="input-group-addon">Rp</span> 
-                                    <input type="text" class="form-control text-right" ng-model="temp.dpFee" ng-init="temp.dpFee = 0">
+                                    <input type="text" class="form-control text-right" ng-disabled="!data.acquisition.investments.length && data.acquisition.investments.length <= 1" ng-model="temp.dpFee" ng-init="temp.dpFee = 0">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <span class="help-block m-b-none"><small>Tanggal </small></span>
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control" name="dpPayDate" ng-model="temp.dpDate" oninvalid="this.setCustomValidity('Tanggal pembayaran Uang Muka adalah mandatory, format YYYY-MM-DD')" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"  oninput="setCustomValidity('')"   required="">
+                                    <input type="text" class="form-control" name="dpDate" ng-model="temp.dpDate" oninvalid="this.setCustomValidity('Tanggal pembayaran Uang Muka adalah mandatory, format YYYY-MM-DD')" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"  oninput="setCustomValidity('')"   required="">
                                 </div>
                             </div>
                             <div class="col-sm-3"><span class="help-block m-b-none">
@@ -237,8 +237,8 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-10">
-                                <button class="btn btn-default" type="submit" ng-click="covenantForm.$valid && saveAcquisition()">Simpan</button>
-                                <button class="btn btn-primary" type="submit" ng-click="covenantForm.$valid && generateAkad()" >Simpan dan Cetak</button>
+                                <button class="btn btn-default" type="submit" ng-disabled="!data.acquisition.type" ng-click="covenantForm.$valid && saveAcquisition()">Simpan</button>
+                                <button class="btn btn-primary" type="submit" ng-disabled="!data.acquisition.type" ng-click="covenantForm.$valid && generateAkad()" >Cetak</button>
                             </div>
                         </div>
 
@@ -309,7 +309,7 @@
                                             <tr class="gradeX">
                                                 <th></th>
                                                 <td>Uang Muka</td>
-                                                <td>{{temp.dpPayDate}}</td>
+                                                <td>{{temp.dpDate}}</td>
                                                 <td>Rp</td>
                                                 <td align="right">{{temp.dpFee|number:2}}</td>
                                             </tr>

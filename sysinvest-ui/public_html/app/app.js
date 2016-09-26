@@ -57,6 +57,10 @@
                 $state.go('login');
             }
         };
+        
+        $rootScope.todayDate = function () {
+            return new Date().toISOString().slice(0, 10);
+        };
     }
 
     function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
