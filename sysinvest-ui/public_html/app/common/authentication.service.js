@@ -43,10 +43,13 @@
                             // store username and token in local storage to keep user logged in between page refreshes
                             $localStorage.currentUser = {
                                 username: username,
+                                fullName: response.fullName,
+                                rank: response.rank,
                                 token: response.token,
                                 roles: response.roles
                             };
 
+                            $log.debug("$localStorage.currentUser: "+JSON.stringify($localStorage.currentUser));
                             setupHttpHeader();
                             // execute callback with true to indicate successful login
                             callback(true, response);

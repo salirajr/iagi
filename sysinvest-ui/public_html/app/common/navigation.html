@@ -4,8 +4,8 @@
             <li class="nav-header">
                 <div class="dropdown profile-element"> 
                     <a data-toggle="dropdown" class="dropdown-toggle">
-                        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">J.R. Salira</strong>
-                            </span> <span class="text-muted text-xs block">Administrator <b class="caret"></b></span> </span> </a>
+                        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{currentUser}}</strong>
+                            </span> <span class="text-muted text-xs block">{{currentUser.rank}}<b class="caret"></b></span> </span> </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a>Profile</a></li>
                         <li class="divider"></li>
@@ -24,8 +24,13 @@
                     <li><a ui-sref="index.investorlist">Query</a></li>
                 </ul>
             </li>
-            <li ui-sref-active="active">
-                <a ui-sref="index.covenant"><i class="fa fa-book"></i> <span class="nav-label">Investasi</span></a>
+            <li>
+                <a><i class="fa fa-book"></i> <span class="nav-label">Investasi</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a ui-sref="index.covenant">Pelunasan</a></li>
+                    <li><a ui-sref="index.booking">Booking</a></li>
+                    <li><a ui-sref="index.bookinglist">Query Booking</a></li>
+                </ul>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="index.aparkost"><i class="fa fa-building"></i> <span class="nav-label">Aparkost</span> </a>
@@ -33,14 +38,20 @@
             <li ui-sref-active="active">
                 <a ui-sref="index.acquisition"><i class="fa fa-legal"></i> <span class="nav-label">Kepemilikan</span></a>
             </li>
-            <li ng-hide="true">
+            <li>
                 <a><i class="fa fa-child"></i> <span class="nav-label">Staff</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a ui-sref="index.staff">Form Penambahan</a></li>
                     <li><a ui-sref="index.stafflist">Query</a></li>
                 </ul>
             </li>
-
+            <li>
+                <a><i class="fa fa-cog"></i> <span class="nav-label">Konfigurasi</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a ui-sref="index.lookup">Referensi Sistem</a></li>
+                    <li><a ui-sref="index.variableakad">Referensi Akad</a></li>
+                </ul>
+            </li>
         </ul>
 
     </div>

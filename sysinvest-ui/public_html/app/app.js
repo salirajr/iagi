@@ -15,6 +15,8 @@
         // used by pageTitle directive
         $rootScope.appTitle = "IAGI";
         //$rootScope.$state = $state;
+        
+       
 
         $rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState, fromParams) {
 
