@@ -49,6 +49,7 @@ public class Acquisition implements Serializable {
     @Column
     private String type;
     
+    // Nomor Referensi Akad.
     @Column
     private String reference;
 

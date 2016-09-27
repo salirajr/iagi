@@ -57,7 +57,7 @@ public class Staff implements Serializable {
     @Column(length = 100)
     private String scannedNationalIdPath;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = SecurityUser.PROP_USERNAME, unique = true)
     private SecurityUser userLogin;
 

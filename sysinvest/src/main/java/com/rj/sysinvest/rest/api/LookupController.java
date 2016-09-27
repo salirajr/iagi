@@ -28,9 +28,15 @@ public class LookupController {
     private LookupRepository repo;
 
     @RequestMapping(value = "/ret/findByGroupName", method = RequestMethod.GET)
-    public Iterable<Lookup> ret(@RequestParam String value, HttpServletRequest request)
+    public Iterable<Lookup> findByGroupName(@RequestParam String value, HttpServletRequest request)
             throws ServletException {
         return repo.findByGroupName(value);
+    }
+    
+    @RequestMapping(value = "/ret/listGroupName", method = RequestMethod.GET)
+    public Iterable<String> listGroupName(HttpServletRequest request)
+            throws ServletException {
+        return repo.listGroupName();
     }
 
 }

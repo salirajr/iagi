@@ -11,6 +11,7 @@ import com.rj.sysinvest.model.Staff;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +40,13 @@ public class StaffController {
                 result = repo.findAll();
         }
         return result;
+    }
+    
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Staff addNew(@RequestBody Staff payload, HttpServletRequest request)
+            throws ServletException {
+        repo.save(payload);
+        return payload;
     }
 
 }

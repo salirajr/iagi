@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.UniqueConstraint;
@@ -22,7 +23,7 @@ public class SecurityRole implements Serializable {
     private String roleName;
 //    @OneToMany(fetch = FetchType.LAZY)
 //    private List<SecurityResource> resources;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             joinColumns = @JoinColumn(name = "role_name"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"role_name", "resources"})
