@@ -1,5 +1,7 @@
 package com.rj.sysinvest.security.rest;
 
+import com.rj.sysinvest.dao.StaffRepository;
+import com.rj.sysinvest.model.Staff;
 import com.rj.sysinvest.security.jwt.SecurityClaims;
 import com.rj.sysinvest.security.login.LoginService;
 import java.util.List;
@@ -25,6 +27,9 @@ public class LoginController {
     private LoginService loginService;
 
     @Resource
+    private StaffRepository staffRepo;
+
+    @Resource
     private SecurityJwtComponent jwtService;
 
     @RequestMapping(method = RequestMethod.POST)
@@ -45,6 +50,15 @@ public class LoginController {
         List<String> roles = loginService.findRolesByUsername(userName);
         String token = jwtService.buildJwt(new SecurityClaims(userName, roles));
 
+        Staff staff = staffRepo.findByUserLoginUserName(userName);
+
+        System.out.println(staff);
+
+        if (staff != null) {
+            loginResponse.setFullName(staff.getFullName());
+            loginResponse.setRank(staff.getRank().getName());
+        }
+
         loginResponse.setRoles(roles);
         loginResponse.setMessage("Successfully login");
         loginResponse.setStatus("SUCCESS");
@@ -59,6 +73,8 @@ public class LoginController {
         private String status;
         private String message;
         private List<String> roles;
+        private String fullName;
+        private String rank;
 
     }
 

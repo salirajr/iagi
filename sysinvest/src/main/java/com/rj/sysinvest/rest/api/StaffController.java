@@ -6,6 +6,7 @@
 package com.rj.sysinvest.rest.api;
 
 import com.rj.sysinvest.dao.StaffRepository;
+import com.rj.sysinvest.model.Investor;
 import com.rj.sysinvest.model.Staff;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;

@@ -14,4 +14,6 @@ public interface StaffRepository extends CrudRepository<Staff, Long> {
     @Query("from Staff where rank.id in (2)")
     public List<Staff> getCovenant();
 
+    public Staff findByUserLoginUserName(String value);
+
 }
