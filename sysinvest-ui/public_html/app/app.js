@@ -15,8 +15,9 @@
         // used by pageTitle directive
         $rootScope.appTitle = "IAGI";
         //$rootScope.$state = $state;
-        
-       
+        $rootScope.data = {};
+
+        $rootScope.currentUser = AuthenticationService.isLoggedIn();
 
         $rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState, fromParams) {
 
@@ -59,10 +60,25 @@
                 $state.go('login');
             }
         };
-        
+
         $rootScope.todayDate = function () {
             return new Date().toISOString().slice(0, 10);
         };
+
+        $rootScope.handleError = function (err, fnCallback) {
+            $log.debug(err);
+            try {
+                var data = JSON.parse(err.data.message);
+                if (data.code && data.code === 500 && data.message === "Invalid token.") {
+                    $state.go('login');
+                }
+            } catch (e) {
+                $log.debug("handleError: e.stackTrace()");
+                $log.debug(e);
+            }
+            fnCallback;
+        };
+
     }
 
     function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
@@ -145,6 +161,28 @@
                         }
                     }
                 })
+                .state('index.booking', {
+                    url: "/booking",
+                    data: {pageTitle: 'Booking', roles: ['admin']},
+                    templateUrl: "app/covenant/booking.html",
+                    controller: "BookingCtrl",
+                    resolve: {
+                        load: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('app/covenant/booking-ctrl.js');
+                        }
+                    }
+                })
+                .state('index.bookinglist', {
+                    url: "/bookinglist",
+                    data: {pageTitle: 'Booking', roles: ['admin']},
+                    templateUrl: "app/covenant/bookinglist.html",
+                    controller: "BookingListCtrl",
+                    resolve: {
+                        load: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('app/covenant/bookinglist-ctrl.js');
+                        }
+                    }
+                })
                 .state('index.acquisition', {
                     url: "/acquisition",
                     data: {pageTitle: 'Acquisition', roles: ['admin']},
@@ -175,6 +213,28 @@
                     resolve: {
                         load: function ($ocLazyLoad) {
                             return $ocLazyLoad.load('app/staff/stafflist-ctrl.js');
+                        }
+                    }
+                })
+                .state('index.lookup', {
+                    url: "/lookup",
+                    data: {pageTitle: 'Lookup Reference', roles: ['admin']},
+                    templateUrl: "app/lookup/lookup.html",
+                    controller: "LookupCtrl",
+                    resolve: {
+                        load: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('app/lookup/lookup-ctrl.js');
+                        }
+                    }
+                })
+                .state('index.lookupakad', {
+                    url: "/lookupakad",
+                    data: {pageTitle: 'Lookup Akad Reference', roles: ['admin']},
+                    templateUrl: "app/lookup/lookupakad.html",
+                    controller: "LookupAkadCtrl",
+                    resolve: {
+                        load: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('app/lookup/lookupakad-ctrl.js');
                         }
                     }
                 })

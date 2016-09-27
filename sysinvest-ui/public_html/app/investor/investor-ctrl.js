@@ -4,58 +4,55 @@
     angular.getApplicationModule()
             .controller('InvestorCtrl', InvestorCtrl);
 
-
     /*
      * InvestorCtrl - controller
      */
-    function InvestorCtrl($rootScope, $scope, $log, $http, $location) {
-        $log.debug('Main Investor is loaded');
-        $scope.userName = 'Admin';
-        $scope.helloText = 'Hello You Welcome in SeedProject';
-        $scope.descriptionText = 'Main Investor Controller.';
-
-        $scope.data = {};
-        $scope.temp = {};
-        $scope.data.investor = {};
-
-        if ($rootScope.data !== undefined && $rootScope.data.investor !== undefined) {
-            $scope.data.investor = $rootScope.data.investor;
-            $rootScope.data.investor = undefined;
-        } else {
-            $rootScope.data = {};
-            $rootScope.data.investor = {};
-        }
-
+    function InvestorCtrl($rootScope, $scope, $log, $http, $location, ErrorHandler) {
 
         function initiate() {
             $scope.lookup = {};
+            $scope.data = {};
+            $scope.temp = {};
+            $scope.data.investor = {};
+            $scope.data.accountType = 'INVESTASI';
+
+
             $http.get("/api/lookup/ret/findByGroupName?value=COUNTRY")
                     .then(function (response) {
                         $log.debug(response);
                         $scope.lookup.countries = response.data;
-                    });
+                    }, ErrorHandler.handlingHttp);
 
             $http.get("/api/lookup/ret/findByGroupName?value=PROVINCE")
                     .then(function (response) {
                         $log.debug(response);
                         $scope.lookup.provinces = response.data;
-                    });
+                    }, ErrorHandler.handlingHttp);
 
             $http.get("/api/lookup/ret/findByGroupName?value=JOBSECTOR")
                     .then(function (response) {
                         $log.debug(response);
                         $scope.lookup.jobsectors = response.data;
-                    });
+                    }, ErrorHandler.handlingHttp);
+
             $http.get("/api/lookup/ret/findByGroupName?value=BANK")
                     .then(function (response) {
                         $log.debug(response);
                         $scope.lookup.banks = response.data;
-                    });
+                    }, ErrorHandler.handlingHttp);
+
+            if ($rootScope.data !== undefined && $rootScope.data.investor !== undefined) {
+                $scope.data.investor = $rootScope.data.investor;
+                $rootScope.data.investor = undefined;
+            } else {
+                $rootScope.data = {};
+                $rootScope.data.investor = {};
+            }
         }
         initiate();
 
 
-        $scope.data.accountType = 'INVESTASI';
+
 
         $scope.saveInvestor = function () {
             var isConfirm = confirm("Anda akan menyimpan data investor berikut, apakah anda yakin?");

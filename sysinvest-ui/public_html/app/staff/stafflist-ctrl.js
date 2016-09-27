@@ -9,22 +9,17 @@
      * InvestorCtrl - controller
      */
     function StaffListCtrl($rootScope, $scope, $log, $http, $location) {
-        $log.debug(' StaffListCtrl is loaded');
-        $scope.userName = 'Admin';
-        $scope.helloText = 'Hello You Welcome in SeedProject';
-        $scope.descriptionText = 'Main Investor Controller.';
 
         $scope.list = {};
-        $scope.list.investor = [];
+        $scope.list.staff = [];
 
-        $scope.getInvestorList = function () {
-            $http.get("/api/staff/ret")
+        $scope.getStaffList = function () {
+            $http.get("/api/staff/ret?key=")
                     .then(function (response) {
-                        $scope.list.investor = response.data;
-                        $log.debug($scope.list.investor);
+                        $scope.list.staff = response.data;
                     });
         };
-        $scope.getInvestorList();
+        $scope.getStaffList();
 
 
 

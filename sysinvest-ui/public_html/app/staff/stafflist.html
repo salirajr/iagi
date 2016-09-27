@@ -14,27 +14,25 @@
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>No. Akun</th>
-                                            <th>Nama</th>
-                                            <th>NIK/Passport</th>
+                                            <th>No. KTP</th>
+                                            <th>Nama Lengkap</th>
+                                            <th>Username</th>
                                             <th>TTL</th>
-                                            <th>Pekerjaan</th>
-                                            <th>No. Hp</th>
-                                            <th>Provinsi</th>
+                                            <th>Alamat</th>
+                                            <th>Rank</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                     </tfoot>
                                     <tbody>
-                                        <tr class="gradeX" ng-repeat="investor in list.investor">
+                                        <tr class="gradeX" ng-repeat="staff in list.staff">
                                             <td class="dt-center"><input type="radio" value="" name="radioAparkost"></td>
-                                            <td>{{investor.accountId}}</td>
-                                            <td>{{investor.fullName}}</td>
-                                            <td>{{investor.nationalId}}</td>
-                                            <td>{{investor.birthPlace}}, {{investor.birthDate}}</td>
-                                            <td>{{investor.occupation}}</td>
-                                            <td>{{investor.mobilePhoneNo}}</td>
-                                            <td>{{investor.province}}</td>
+                                            <td>{{staff.nationalId}}</td>
+                                            <td>{{staff.fullName}}</td>
+                                            <td>{{staff.userLogin.userName}}</td>
+                                            <td>{{staff.birthPlace}}, {{staff.birthDate}}</td>
+                                            <td>{{staff.address}}, {{staff.province}}</td>
+                                            <td>{{staff.rank.name}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
