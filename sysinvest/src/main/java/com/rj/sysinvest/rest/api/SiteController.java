@@ -10,6 +10,7 @@ import com.rj.sysinvest.model.Site;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +36,13 @@ public class SiteController {
                 result = repo.findAll();
         }
         return result;
+    }
+    
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Site save(@RequestBody Site payload, HttpServletRequest request)
+            throws ServletException {
+        repo.save(payload);
+        return payload;
     }
     
     
