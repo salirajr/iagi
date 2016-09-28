@@ -117,6 +117,17 @@
                         }
                     }
                 })
+                .state('index.tower', {
+                    url: "/tower",
+                    data: {pageTitle: 'Aparkost', roles: ['admin']},
+                    templateUrl: "app/aparkost/tower.html",
+                    controller: "TowerCtrl",
+                    resolve: {
+                        load: function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('app/aparkost/tower-ctrl.js');
+                        }
+                    }
+                })
                 .state('index.main', {
                     url: "/main",
                     data: {pageTitle: 'Main', roles: ['admin']},

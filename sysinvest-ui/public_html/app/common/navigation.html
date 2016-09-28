@@ -34,7 +34,11 @@
                 </ul>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="index.aparkost"><i class="fa fa-building"></i> <span class="nav-label">Aparkost</span> </a>
+                <a><i class="fa fa-child"></i> <span class="nav-label">Aset</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a ui-sref="index.aparkost">Aparkost</a></li>
+                    <li><a ui-sref="index.tower">Tower</a></li>
+                </ul>
             </li>
             <li ng-hide="true" ui-sref-active="active">
                 <a ui-sref="index.acquisition"><i class="fa fa-legal"></i> <span class="nav-label">Kepemilikan</span></a>
