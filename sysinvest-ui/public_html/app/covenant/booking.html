@@ -17,9 +17,9 @@
                         </div>
                         <div class="form-group">
                             <span class="col-sm-2 control-label">Penanggung Jawab</span>
-                            <div class="col-sm-4"><span class="help-block m-b-none"><small>Nama</small></span><p class="form-control-static">{{data.acquisition.staff.fullName}}</p></div>
-                            <div class="col-sm-3"><span class="help-block m-b-none"><small>NIK</small></span><p class="form-control-static">{{data.acquisition.staff.nationalId}}</p></div>
-                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Jabatan</small></span><p class="form-control-static">{{data.acquisition.staff.rank.name}}</p></div>
+                            <div class="col-sm-4"><span class="help-block m-b-none"><small>Nama</small></span><p class="form-control-static">{{data.booking.broker.fullName}}</p></div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>NIK</small></span><p class="form-control-static">{{data.booking.broker.nationalId}}</p></div>
+                            <div class="col-sm-3"><span class="help-block m-b-none"><small>Jabatan</small></span><p class="form-control-static">{{data.booking.broker.rank.name}}</p></div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label"></label>
@@ -39,25 +39,25 @@
                                     <tfoot>
                                         <tr>
                                             <td align="right" rowspan="2"> </td>
-                                            <td align="right"><b>{{data.acquisition.investments.length}} Unit</b></td>
+                                            <td align="right"><b>{{data.booking.investments.length}} Unit</b></td>
                                             <td align="right">Rp</td>
-                                            <td align="right"><b>{{data.acquisition.rate|number:2}}</b></td>
+                                            <td align="right"><b>{{data.booking.rate|number:2}}</b></td>
                                             <td align="right">Rp</td>
-                                            <td align="right"><b>{{data.acquisition.marketRate|number:2}}</b></td>
+                                            <td align="right"><b>{{data.booking.marketRate|number:2}}</b></td>
                                         </tr>
                                         <tr>
-                                            <td align="right" colspan="5" >{{data.selectedSite.name}}, {{data.selectedSite.address}}, {{data.selectedSite.province}}</td>
+                                            <td align="right" colspan="5" >{{temp.site.name}}, {{temp.site.address}}, {{temp.site.province}}</td>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr ng-repeat="cInvestment in data.acquisition.investments"  class="gradeX">
-                                            <td class="dt-center"><input type="radio" ng-model="dInput.selectedInvestmentId" ng-value="cInvestment.id" name="selectedAparkost" ng-change="selectCInvestment()"></td>
-                                            <td>{{cInvestment.aparkost.tower.name}} lt. {{cInvestment.aparkost.floor}} no. {{cInvestment.aparkost.name}}</td>
+                                        <tr ng-repeat="investment in data.booking.investments"  class="gradeX">
+                                            <td class="dt-center"><input type="radio" ng-model="temp.booked" ng-value="investment" name="selectedBooking" ng-selected="setBook()"></td>
+                                            <td>{{investment.aparkost.tower.name}} lt. {{investment.aparkost.floor}} no. {{investment.aparkost.name}}</td>
 
                                             <td align="center">Rp</td>
-                                            <td align="right">{{cInvestment.soldRate|number:2}}</td>
+                                            <td align="right">{{investment.soldRate|number:2}}</td>
                                             <td align="center">Rp</td>
-                                            <td align="right">{{cInvestment.marketRate|number:2}}</td>
+                                            <td align="right">{{investment.marketRate|number:2}}</td>
                                         </tr>
 
                                     </tbody>
@@ -69,11 +69,11 @@
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-4">
                                 <span class="help-block m-b-none"><small>Tambahkan</small></span>
-                                <select class="form-control m-b" ng-init="site.id === dInput.selectedSiteId" ng-disabled="data.acquisition.investments.length" ng-change="selectSite()" ng-model="dInput.selectedSiteId" ng-options="site.id as site.name for site in data.site"></select>
+                                <select class="form-control m-b" ng-init="site === temp.site" ng-disabled="data.booking.investments.length" ng-change="getTowers()" ng-model="temp.site" ng-options="site as site.name for site in lookup.sites"></select>
                             </div>
                             <div class="col-sm-3">
                                 <span class="help-block m-b-none"><small>Tower</small></span>
-                                <select class="form-control m-b" ng-init="tower.id === dInput.selectedTowerId" ng-change="selectTower()" ng-model="dInput.selectedTowerId" ng-options="tower.id as tower.name for tower in data.tower"></select>
+                                <select class="form-control m-b" ng-init="tower === temp.tower" ng-change="getInvestments()" ng-model="temp.tower" ng-options="tower as tower.name for tower in lookup.towers"></select>
                             </div>
 
                         </div>
@@ -83,44 +83,46 @@
                                 <span class="help-block m-b-none">
                                     <small>Unit</small>
                                 </span>
-                                <select class="form-control m-b" ng-init="investment.id === dInput.selectedInvestmentId" ng-change="selectInvestment()"  ng-model="dInput.selectedInvestmentId" ng-options="investment.id as investment.aparkost.name for investment in data.investment"></select>
+                                <select class="form-control m-b" ng-init="investment === temp.investment"  ng-model="temp.investment" ng-value="investment" ng-options="investment as investment.aparkost.name for investment in lookup.investments"></select>
                             </div>
                             <div class="col-lg-2">
                                 <span class="help-block m-b-none">
                                     <small>Lantai</small>
                                 </span>
-                                <input type="text" class="form-control" readonly="" ng-model="data.selectedInvestment.aparkost.floor">
+                                <input type="text" class="form-control" readonly="" ng-model="temp.investment.aparkost.floor">
                             </div>
                             <div class="col-sm-3">
                                 <span class="help-block m-b-none"><small>Harga</small></span>
                                 <div class="input-group m-b">
-                                    <span class="input-group-addon">Rp</span> <input type="text" class="form-control text-right" ng-disabled="!data.acquisition.investor.id || !data.selectedInvestment.aparkost.floor" ng-model="data.selectedInvestment.soldRate" ng-value="data.selectedInvestment.soldRate = data.selectedInvestment.soldRate > 0 ? data.selectedInvestment.soldRate : data.selectedInvestment.marketRate ">
+                                    <span class="input-group-addon">Rp</span> <input type="text" class="form-control text-right" ng-disabled="!temp.investment.aparkost.floor" ng-model="temp.investment.soldRate" ng-value="temp.investment.soldRate = temp.investment.soldRate > 0 ? temp.investment.soldRate : temp.investment.marketRate ">
                                 </div>
                             </div>
-                            <div class="col-sm-2">
-                                <span class="help-block m-b-none">
-                                    <small>*</small>
-                                </span>
-                                <button class="btn btn-info " ng-disabled="!data.acquisition.investor.id" ng-click="addCInvestment()"><i class="fa fa-check"></i></button>
-                                <button class="btn btn-warning " ng-disabled="!data.acquisition.investor.id" ng-click="removeCInvestment()"><i class="fa fa-times"></i></button>
+                            
+                        </div>
+                        <div class="form-group  m-b-none">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-4">
+                                <button class="btn btn-info " ng-click="addInvestment()"><i class="fa fa-plus"></i></button>
+                                <button class="btn btn-warning " ng-click="removeInvestment()"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
+                        <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <span class="col-sm-2 control-label"></span>
                             <div class="col-sm-3">
                                 <span class="help-block m-b-none"><small>Tanda Jadi</small></span>
                                 <div class="input-group m-b"><span class="input-group-addon">Rp</span> 
-                                    <input type="text" class="form-control text-right" ng-disabled="!data.acquisition.investments.length && data.acquisition.investments.length <= 1" ng-model="temp.bookFee" ng-init="temp.bookFee = 0">
+                                    <input type="text" class="form-control text-right" ng-disabled="!data.booking.investments.length && data.booking.investments.length <= 1" ng-model="temp.bookFee" ng-init="temp.bookFee = 0">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="hr-line-dashed"></div>
+                        
                         <div class="form-group">
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-10">
-                                <button class="btn btn-default" type="submit" ng-disabled="!data.acquisition.type" ng-click="covenantForm.$valid && saveAcquisition()">Booking</button>
-                                <button class="btn btn-primary" type="submit" ng-disabled="!data.acquisition.type" ng-click="covenantForm.$valid && generateAkad()" >Batalkan</button>
+                                <button class="btn btn-default" type="submit" ng-disabled="!data.booking.type" ng-click="covenantForm.$valid && saveAcquisition()">Booking</button>
+                                <button class="btn btn-primary" type="submit" ng-disabled="!data.booking.type" ng-click="covenantForm.$valid && generateAkad()" >Batalkan</button>
                             </div>
                         </div>
 

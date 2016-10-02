@@ -8,87 +8,71 @@
      * MainCtrl - controller
      */
     function AparkostCtrl($scope, $log, $http) {
-        $log.debug('AparkostCtrl is loaded');
-        $scope.userName = 'Example user';
-        $scope.helloText = 'Hello You Welcome in SeedProject';
-        $scope.descriptionText = 'It is an application skeleton for a typical AngularJS web app. You can use it to quickly bootstrap your angular webapp projects and dev environment for these projects.';
 
-        $scope.data = {};
-        $scope.data.aparkost = {};
+        $scope.getTowers = function () {
+            $log.debug($scope.temp.site);
+            $http.get("/api/tower/ret/bysiteid?value=" + $scope.temp.site.id)
+                    .then(function (response) {
+                        $log.debug(response);
+                        $scope.lookup.towers = response.data;
+                        $scope.temp.tower = response.data[0];
+                        $log.debug($scope.temp.tower);
+                        $scope.getInvestments();
+                    });
+        };
 
-        $scope.dInput = {};
+        $scope.getInvestments = function () {
+            var towerId = 0;
+            if($scope.temp.tower && $scope.temp.tower.id){
+                towerId = $scope.temp.tower.id;
+            }
+            $scope.data.investment = [];
+            $http.get("/api/investment/ret/byflooroftower?towerid=" + towerId + "&floor=" + $scope.temp.level)
+                    .then(function (response) {
+                        $log.debug(response);
+                        $scope.lookup.investments = response.data;
+                        $scope.temp.investment = response.data[0];
+                    });
 
+            switch ($scope.temp.level) {
+                case "G" :
+                    $scope.temp.prefix = "0";
+                    break;
+                default :
+                    $scope.temp.prefix = $scope.temp.level;
+                    break;
+            }
+        };
 
-        $scope.getSite = function () {
+        function initiate() {
+            $scope.data = {};
+            $scope.temp = {};
+            $scope.temp.tower = {};
+            $scope.temp.level = 'G';
+
+            $scope.lookup = {};
+
             $http.get("/api/site/ret?key=")
                     .then(function (response) {
                         $log.debug(response);
-                        $scope.data.site = response.data;
-                        $scope.dInput.selectedSiteId = response.data[0].id;
-                        $scope.data.selectedSite = response.data[0];
-                        $log.debug("getSite responsed sucess with " + $scope.dInput.selectedSiteId);
-                        $scope.selectSite();
+                        $scope.lookup.sites = response.data;
+                        $scope.temp.site = response.data[0];
+
+                        $scope.getTowers();
                     });
 
-        };
-        $scope.getSite();
-        $scope.selectSite = function () {
-            $log.debug("selectSite called with " + $scope.dInput.selectedSiteId);
-            $http.get("/api/tower/ret/bysiteid?value=" + $scope.dInput.selectedSiteId)
-                    .then(function (response) {
-                        $log.debug(response);
-                        $scope.data.tower = response.data;
-                        $scope.dInput.selectedTowerId = response.data[0].id;
-                        $scope.data.selectedTower = response.data[0];
-                        $log.debug("getSite responsed sucess with " + $scope.dInput.selectedTowerId);
-                        $scope.selectFloorOfTower();
-                    });
-        };
 
-        $scope.dInput.prefix = 0;
-        $scope.selectFloorOfTower = function () {
-
-            $scope.data.investment = [];
-            $http.get("/api/investment/ret/byflooroftower?towerid=" + $scope.dInput.selectedTowerId + "&floor=" + $scope.dInput.selectedFloor)
-                    .then(function (response) {
-                        $log.debug(response);
-                        if (response.data.length <= 0) {
-                            return;
-                        }
-                        $scope.data.investment = response.data;
-                        $scope.dInput.selectedInvestmentId = response.data[0].id;
-                        $scope.data.selectedInvestment = response.data[0];
-                        $scope.selectInvestment();
-                    });
-
-            switch ($scope.dInput.selectedFloor) {
-                case "G" :
-                    $scope.dInput.prefix = "0";
-                    break;
-                default :
-                    $scope.dInput.prefix = $scope.dInput.selectedFloor;
-                    break;
-            }
-        };
-        
-        $scope.selectInvestment = function () {
-            $scope.data.selectedInvestment = {}
-            for (var i = 0; i < $scope.data.investment.length; i++) {
-                if ($scope.data.investment[i].id === $scope.dInput.selectedInvestmentId) {
-                    angular.copy($scope.data.investment[i], $scope.data.selectedInvestment);
-                    break;
-                }
-            }
-        };
+        }
+        initiate();
 
         $scope.save = function () {
             var payload = {};
             payload.aparkost = {};
-            payload.aparkost.tower = $scope.data.selectedTower;
-            payload.aparkost.index = $scope.dInput.index;
-            payload.aparkost.name = $scope.dInput.prefix + $scope.dInput.name ;
-            payload.aparkost.floor = $scope.dInput.selectedFloor;
-            payload.marketRate = $scope.dInput.rate;
+            payload.aparkost.tower = $scope.temp.tower;
+            payload.aparkost.index = parseInt($scope.temp.index);
+            payload.aparkost.name = $scope.temp.prefix + $scope.temp.index;
+            payload.aparkost.floor = $scope.temp.level;
+            payload.marketRate = $scope.temp.rate;
             payload.flag = 1;
             payload.marketRateUpdate = new Date();
 

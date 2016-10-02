@@ -14,21 +14,21 @@
                                 <div class="col-sm-4">
                                      <span class="help-block m-b-none"><small>Nama</small></span>
                                     <div class="input-group date">
-                                        <select class="form-control" ng-init="site.id === dInput.selectedSiteId" ng-change="selectSite()" ng-model="dInput.selectedSiteId" ng-options="site.id as site.name for site in data.site"></select>
+                                        <select class="form-control" ng-init="site === temp.site" ng-change="getTowers()" ng-model="temp.site" ng-value="site" ng-options="site as site.name for site in lookup.sites"></select>
                                         <span class="input-group-addon"><i class="fa fa-cogs"></i></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                      <span class="help-block m-b-none"><small>Tower</small></span>
                                     <div class="input-group date">
-                                        <select class="form-control m-b"ng-init="tower.id === dInput.selectedTowerId" ng-change="selectTower()" ng-model="dInput.selectedTowerId" ng-options="tower.id as tower.name for tower in data.tower"></select>
+                                        <select class="form-control m-b"ng-init="tower === temp.tower" ng-change="getInvestments()" ng-model="temp.tower" ng-options="tower as tower.name for tower in lookup.towers"></select>
                                         <span class="input-group-addon"><i class="fa fa-cogs"></i></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                      <span class="help-block m-b-none"><small>Lantai</small></span>
                                     <div class="input-group date">
-                                        <select class="form-control m-b" ng-model="dInput.selectedFloor" ng-init="dInput.selectedFloor = 'G'" ng-change="selectFloorOfTower()">
+                                        <select class="form-control m-b" ng-model="temp.level" ng-change="selectFloorOfTower()">
                                             <option value="G">G</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -54,8 +54,8 @@
                                         <tfoot>
                                         </tfoot>
                                         <tbody>
-                                            <tr ng-repeat="investment in data.investment"  class="gradeX">
-                                                <td class="dt-center"><input type="radio" ng-value="" name="radioAparkost"></td>
+                                            <tr ng-repeat="investment in lookup.investments"  class="gradeX">
+                                                <td class="dt-center"><input type="radio" ng-value="" name="selectInvestor"></td>
                                                 <td>{{investment.aparkost.name}}</td>
                                                 <td  align="center">Rp</td>
                                                 <td  align="right">{{investment.marketRate|number:2}}</td>
@@ -68,7 +68,7 @@
 
                                     <span class="help-block m-b-none"><small>Alamat</small></span>
                                     <div class="input-group date">
-                                        <textarea class="form-control" readonly="" rows="3" cols="100">{{data.selectedSite.name}}, {{data.selectedSite.address}}, {{data.selectedSite.province}}</textarea>
+                                        <textarea class="form-control" readonly="" rows="3" cols="100">{{data.site.name}}, {{data.site.address}}, {{data.site.province}}</textarea>
 
                                     </div>
                                 </div>
@@ -77,12 +77,12 @@
                                 <label class="col-sm-1 control-label"></label>
                                 <div class="col-sm-2">
                                     <span class="help-block m-b-none"><small>Unit</small></span>
-                                    <div class="input-group m-b"><span class="input-group-addon"><i class="fa fa-building"></i></span> <input type="text"  ng-value="dInput.prefix + dInput.index" class="form-control" ng-model="dInput.name" readonly=""></div>
+                                    <div class="input-group m-b"><span class="input-group-addon"><i class="fa fa-building"></i></span> <input type="text"  ng-value="temp.prefix + temp.index" class="form-control" ng-model="data.investment.name" readonly=""></div>
                                 </div>
                                 <div class="col-sm-2">
                                     <span class="help-block m-b-none"><small>Index</small></span>
                                     <div class="input-group date">
-                                        <select class="form-control m-b" ng-model="dInput.index" ng-init="dInput.index = '01'">
+                                        <select class="form-control m-b" ng-model="temp.index" ng-init="temp.index = '01'">
                                             <option value="01">01</option>
                                             <option value="02">02</option>
                                             <option value="03">03</option>
@@ -144,7 +144,7 @@
                                 <div class="col-sm-3">
                                     <span class="help-block m-b-none"><small>Harga</small></span>
                                     
-                                    <div class="input-group m-b"><span class="input-group-addon">Rp</span> <input type="text" class="form-control" ng-model="dInput.rate"></div>
+                                    <div class="input-group m-b"><span class="input-group-addon">Rp</span> <input type="text" class="form-control" ng-model="temp.investment.rate"></div>
                                 </div>
 
                             </div>
