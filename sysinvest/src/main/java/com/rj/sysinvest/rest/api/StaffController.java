@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author salirajr
  */
 @RestController
-@RequestMapping(ApiController.PREFIX+"/staff")
+@RequestMapping(ApiController.PREFIX + "/staff")
 public class StaffController {
 
     @Resource
@@ -41,12 +41,18 @@ public class StaffController {
         }
         return result;
     }
-    
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Staff addNew(@RequestBody Staff payload, HttpServletRequest request)
             throws ServletException {
         repo.save(payload);
         return payload;
+    }
+
+    @RequestMapping(value = "/ret/byusername", method = RequestMethod.GET)
+    public Staff retByUsername(@RequestParam String value, HttpServletRequest request)
+            throws ServletException {
+        return repo.findByUserLoginUserName(value);
     }
 
 }
