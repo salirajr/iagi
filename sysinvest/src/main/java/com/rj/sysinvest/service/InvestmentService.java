@@ -22,25 +22,23 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class InvestmentService {
-    
+
     @Autowired
     EntityManager manager;
-    
+
     @Resource
     private InvestmentRepository repo;
-    
+
     @Resource
     private AparkostRepository repoAparkost;
-    
+
     public Investment retById(Long id) {
         Investment result = repo.findOne(id);
         return result;
     }
-  
+
     @Transactional
     public Investment save(Investment payload) {
-        System.out.println("payload.getAparkost(): "+payload.getAparkost());
-        System.out.println("payload.getAparkost().getId(): "+payload.getAparkost().getId());
         if (payload.getAparkost().getId() == null) {
             Aparkost temp = repoAparkost.findByTowerAndName(payload.getAparkost().getTower(), payload.getAparkost().getName());
             if (temp == null) {
@@ -48,10 +46,19 @@ public class InvestmentService {
             } else {
                 payload.setAparkost(temp);
             }
-            
+
+        } else {
+            // Incase there's a changes on aparkost entity.
+            repoAparkost.save(payload.getAparkost());
         }
-        
+        if (payload.getId() == null) {
+            Investment temp = repo.findOnByAparkostIndex(payload.getAparkost().getTower().getId(), payload.getAparkost().getFloor(), payload.getAparkost().getIndex());
+            if (temp.getId() != null) {
+                payload.setId(temp.getId());
+            }
+        }
         repo.save(payload);
+
         return payload;
     }
 }
