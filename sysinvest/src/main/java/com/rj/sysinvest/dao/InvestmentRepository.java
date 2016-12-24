@@ -18,6 +18,6 @@ public interface InvestmentRepository extends CrudRepository<Investment, Long> {
     @Query("from Investment where aparkost.tower.id = :towerId and aparkost.floor = :floor and flag != '3' ")
     public List<Investment> findOnByFloorOfTower(@Param("towerId") Long towerId, @Param("floor") String floor);
     
-    @Query("from Investment where aparkost.tower.id = :towerId and aparkost.floor = :floor and flag != '3' and aparkost.index = :index order by id 1")
+    @Query("from Investment where aparkost.tower.id = :towerId and aparkost.floor = :floor and flag != '3' and aparkost.index = :index order by id")
     public Investment findOnByAparkostIndex(@Param("towerId") Long towerId, @Param("floor") String floor, @Param("index") Long index);
 }
