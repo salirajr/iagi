@@ -10,7 +10,7 @@
                         <div class="form-group">
                             <span class="col-sm-2 control-label">Kode Tanda Jadi</span>
                             <div class="col-sm-6">
-                                <h1>BS000-DDMONYY</h1>
+                                <h1>{{data.booking.bookCode}}</h1>
                                 <p>Gunakan Kode booking ini untuk melunasi pembayaran.</p>
                             </div>
 
@@ -51,7 +51,7 @@
                                     </tfoot>
                                     <tbody>
                                         <tr ng-repeat="investment in data.booking.investments"  class="gradeX">
-                                            <td class="dt-center"><input type="radio" ng-model="temp.booked" ng-value="investment" name="selectedBooking" ng-selected="setBook()"></td>
+                                            <td class="dt-center"><input type="radio" name="setInvestment" ng-model="temp.sInvestment" ng-value="investment" ng-change="setInvestment()"></td>
                                             <td>{{investment.aparkost.tower.name}} lt. {{investment.aparkost.floor}} no. {{investment.aparkost.name}}</td>
 
                                             <td align="center">Rp</td>
@@ -112,7 +112,14 @@
                             <div class="col-sm-3">
                                 <span class="help-block m-b-none"><small>Tanda Jadi</small></span>
                                 <div class="input-group m-b"><span class="input-group-addon">Rp</span> 
-                                    <input type="text" class="form-control text-right" ng-disabled="!data.booking.investments.length && data.booking.investments.length <= 1" ng-model="temp.bookFee" ng-init="temp.bookFee = 0">
+                                    <input type="number" class="form-control text-right" ng-disabled="!data.booking.investments.length && data.booking.investments.length < 1" ng-model="data.booking.bookRate" ng-init="data.booking.bookRate = 0">
+                                </div>
+                            </div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-3">
+                                <span class="help-block m-b-none"><small>Sisa Pembayaran</small></span>
+                                <div class="input-group m-b"><span class="input-group-addon">Rp</span> 
+                                    <input type="text" class="form-control text-right" ng-disabled="true" ng-value="data.booking.rate-data.booking.bookRate" ng-init="0">
                                 </div>
                             </div>
                         </div>
@@ -121,8 +128,8 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-10">
-                                <button class="btn btn-default" type="submit" ng-disabled="!data.booking.type" ng-click="covenantForm.$valid && saveAcquisition()">Booking</button>
-                                <button class="btn btn-primary" type="submit" ng-disabled="!data.booking.type" ng-click="covenantForm.$valid && generateAkad()" >Batalkan</button>
+                                <button class="btn btn-default" type="submit" ng-click="doBook()" ng-disabled="data.booking.bookFee <= 0">Booking</button>
+                                <button class="btn btn-primary" type="submit" ng-click="cancelBook()" ng-disabled="data.booking.bookFee <= 0">Batalkan</button>
                             </div>
                         </div>
 

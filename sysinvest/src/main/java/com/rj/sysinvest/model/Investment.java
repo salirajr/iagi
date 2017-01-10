@@ -44,5 +44,10 @@ public class Investment implements Serializable {
     
     @Column(nullable = true)
     private Timestamp soldTrx = null;
+    
+    
+    
+    
+        
 
 }

@@ -49,7 +49,7 @@ public class Booking implements Serializable {
     private Long bookRate;
     
     @Column
-    private Long bookCode;
+    private String bookCode;
     
 
     @PrePersist

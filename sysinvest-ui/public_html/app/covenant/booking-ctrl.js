@@ -59,12 +59,6 @@
                     });
         }
         initiate();
-
-        $scope.setBook = function () {
-             angular.copy($scope.temp.booked.aparkost.tower, $scope.temp.tower);
-        };
-
-
         $scope.addInvestment = function () {
             var investment = {};
             angular.copy($scope.temp.investment, investment);
@@ -88,6 +82,44 @@
                 $scope.data.booking.marketRate += parseInt(investment.marketRate);
                 $scope.data.booking.rate += parseInt(investment.soldRate);
             }
+        };
+
+        $scope.removeInvestment = function () {
+            var investment = {};
+            angular.copy($scope.temp.investment, investment);
+            var isConfirm = confirm("Apakah anda akan menbatalkan booking aparkost " + investment.aparkost.name + " lt. " + investment.aparkost.floor);
+            if (isConfirm) {
+                for (i = 0; i < $scope.data.booking.investments.length; i++) {
+                    if ($scope.data.booking.investments[i].id === investment.id) {
+                        $scope.data.booking.investments.splice(i, 1);
+                        $scope.data.booking.marketRate -= parseInt(investment.marketRate);
+                        $scope.data.booking.rate -= parseInt(investment.soldRate);
+                        break;
+                    }
+                }
+            }
+
+        };
+
+        $scope.setInvestment = function () {
+            angular.copy($scope.temp.sInvestment, $scope.temp.investment);
+        };
+
+        $scope.doBook = function () {
+            var isConfirm = confirm("Apakah anda ingin menyimpan data rekord berikut?");
+            if (!isConfirm)
+                return;
+
+            var payload = {};
+            angular.copy($scope.data.booking, payload);
+            $http.post('/api/booking/addnew', payload)
+                    .success(function (response) {
+                        $scope.data.booking = response;
+                        $log.debug(response);
+                        alert("Data Booking telah disimpan!");
+                    }).error(function (err) {
+                $log.debug(err);
+            });
         };
     }
 

@@ -5,13 +5,9 @@
  */
 package com.rj.sysinvest.service;
 
-import com.rj.sysinvest.dao.InvestmentRepository;
 import com.rj.sysinvest.dao.InvestorRepository;
-import com.rj.sysinvest.model.Investment;
-import com.rj.sysinvest.model.Investor;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
